@@ -27,8 +27,8 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:git:git://github.com/linsolas/casperjs-runner-maven-plugin.git</connection>
-        <url>https://github.com/linsolas/casperjs-runner-maven-plugin</url>
+        <connection>scm:git:git://github.com/netceler/casperjs-runner-maven-plugin.git</connection>
+        <url>https://github.com/netceler/casperjs-runner-maven-plugin</url>
     </scm>
 
     <licenses>
@@ -50,7 +50,7 @@
         </repository>
     </distributionManagement>
 
-    <url>https://linsolas.github.io/casperjs-runner-maven-plugin</url>
+    <url>https://netceler.github.io/casperjs-runner-maven-plugin</url>
 
     <developers>
         <developer>
