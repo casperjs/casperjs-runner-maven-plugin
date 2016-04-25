@@ -3,21 +3,32 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>fr.linsolas</groupId>
+    <groupId>com.github.casperjs</groupId>
     <artifactId>casperjs-runner-maven-plugin</artifactId>
-    <version>1.0-RC1</version>
+    <version>1.0.2-SNAPSHOT</version>
     <name>CasperJS runner Maven plugin</name>
-    <description>Runs JS and CS test files on CasperJS instance</description>
+    <description>Runs JavaScript and/or CoffeScript test files on CasperJS instance</description>
     <packaging>maven-plugin</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.version>3.0.5</maven.version>
     </properties>
 
+    <prerequisites>
+        <maven>${maven.version}</maven>
+    </prerequisites>
+
+    <issueManagement>
+        <url>https://github.com/casperjs/casperjs-runner-maven-plugin/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
+
     <scm>
-        <url>https://github.com/linsolas/casperjs-runner-maven-plugin.git</url>
+        <connection>scm:git:git://github.com/casperjs/casperjs-runner-maven-plugin.git</connection>
+        <url>https://github.com/casperjs/casperjs-runner-maven-plugin</url>
     </scm>
 
     <licenses>
@@ -26,12 +37,29 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
             <distribution>repo</distribution>
         </license>
-   </licenses>
+    </licenses>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>oss-sonatype</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>oss-sonatype</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+    </distributionManagement>
+
+    <url>https://casperjs.github.io/casperjs-runner-maven-plugin</url>
 
     <developers>
         <developer>
             <id>linsolas</id>
             <name>Romain Linsolas</name>
+        </developer>
+        <developer>
+            <id>bguerin</id>
+            <name>Benoit Guerin</name>
         </developer>
     </developers>
 
@@ -39,34 +67,63 @@
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
-            <version>3.0.5</version>
+            <version>${maven.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven.plugin-tools</groupId>
             <artifactId>maven-plugin-annotations</artifactId>
-            <version>3.2</version>
+            <version>3.3</version>
             <!-- Not needed during execution -->
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-toolchain</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-exec</artifactId>
-            <version>1.1</version>
+            <version>1.2</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.1</version>
+            <version>3.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.9.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>1.5.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>1.5.5</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-plugin</artifactId>
-                <version>3.2</version>
+                <version>3.3</version>
                 <configuration>
+                    <goalPrefix>casperjs-runner</goalPrefix>
                     <!-- see http://jira.codehaus.org/browse/MNG-5346 -->
                     <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
                 </configuration>
@@ -77,10 +134,175 @@
                             <goal>descriptor</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>mojo-help</id>
+                        <goals>
+                            <goal>helpmojo</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-component-metadata</artifactId>
+                <version>1.5.5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate-metadata</goal>
+                            <goal>generate-test-metadata</goal>
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
-    
+
+    <profiles>
+        <profile>
+            <id>it</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-toolchains-plugin</artifactId>
+                        <version>1.0</version>
+                        <executions>
+                            <execution>
+                                <phase>validate</phase>
+                                <goals><goal>toolchain</goal></goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <toolchains />
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-invoker-plugin</artifactId>
+                        <version>1.9</version>
+                        <configuration>
+                            <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
+                            <settingsFile>src/it/settings.xml</settingsFile>
+                            <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
+                            <mergeUserSettings>true</mergeUserSettings>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>integration-test</id>
+                                <goals>
+                                    <goal>install</goal>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <pomIncludes>
+                                        <pomInclude>casperjs-runner/*/pom.xml</pomInclude>
+                                    </pomIncludes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.4</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>site</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-site-plugin</artifactId>
+                        <version>3.3</version>
+                        <configuration>
+                            <reportPlugins>
+                                <plugin>
+                                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                                    <version>2.7</version>
+                                    <configuration>
+                                        <dependencyDetailsEnabled>true</dependencyDetailsEnabled>
+                                        <dependencyLocationsEnabled>true</dependencyLocationsEnabled>
+                                    </configuration>
+                                </plugin>
+                                <plugin>
+                                    <artifactId>maven-plugin-plugin</artifactId>
+                                    <version>3.3</version>
+                                </plugin>
+                                <plugin>
+                                    <artifactId>maven-invoker-plugin</artifactId>
+                                    <version>1.9</version>
+                                </plugin>
+                                <plugin>
+                                    <artifactId>maven-javadoc-plugin</artifactId>
+                                    <version>2.9.1</version>
+                                </plugin>
+                                <plugin>
+                                    <artifactId>maven-surefire-report-plugin</artifactId>
+                                    <version>2.17</version>
+                                </plugin>
+                                <plugin>
+                                    <artifactId>maven-checkstyle-plugin</artifactId>
+                                    <version>2.12.1</version>
+                                </plugin>
+                                <plugin>
+                                    <groupId>org.codehaus.mojo</groupId>
+                                    <artifactId>versions-maven-plugin</artifactId>
+                                    <version>2.1</version>
+                                    <reportSets>
+                                        <reportSet>
+                                            <reports>
+                                                <report>dependency-updates-report</report>
+                                                <report>plugin-updates-report</report>
+                                                <report>property-updates-report</report>
+                                            </reports>
+                                        </reportSet>
+                                    </reportSets>
+                                </plugin>
+                            </reportPlugins>
+                            <skipDeploy>true</skipDeploy>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.github.github</groupId>
+                        <artifactId>site-maven-plugin</artifactId>
+                        <version>0.12</version>
+                        <configuration>
+                            <message>Building site for ${project.version}</message>
+                            <server>github</server>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals><goal>site</goal></goals>
+                                <phase>site-deploy</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
 
