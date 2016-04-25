@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.github.linsolas</groupId>
+    <groupId>com.github.casperjs</groupId>
     <artifactId>casperjs-runner-maven-plugin</artifactId>
     <version>1.0.2-SNAPSHOT</version>
     <name>CasperJS runner Maven plugin</name>
@@ -22,13 +22,13 @@
     </prerequisites>
 
     <issueManagement>
-        <url>https://github.com/linsolas/casperjs-runner-maven-plugin/issues</url>
+        <url>https://github.com/casperjs/casperjs-runner-maven-plugin/issues</url>
         <system>GitHub Issues</system>
     </issueManagement>
 
     <scm>
-        <connection>scm:git:git://github.com/netceler/casperjs-runner-maven-plugin.git</connection>
-        <url>https://github.com/netceler/casperjs-runner-maven-plugin</url>
+        <connection>scm:git:git://github.com/casperjs/casperjs-runner-maven-plugin.git</connection>
+        <url>https://github.com/casperjs/casperjs-runner-maven-plugin</url>
     </scm>
 
     <licenses>
@@ -50,7 +50,7 @@
         </repository>
     </distributionManagement>
 
-    <url>https://netceler.github.io/casperjs-runner-maven-plugin</url>
+    <url>https://casperjs.github.io/casperjs-runner-maven-plugin</url>
 
     <developers>
         <developer>

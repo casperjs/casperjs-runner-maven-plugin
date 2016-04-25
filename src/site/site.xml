@@ -16,7 +16,7 @@
         <sitesearch>${project.url}</sitesearch>
       </googleSearch>
       <gitHub>
-        <projectId>linsolas/casperjs-runner-maven-plugin</projectId>
+        <projectId>casperjs/casperjs-runner-maven-plugin</projectId>
         <ribbonOrientation>right</ribbonOrientation>
         <ribbonColor>gray</ribbonColor>
       </gitHub>

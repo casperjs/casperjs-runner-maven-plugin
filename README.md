@@ -8,7 +8,7 @@ Add in your pom.xml:
 
 ```
 <plugin>
-    <groupId>com.github.linsolas</groupId>
+    <groupId>com.github.casperjs</groupId>
     <artifactId>casperjs-runner-maven-plugin</artifactId>
     <version>1.0.1</version>
     <configuration></configuration>
@@ -23,14 +23,14 @@ This plugin has been tested on two environments :
 
 ## Usage
 
-See the [plugin site](http://linsolas.github.io/casperjs-runner-maven-plugin/)
+See the [plugin site](http://casperjs.github.io/casperjs-runner-maven-plugin/)
 
 ## Build
 
 Download the sources, and build the plugin using the ```mvn clean install``` command. You can build this plugin using Maven 2.2.x or Maven 3.x, and a JDK 1.6.
 
 ## CI
-[![Build Status Images](https://travis-ci.org/netceler/casperjs-runner-maven-plugin.svg)](https://travis-ci.org/netceler/casperjs-runner-maven-plugin)
+[![Build Status Images](https://travis-ci.org/casperjs/casperjs-runner-maven-plugin.svg)](https://travis-ci.org/casperjs/casperjs-runner-maven-plugin)
 
 ## TODO
 
@@ -45,7 +45,7 @@ Here is a list of things that should be done to make this plugin awesome:
 
 ## Issues / Enhancements
 
-If you encounter issues or think about any kind of enhancements, you can add them in the [adequate section of the project](https://github.com/linsolas/casperjs-runner-maven-plugin/issues). Do not hesitate also to make Push Requests if you want to enhance this project.
+If you encounter issues or think about any kind of enhancements, you can add them in the [adequate section of the project](https://github.com/casperjs/casperjs-runner-maven-plugin/issues). Do not hesitate also to make Push Requests if you want to enhance this project.
 
 ## License
 

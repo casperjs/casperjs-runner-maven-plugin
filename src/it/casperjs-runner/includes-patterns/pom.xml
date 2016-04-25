@@ -6,7 +6,7 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.github.linsolas</groupId>
+  <groupId>com.github.casperjs</groupId>
   <artifactId>include-patterns</artifactId>
   <version>1.0</version>
   <packaging>pom</packaging>
@@ -25,7 +25,7 @@
     <pluginManagement>
       <plugins>
         <plugin>
-          <groupId>com.github.linsolas</groupId>
+          <groupId>com.github.casperjs</groupId>
           <artifactId>casperjs-runner-maven-plugin</artifactId>
           <version>@pom.version@</version>
         </plugin>
@@ -34,7 +34,7 @@
 
     <plugins>
       <plugin>
-        <groupId>com.github.linsolas</groupId>
+        <groupId>com.github.casperjs</groupId>
         <artifactId>casperjs-runner-maven-plugin</artifactId>
         <executions>
           <execution>
