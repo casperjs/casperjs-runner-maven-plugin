@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.casperjs</groupId>
     <artifactId>casperjs-runner-maven-plugin</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4-SNAPSHOT</version>
     <name>CasperJS runner Maven plugin</name>
     <description>Runs JavaScript and/or CoffeScript test files on CasperJS instance</description>
     <packaging>maven-plugin</packaging>
@@ -50,7 +50,7 @@
     <scm>
         <connection>scm:git:git@github.com:casperjs/casperjs-runner-maven-plugin.git</connection>
         <url>https://github.com/casperjs/casperjs-runner-maven-plugin</url>
-      <tag>1.0.3</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <licenses>
