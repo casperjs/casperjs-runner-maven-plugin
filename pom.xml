@@ -25,6 +25,7 @@
         <plugin.invoker.version>2.0.0</plugin.invoker.version>
         <plugin.jar.version>2.6</plugin.jar.version>
         <plugin.javadoc.version>2.10.3</plugin.javadoc.version>
+        <plugin.nexus-staging.version>1.6.7</plugin.nexus-staging.version>
         <plugin.plexus.version>1.6</plugin.plexus.version>
         <plugin.plugin.version>3.4</plugin.plugin.version>
         <plugin.project-info-reports.version>2.9</plugin.project-info-reports.version>
@@ -204,6 +205,11 @@
                     <version>${plugin.release.version}</version>
                 </plugin>
                 <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <version>${plugin.nexus-staging.version}</version>
+                </plugin>
+                <plugin>
                     <groupId>org.codehaus.plexus</groupId>
                     <artifactId>plexus-component-metadata</artifactId>
                     <version>${plugin.plexus.version}</version>
@@ -260,6 +266,16 @@
                     <releaseProfiles>release</releaseProfiles>
                     <goals>deploy</goals>
                     <arguments>-P it</arguments>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>oss-sonatype</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
         </plugins>
