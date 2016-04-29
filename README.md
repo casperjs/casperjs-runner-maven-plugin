@@ -18,8 +18,8 @@ Add in your pom.xml:
 ## System requirements
 
 This plugin has been tested on two environments :
-- PhantomJS (v **1.8.2**) and CasperJS (v **1.0.4**) where installed.
-- PhantomJS (v **1.9.7**) and CasperJS (v **1.1.0-beta3**) where installed.
+- PhantomJS v **1.8.2** and CasperJS v **1.0.4**
+- PhantomJS v **1.9.7** and CasperJS v **1.1.1**
 
 ## Usage
 
