@@ -74,7 +74,7 @@
       <id>windows</id>
       <activation><os><family>windows</family></os></activation>
       <properties>
-        <custom-path>${casperjs-default-path}/casperjs.bat</custom-path>
+        <custom-path>${casperjs-default-path}\casperjs.exe</custom-path>
       </properties>
     </profile>
     <profile>

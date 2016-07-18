@@ -3,10 +3,14 @@ package com.github.casperjs.casperjsrunner;
 import static com.github.casperjs.casperjsrunner.LogUtils.getLogger;
 import static com.github.casperjs.casperjsrunner.OSUtils.isWindows;
 import static com.github.casperjs.casperjsrunner.toolchain.CasperjsToolchain.KEY_CASPERJS_TYPE;
+import static java.lang.System.getProperty;
+import static java.lang.System.getenv;
 
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.toolchain.Toolchain;
 import org.apache.maven.toolchain.ToolchainManager;
+
+import java.io.File;
 
 public class CasperJsRuntimeFinder {
 
@@ -36,7 +40,14 @@ public class CasperJsRuntimeFinder {
         if (result == null) {
             String defaultCasperRuntime = "casperjs";
             if (isWindows()) {
-                defaultCasperRuntime = "casperjs.bat";
+                final String[] paths = getenv("PATH").split(getProperty("path.separator"));
+                for (final String path : paths) {
+                    if (new File(path, "casperjs.exe").exists()) {
+                        defaultCasperRuntime = "casperjs.exe";
+                    } else if (new File(path, "casperjs.bat").exists()) {
+                        defaultCasperRuntime = "casperjs.bat";
+                    }
+                }
             }
             getLogger().debug("No parameter specified, falling back to default '" + defaultCasperRuntime + "'");
             result = defaultCasperRuntime;
