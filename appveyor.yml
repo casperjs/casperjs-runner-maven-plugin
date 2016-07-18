@@ -10,25 +10,45 @@ environment:
 install:
 - ps: >-
     write-host 'Downloading maven, version '$env:mvn_version' ...'
+
     (new-object net.webclient).DownloadFile("http://archive.apache.org/dist/maven/maven-3/"+$env:mvn_version+"/binaries/apache-maven-"+$env:mvn_version+"-bin.zip", $(pwd).path+"\maven.zip")
+
     write-host 'Downloading phantomjs, version 1.8.2 ...'
+
     (new-object net.webclient).DownloadFile("https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/phantomjs/phantomjs-1.8.2-windows.zip", $(pwd).path+"\phantomjs-1.8.2.zip")
+
     write-host 'Downloading phantomjs, version 1.9.8 ...'
+
     (new-object net.webclient).DownloadFile("https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-windows.zip", $(pwd).path+"\phantomjs-1.9.8.zip")
+
     write-host 'Downloading casperjs, version 1.0.4 ...'
+
     (new-object net.webclient).DownloadFile("https://github.com/casperjs/casperjs/archive/1.0.4.zip", $(pwd).path+"\casperjs-1.0.4.zip")
+
     write-host 'Downloading casperjs, version 1.1.1 ...'
+
     (new-object net.webclient).DownloadFile("https://github.com/casperjs/casperjs/archive/1.1.1.zip", $(pwd).path+"\casperjs-1.1.1.zip")
+
     write-host 'Extracting maven ...'
+
     & 7z.exe -y x maven.zip
+
     Rename-Item $("apache-maven-"+$env:mvn_version) maven
+
     write-host 'Extracting phantomjs 1.8.2 ...'
+
     & 7z.exe -y x  phantomjs-1.8.2.zip
+
     write-host 'Extracting phantomjs 1.9.8 ...'
+
     & 7z.exe -y x  phantomjs-1.9.8.zip
+
     write-host 'Extracting casperjs 1.0.4 ...'
+
     & 7z.exe -y x  casperjs-1.0.4.zip
+
     write-host 'Extracting casperjs 1.1.1 ...'
+
     & 7z.exe -y x  casperjs-1.1.1.zip
 
 cache: .m2\repository
@@ -36,18 +56,33 @@ cache: .m2\repository
 build_script:
 - ps: >-
     write-host 'Altering PATH ...'
+
     $env:PATH=$(pwd).path+"\casperjs-1.1.1\bin;"+$(pwd).path+"\phantomjs-1.9.8-windows;"+$(pwd).path+"\maven\bin;"+$env:PATH
+
     write-host 'Altering Maven configuration ...'
+
     New-Item $($HOME + "\.m2") -type directory
+
     '<?xml version="1.0" encoding="UTF-8"?><toolchains><toolchain><type>casperjs</type><provides><version>1.0.4</version></provides><configuration><casperjsExecutable>'+$(pwd).path+'\casperjs-1.0.4\bin\casperjs</casperjsExecutable></configuration></toolchain><toolchain><type>casperjs</type><provides><version>1.1.1</version></provides><configuration><casperjsExecutable>'+$(pwd).path+'\casperjs-1.1.1\bin\casperjs</casperjsExecutable></configuration></toolchain></toolchains>' | out-file $($HOME + "\.m2\toolchains.xml") -Encoding utf8
+
     '<?xml version="1.0" encoding="UTF-8"?><settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd"><profiles><profile><id>casperjs</id><activation><activeByDefault>true</activeByDefault></activation><properties><casperjs-default-path>'+$(pwd).path+'\casperjs-1.1.1\bin</casperjs-default-path><phantomjs-for-casper-1.0-path>'+$(pwd).path+'\phantomjs-1.8.2-windows</phantomjs-for-casper-1.0-path><phantomjs-for-casper-1.1-path>'+$(pwd).path+'\phantomjs-1.9.8-windows</phantomjs-for-casper-1.1-path></properties></profile></profiles></settings>' | out-file $($HOME + "\.m2\settings.xml") -Encoding utf8
+
     write-host 'Checking java ...'
+
     java -version 2>&1|write-host
+
     write-host 'Checking maven ...'
+
     mvn -version
+
     write-host 'Checking phantomjs ...'
+
     phantomjs --version
+
     write-host 'Checking casperjs ...'
+
     casperjs --version
+
     write-host 'Launching maven ...'
+
     mvn -Pit install '-Dinvoker.streamLogs=true'
