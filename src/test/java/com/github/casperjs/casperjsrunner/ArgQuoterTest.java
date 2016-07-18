@@ -24,7 +24,7 @@ public class ArgQuoterTest {
     public void testQuoteEmptyStringOnWindows() {
         setProperty("os.name", "Windows");
 
-        assertEquals("\"\"", quote(""));
+        assertEquals("''", quote(""));
     }
 
     @Test
@@ -43,6 +43,6 @@ public class ArgQuoterTest {
     public void testQuoteComplexStringOnWindows() {
         setProperty("os.name", "Windows");
 
-        assertEquals("\"a b\tc\\d\\\"e'f\"", quote("a b\tc\\d\"e'f"));
+        assertEquals("'a b\tc\\d\\\"e'f'", quote("a b\tc\\d\"e'f"));
     }
 }

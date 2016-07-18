@@ -11,7 +11,7 @@ public class ArgQuoter {
 
         s = s.replaceAll("([\\\\]*)\"", "$1$1\\\\\"");
         s = s.replaceAll("([\\\\]*)\\z", "$1$1");
-        return "\"" + s + "\"";
+        return "'" + s + "'";
     }
 
     private static boolean needQuoting(final String s) {
