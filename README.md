@@ -33,7 +33,8 @@ Download the sources, and build the plugin using the ```mvn clean install``` com
 
 ## CI
 [Travis-Ci](https://travis-ci.org) (Linux) : [![Build Status Images](https://travis-ci.org/casperjs/casperjs-runner-maven-plugin.svg)](https://travis-ci.org/casperjs/casperjs-runner-maven-plugin)
-[AppVeyor](https://ci.appveyor.com) (Windows) : [![Build status](https://ci.appveyor.com/api/projects/status/u3cchbkg9hhe54sv?svg=true)](https://ci.appveyor.com/project/bguerin/casperjs-runner-maven-plugin)
+
+[AppVeyor](https://ci.appveyor.com) (Windows) : [![Build status](https://ci.appveyor.com/api/projects/status/upk40tu5vs2q1abj?svg=true)](https://ci.appveyor.com/project/casperjs/casperjs-runner-maven-plugin)
 
 ## TODO
 
