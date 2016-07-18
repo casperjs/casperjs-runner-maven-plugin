@@ -33,8 +33,8 @@ matrix:
 
 before_install:
   - wget $MAVEN_URL --output-document=maven.tar.gz
-  - wget https://github.com/BIGjuevos/phantomjs-builds/archive/v1.8.2.tar.gz -O phantomjs-1.8.2.tar.gz
-  - wget https://github.com/BIGjuevos/phantomjs-builds/archive/v1.9.8.tar.gz -O phantomjs-1.9.8.tar.gz
+  - wget https://github.com/casperjs/phantomjs-builds/archive/v1.8.2.tar.gz -O phantomjs-1.8.2.tar.gz
+  - wget https://github.com/casperjs/phantomjs-builds/archive/v1.9.8.tar.gz -O phantomjs-1.9.8.tar.gz
   - wget https://github.com/casperjs/casperjs/archive/1.0.4.tar.gz -O casperjs-1.0.4.tar.gz
   - wget https://github.com/casperjs/casperjs/archive/1.1.1.tar.gz -O casperjs-1.1.1.tar.gz
 
