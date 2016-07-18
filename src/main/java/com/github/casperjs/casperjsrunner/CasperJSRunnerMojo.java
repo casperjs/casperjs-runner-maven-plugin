@@ -41,8 +41,8 @@ public class CasperJSRunnerMojo extends AbstractMojo {
     /**
      * Complete path of the executable for CasperJS. <br/>
      * <b>Default value:</b> Found from <a href="http://maven.apache.org/guides/mini/guide-using-toolchains.html">toolchain</a> named
-     * <b><i>casperjs</b></i>, then from this parameter, then from PATH with default value of <b>casperjs</b> on Linux/Mac or <b>casperjs.bat</b> on
-     * Windows
+     * <b><i>casperjs</b></i>, then from this parameter, then from PATH with default value of <b>casperjs</b> on Linux/Mac or <b>casperjs.exe</b>
+     * (<b>casperjs.bat</b> for compatibility with old versions of CasperJS) on Windows
      *
      * @since 1.0.0
      */

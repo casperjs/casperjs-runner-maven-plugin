@@ -17,9 +17,11 @@ Add in your pom.xml:
 
 ## System requirements
 
-This plugin has been tested on two environments :
-- PhantomJS v **1.8.2** and CasperJS v **1.0.4**
-- PhantomJS v **1.9.7** and CasperJS v **1.1.1**
+This plugin has been tested on these environments :
+- **Linux**, PhantomJS v **1.8.2** and CasperJS v **1.0.4**
+- **Linux**, PhantomJS v **1.9.8** and CasperJS v **1.1.1**
+- **Windows**, PhantomJS v **1.8.2** and CasperJS v **1.0.4**
+- **Windows**, PhantomJS v **1.9.8** and CasperJS v **1.1.1**
 
 ## Usage
 
@@ -30,7 +32,9 @@ See the [plugin site](http://casperjs.github.io/casperjs-runner-maven-plugin/)
 Download the sources, and build the plugin using the ```mvn clean install``` command. You can build this plugin using Maven 2.2.x or Maven 3.x, and a JDK 1.6.
 
 ## CI
-[![Build Status Images](https://travis-ci.org/casperjs/casperjs-runner-maven-plugin.svg)](https://travis-ci.org/casperjs/casperjs-runner-maven-plugin)
+[Travis-Ci](https://travis-ci.org) (Linux) : [![Build Status Images](https://travis-ci.org/casperjs/casperjs-runner-maven-plugin.svg)](https://travis-ci.org/casperjs/casperjs-runner-maven-plugin)
+
+[AppVeyor](https://ci.appveyor.com) (Windows) : [![Build status](https://ci.appveyor.com/api/projects/status/upk40tu5vs2q1abj?svg=true)](https://ci.appveyor.com/project/bguerin/casperjs-runner-maven-plugin)
 
 ## TODO
 
