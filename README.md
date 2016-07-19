@@ -1,6 +1,11 @@
 casperjs-runner-maven-plugin
 ============================
 
+[![Build Status Images](https://travis-ci.org/casperjs/casperjs-runner-maven-plugin.svg)](https://travis-ci.org/casperjs/casperjs-runner-maven-plugin)
+[![Build status](https://ci.appveyor.com/api/projects/status/upk40tu5vs2q1abj?svg=true)](https://ci.appveyor.com/project/bguerin/casperjs-runner-maven-plugin)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.casperjs/casperjs-runner-maven-plugin/badge.svg?style=flat)](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.casperjs%22%20AND%20a%3A%22casperjs-runner-maven-plugin%22)
+[![Apache License](http://img.shields.io/badge/license-APACHE2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+
 This project aims to run [CasperJS](http://casperjs.org/) tests in a Maven build.
 
 Available on Maven central.
@@ -27,30 +32,15 @@ This plugin has been tested on these environments :
 
 See the [plugin site](http://casperjs.github.io/casperjs-runner-maven-plugin/)
 
+## Examples
+
+See the [integration tests](https://github.com/casperjs/casperjs-runner-maven-plugin/tree/master/src/it/casperjs-runner)
+
 ## Build
 
 Download the sources, and build the plugin using the ```mvn clean install``` command. You can build this plugin using Maven 2.2.x or Maven 3.x, and a JDK 1.6.
-
-## CI
-[Travis-Ci](https://travis-ci.org) (Linux) : [![Build Status Images](https://travis-ci.org/casperjs/casperjs-runner-maven-plugin.svg)](https://travis-ci.org/casperjs/casperjs-runner-maven-plugin)
-
-[AppVeyor](https://ci.appveyor.com) (Windows) : [![Build status](https://ci.appveyor.com/api/projects/status/upk40tu5vs2q1abj?svg=true)](https://ci.appveyor.com/project/bguerin/casperjs-runner-maven-plugin)
-
-## TODO
-
-Here is a list of things that should be done to make this plugin awesome:
-
-- ~~Set default values for some parameters (```tests.directory``` for example)~~
-- ~~Manage sub-directories where files are included~~
-- ~~Manage a list of excludes / includes for the tests to run~~
-- ~~Publish to Maven Central~~
-- ~~Maven site~~
-- ~~Continuous Integration via [Travis CI](https://travis-ci.org/)~~
 
 ## Issues / Enhancements
 
 If you encounter issues or think about any kind of enhancements, you can add them in the [adequate section of the project](https://github.com/casperjs/casperjs-runner-maven-plugin/issues). Do not hesitate also to make Push Requests if you want to enhance this project.
 
-## License
-
-This plugin is licensed with [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0)
