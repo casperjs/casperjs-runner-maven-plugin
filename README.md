@@ -24,9 +24,9 @@ Add in your pom.xml:
 
 This plugin has been tested on these environments :
 - **Linux**, PhantomJS v **1.8.2** and CasperJS v **1.0.4**
-- **Linux**, PhantomJS v **1.9.8** and CasperJS v **1.1.1**
+- **Linux**, PhantomJS v **1.9.8** and CasperJS v **1.1.3**
 - **Windows**, PhantomJS v **1.8.2** and CasperJS v **1.0.4**
-- **Windows**, PhantomJS v **1.9.8** and CasperJS v **1.1.1**
+- **Windows**, PhantomJS v **1.9.8** and CasperJS v **1.1.3**
 
 ## Usage
 
