@@ -31,7 +31,7 @@ import java.util.Map;
  * Runs JavaScript and/or CoffeScript test files on CasperJS instance
  *
  * @author Romain Linsolas
- * @since 09/04/13
+ * @since 1.0.0
  */
 @Mojo(name = "test", defaultPhase = LifecyclePhase.TEST, threadSafe = true)
 public class CasperJSRunnerMojo extends AbstractMojo {
@@ -260,12 +260,16 @@ public class CasperJSRunnerMojo extends AbstractMojo {
 
     /**
      * The directory where output files will be stored
+     * 
+     * @since 1.0.0
      */
     @Parameter(defaultValue = "${project.build.directory}/casperjs")
     private File targetDir;
 
     /**
      * The current maven session, used by the ToolChainManager
+     * 
+     * @since 1.0.0
      */
     @Parameter(defaultValue = "${session}")
     private MavenSession session;
