@@ -42,13 +42,23 @@ public class DefaultScriptsFinder implements ScriptsFinder {
         if (specific != null && !specific.isEmpty()) {
             final List<String> temp = new ArrayList<String>();
             if (specific.endsWith(".js") || specific.endsWith(".coffee")) {
+                getLogger().debug("matching \"**/" + specific + "\"");
                 temp.add("**/" + specific);
             } else {
+                getLogger().debug("matching \"**/" + specific + ".js\"");
                 temp.add("**/" + specific + ".js");
+                getLogger().debug("or matching \"**/" + specific + ".coffee\"");
                 temp.add("**/" + specific + ".coffee");
             }
             scanner.setIncludes(temp.toArray(new String[temp.size()]));
         } else {
+            for (final String include : includes) {
+                getLogger().debug("matching \"**/" + include + "\"");
+            }
+            for (final String exclude : excludes) {
+                getLogger().debug("not matching \"**/" + exclude + "\"");
+            }
+
             scanner.setIncludes(includes.toArray(new String[includes.size()]));
             scanner.setExcludes(excludes.toArray(new String[excludes.size()]));
         }
@@ -57,6 +67,10 @@ public class DefaultScriptsFinder implements ScriptsFinder {
         final List<String> result = asList(scanner.getIncludedFiles());
         if (result.isEmpty()) {
             getLogger().warn("No files found in directory " + baseDir + " matching criterias");
+        } else {
+            for (final String r : result) {
+                getLogger().debug("found \"" + r + "\"");
+            }
         }
 
         return result;
