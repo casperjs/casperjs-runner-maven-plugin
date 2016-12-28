@@ -21,7 +21,10 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.toolchain.ToolchainManager;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -105,6 +108,13 @@ public class CasperJSRunnerMojo extends AbstractMojo {
      */
     @Parameter(property = "casperjs.ignoreTestFailures", defaultValue = "${maven.test.failure.ignore}")
     private boolean ignoreTestFailures = false;
+
+    /**
+     * A file in which the count of failed tests will be written.
+     * We'll check this file in the verify phase to fail the build, if the testFailures ignored during the test mojo.
+     */
+    @Parameter(property = "casperjs.testFailure.countFile", defaultValue = "${project.build.directory}/casperjsFailureCount")
+    private File testFailureCountFile;
 
     /**
      * Set the plugin to be verbose during its execution.
@@ -307,8 +317,31 @@ public class CasperJSRunnerMojo extends AbstractMojo {
         final Collection<String> scripts = findScripts();
         final Result globalResult = executeScripts(scripts);
         getLogger().info(globalResult.print());
+        writeFailedTestCount(globalResult);
         if (!ignoreTestFailures && globalResult.getFailures() > 0) {
             throw new MojoFailureException("There are " + globalResult.getFailures() + " tests failures");
+        }
+    }
+
+    private void writeFailedTestCount(Result globalResult) throws MojoExecutionException {
+        try {
+            tryToWriteFailedTestCount(globalResult);
+        } catch (IOException e) {
+            throw new MojoExecutionException("", e);
+        }
+    }
+
+    private void tryToWriteFailedTestCount(Result globalResult) throws IOException {
+        BufferedWriter bufferedWriter = null;
+        try {
+            bufferedWriter = new BufferedWriter(new FileWriter(testFailureCountFile, false));
+            bufferedWriter.write(globalResult.getFailures() + "\n");
+        } finally {
+            if (bufferedWriter != null) {
+                try {
+                    bufferedWriter.close();
+                } catch (Exception ignored) { }
+            }
         }
     }
 
