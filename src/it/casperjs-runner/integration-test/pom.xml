@@ -7,11 +7,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.github.casperjs</groupId>
-  <artifactId>ignore-failures</artifactId>
+  <artifactId>integration-test</artifactId>
   <version>1.0</version>
   <packaging>pom</packaging>
 
-  <name>CasperJS Runner :: ignore-failures</name>
+  <name>CasperJS Runner :: integration-test</name>
 
   <url>no-url</url>
 
@@ -38,15 +38,13 @@
         <artifactId>casperjs-runner-maven-plugin</artifactId>
         <executions>
           <execution>
-            <id>test</id>
-            <phase>integration-test</phase>
+            <id>integration-test</id>
             <goals>
-              <goal>test</goal>
+              <goal>integration-test</goal>
             </goals>
           </execution>
           <execution>
             <id>verify</id>
-            <phase>verify</phase>
             <goals>
               <goal>verify</goal>
             </goals>
@@ -55,33 +53,6 @@
         <configuration>
           <ignoreTestFailures>true</ignoreTestFailures>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>com.github.ekryd.echo-maven-plugin</groupId>
-        <artifactId>echo-maven-plugin</artifactId>
-        <version>1.2.0</version>
-        <executions>
-          <execution>
-            <id>pre-test</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>echo</goal>
-            </goals>
-            <configuration>
-              <message>Pre-Integration-Test Goal running</message>
-            </configuration>
-          </execution>
-          <execution>
-            <id>post-test</id>
-            <phase>post-integration-test</phase>
-            <goals>
-              <goal>echo</goal>
-            </goals>
-            <configuration>
-              <message>Post-Integration-Test Goal running</message>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
 

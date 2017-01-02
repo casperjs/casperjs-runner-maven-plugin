@@ -3,6 +3,7 @@ package com.github.casperjs.casperjsrunner;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
@@ -13,7 +14,7 @@ import java.io.*;
  *
  * @author Vilmos Nagy
  */
-@Mojo(name = "verify")
+@Mojo(name = "verify", defaultPhase = LifecyclePhase.VERIFY)
 public class CasperJSVerifyMojo extends AbstractMojo {
 
     /**
@@ -32,7 +33,7 @@ public class CasperJSVerifyMojo extends AbstractMojo {
         String firstLine = readFirstLineOfFile();
         Integer failedTestCount = Integer.valueOf(firstLine);
         if (failedTestCount > 0) {
-            throw new MojoFailureException("There are " + failedTestCount + " tests failures");
+            throw new MojoFailureException("Integration test verification error: There are " + failedTestCount + " tests failures");
         }
     }
 

@@ -8,7 +8,6 @@ assert file.text.contains('Test \'test.coffee\' has failure');
 assert file.text.contains('FAIL 2 tests executed');
 assert file.text.contains('1 passed, 1 failed');
 assert file.text.contains('Tests run: 2, Success: 0 Failures: 2. Time elapsed:');
-assert file.text.contains('Pre-Integration-Test Goal running');
-assert file.text.contains('Post-Integration-Test Goal running');
+assert file.text.contains('Integration test verification error');
 
 return true;
