@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.github.casperjs</groupId>
+  <artifactId>ignore-failures</artifactId>
+  <version>1.0</version>
+  <packaging>pom</packaging>
+
+  <name>CasperJS Runner :: ignore-failures</name>
+
+  <url>no-url</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <casperjs.verbose>true</casperjs.verbose>
+  </properties>
+
+  <build>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.github.casperjs</groupId>
+          <artifactId>casperjs-runner-maven-plugin</artifactId>
+          <version>@pom.version@</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>com.github.casperjs</groupId>
+        <artifactId>casperjs-runner-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>test</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>test</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>verify</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <ignoreTestFailures>true</ignoreTestFailures>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.github.ekryd.echo-maven-plugin</groupId>
+        <artifactId>echo-maven-plugin</artifactId>
+        <version>1.2.0</version>
+        <executions>
+          <execution>
+            <id>pre-test</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>echo</goal>
+            </goals>
+            <configuration>
+              <message>Pre-Integration-Test Goal running</message>
+            </configuration>
+          </execution>
+          <execution>
+            <id>post-test</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>echo</goal>
+            </goals>
+            <configuration>
+              <message>Post-Integration-Test Goal running</message>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+
+  </build>
+
+</project>
