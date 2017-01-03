@@ -7,19 +7,22 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
- * Verifies that there was no test failure during the test Mojo.
+ * Verifies that there was no test failure during the integration-test Mojo.
  *
- * @author Vilmos Nagy
+ * @author Vilmos Nagy (vilmos dot nagy at outlook dot com)
  */
 @Mojo(name = "verify", defaultPhase = LifecyclePhase.VERIFY)
 public class CasperJSVerifyMojo extends AbstractMojo {
 
     /**
-     * A file in which the count of failed tests will be written.
-     * We'll check this file in the verify phase to fail the build, if the testFailures ignored during the test mojo.
+     * A file in which the count of failed tests will be written. We'll check this file in the verify phase to fail the build, if the testFailures
+     * ignored during the test mojo.
      */
     @Parameter(property = "casperjs.testFailure.countFile", defaultValue = "${project.build.directory}/casperjsFailureCount")
     private File testFailureCountFile;
@@ -27,11 +30,12 @@ public class CasperJSVerifyMojo extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         if (!testFailureCountFile.exists()) {
-            throw new MojoFailureException("The testFailureCountFile " + testFailureCountFile.getAbsolutePath() + " doesn't exists. Run tests before the verify phase!");
+            throw new MojoFailureException(
+                    "The testFailureCountFile " + testFailureCountFile.getAbsolutePath() + " doesn't exists. Run tests before the verify phase!");
         }
 
-        String firstLine = readFirstLineOfFile();
-        Integer failedTestCount = Integer.valueOf(firstLine);
+        final String firstLine = readFirstLineOfFile();
+        final Integer failedTestCount = Integer.valueOf(firstLine);
         if (failedTestCount > 0) {
             throw new MojoFailureException("Integration test verification error: There are " + failedTestCount + " tests failures");
         }
@@ -40,7 +44,7 @@ public class CasperJSVerifyMojo extends AbstractMojo {
     private String readFirstLineOfFile() throws MojoExecutionException {
         try {
             return tryToReadFirstLineOfFile();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new MojoExecutionException("", e);
         }
     }
@@ -54,7 +58,8 @@ public class CasperJSVerifyMojo extends AbstractMojo {
             if (bufferedReader != null) {
                 try {
                     bufferedReader.close();
-                } catch (Exception ignored) {}
+                } catch (final Exception ignored) {
+                }
             }
         }
     }

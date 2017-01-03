@@ -16,15 +16,10 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Component;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.toolchain.ToolchainManager;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -34,6 +29,7 @@ import java.util.Map;
  * Runs JavaScript and/or CoffeScript test files on CasperJS instance
  *
  * @author Romain Linsolas
+ * @author Benoit Guerin
  * @since 09/04/13
  */
 public abstract class AbstractCasperJSRunnerMojo extends AbstractMojo {
@@ -444,6 +440,7 @@ public abstract class AbstractCasperJSRunnerMojo extends AbstractMojo {
         return executeCommand(cmdLine, environmentVariables, verbose);
     }
 
-    protected void afterTestExecution(Result globalResult) throws MojoFailureException, MojoExecutionException { }
+    protected void afterTestExecution(final Result globalResult) throws MojoFailureException, MojoExecutionException {
+    }
 
 }

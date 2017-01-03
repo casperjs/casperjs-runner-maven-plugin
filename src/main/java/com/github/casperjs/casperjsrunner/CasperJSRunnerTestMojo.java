@@ -6,7 +6,10 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * @author Vilmos Nagy  <vilmos.nagy@outlook.com>
+ * Runs JavaScript and/or CoffeScript test files on CasperJS instance
+ *
+ * @author Benoit Guerin
+ * @author Vilmos Nagy (vilmos dot nagy at outlook dot com)
  */
 @Mojo(name = "test", defaultPhase = LifecyclePhase.TEST, threadSafe = true)
 public class CasperJSRunnerTestMojo extends AbstractCasperJSRunnerMojo {
@@ -20,7 +23,7 @@ public class CasperJSRunnerTestMojo extends AbstractCasperJSRunnerMojo {
     private boolean ignoreTestFailures = false;
 
     @Override
-    protected void afterTestExecution(Result globalResult) throws MojoFailureException {
+    protected void afterTestExecution(final Result globalResult) throws MojoFailureException {
         if (!ignoreTestFailures && globalResult.getFailures() > 0) {
             throw new MojoFailureException("There are " + globalResult.getFailures() + " tests failures");
         }
