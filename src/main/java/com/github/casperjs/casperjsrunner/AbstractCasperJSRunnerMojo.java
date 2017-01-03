@@ -179,6 +179,16 @@ public abstract class AbstractCasperJSRunnerMojo extends AbstractMojo {
     private List<String> includesPatterns;
 
     /**
+     * Should CasperJS generates log reports. If <code>true</code> (which is the default), a log file will be generated for each test, containing the
+     * output of the CasperJS run. These reports will be generated in the
+     * <code>reportsDirectory<code> directory, with a name of <code>test filename&gt;.txt</code>.
+     *
+     * @since 1.0.5
+     */
+    @Parameter(property = "casperjs.enableLogReports", defaultValue = "true")
+    private boolean enableLogReports;
+
+    /**
      * Should CasperJS generates XML reports, through the <code>--xunit=[filename]</code> option. If <code>true</code>, such reports will be generated
      * in the <code>reportsDirectory<code> directory,
      * with a name of <code>TEST-&lt;test filename&gt;.xml</code>.
@@ -344,8 +354,8 @@ public abstract class AbstractCasperJSRunnerMojo extends AbstractMojo {
             }
         }
 
-        if (enableXmlReports) {
-            getLogger().debug("creating directories to hold xunit file(s)");
+        if (enableXmlReports || enableLogReports) {
+            getLogger().debug("creating directories to hold log/xunit file(s)");
             reportsDir.mkdirs();
         }
     }
@@ -441,7 +451,12 @@ public abstract class AbstractCasperJSRunnerMojo extends AbstractMojo {
                 cmdLine.addArgument(quote(argument), false);
             }
         }
-        return executeCommand(cmdLine, environmentVariables, verbose);
+        File logFile = null;
+        if (enableLogReports) {
+            logFile = new File(reportsDir, buildName(scriptsDir, f) + ".txt");
+        }
+
+        return executeCommand(cmdLine, environmentVariables, verbose, logFile);
     }
 
     protected void afterTestExecution(final Result globalResult) throws MojoFailureException, MojoExecutionException {
