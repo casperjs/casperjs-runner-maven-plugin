@@ -30,7 +30,7 @@ import java.util.Map;
  *
  * @author Romain Linsolas
  * @author Benoit Guerin
- * @since 09/04/13
+ * @since 1.0.0
  */
 public abstract class AbstractCasperJSRunnerMojo extends AbstractMojo {
 
@@ -250,12 +250,16 @@ public abstract class AbstractCasperJSRunnerMojo extends AbstractMojo {
 
     /**
      * The directory where output files will be stored
+     *
+     * @since 1.0.0
      */
     @Parameter(defaultValue = "${project.build.directory}/casperjs")
     private File targetDir;
 
     /**
      * The current maven session, used by the ToolChainManager
+     *
+     * @since 1.0.0
      */
     @Parameter(defaultValue = "${session}")
     private MavenSession session;
