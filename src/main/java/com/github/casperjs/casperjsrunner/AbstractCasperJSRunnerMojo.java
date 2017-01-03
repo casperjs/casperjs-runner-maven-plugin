@@ -16,8 +16,6 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Component;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.toolchain.ToolchainManager;
 
@@ -31,10 +29,10 @@ import java.util.Map;
  * Runs JavaScript and/or CoffeScript test files on CasperJS instance
  *
  * @author Romain Linsolas
+ * @author Benoit Guerin
  * @since 1.0.0
  */
-@Mojo(name = "test", defaultPhase = LifecyclePhase.TEST, threadSafe = true)
-public class CasperJSRunnerMojo extends AbstractMojo {
+public abstract class AbstractCasperJSRunnerMojo extends AbstractMojo {
 
     // Parameters for the plugin
 
@@ -97,14 +95,6 @@ public class CasperJSRunnerMojo extends AbstractMojo {
      */
     @Parameter
     private List<String> testsExcludes;
-
-    /**
-     * Do we ignore the tests failures. If yes, the plugin will not fail at the end if there was tests failures.
-     *
-     * @since 1.0.0
-     */
-    @Parameter(property = "casperjs.ignoreTestFailures", defaultValue = "${maven.test.failure.ignore}")
-    private boolean ignoreTestFailures = false;
 
     /**
      * Set the plugin to be verbose during its execution.
@@ -260,7 +250,7 @@ public class CasperJSRunnerMojo extends AbstractMojo {
 
     /**
      * The directory where output files will be stored
-     * 
+     *
      * @since 1.0.0
      */
     @Parameter(defaultValue = "${project.build.directory}/casperjs")
@@ -268,7 +258,7 @@ public class CasperJSRunnerMojo extends AbstractMojo {
 
     /**
      * The current maven session, used by the ToolChainManager
-     * 
+     *
      * @since 1.0.0
      */
     @Parameter(defaultValue = "${session}")
@@ -311,9 +301,7 @@ public class CasperJSRunnerMojo extends AbstractMojo {
         final Collection<String> scripts = findScripts();
         final Result globalResult = executeScripts(scripts);
         getLogger().info(globalResult.print());
-        if (!ignoreTestFailures && globalResult.getFailures() > 0) {
-            throw new MojoFailureException("There are " + globalResult.getFailures() + " tests failures");
-        }
+        afterTestExecution(globalResult);
     }
 
     private void init() throws MojoFailureException {
@@ -454,6 +442,9 @@ public class CasperJSRunnerMojo extends AbstractMojo {
             }
         }
         return executeCommand(cmdLine, environmentVariables, verbose);
+    }
+
+    protected void afterTestExecution(final Result globalResult) throws MojoFailureException, MojoExecutionException {
     }
 
 }
