@@ -328,6 +328,21 @@ option<br /><b>Default value is</b>: <tt>false</tt>.<br /><b>User property is</b
           
 <tr class="b">
             
+<td><b><a href="#enableLogReports">enableLogReports</a></b></td>
+            
+<td><tt>boolean</tt></td>
+            
+<td><tt>1.0.5</tt></td>
+            
+<td>Should CasperJS generates log reports. If <tt>true</tt> (which
+is the default), a log file will be generated for each test,
+containing the output of the CasperJS run. These reports will be
+generated in the <tt>reportsDirectory</tt> directory, with a
+name of <tt>test filename&gt;.txt</tt>.<br /><b>Default value is</b>: <tt>true</tt>.<br /><b>User property is</b>: <tt>casperjs.enableLogReports</tt>.</td>
+          </tr>
+          
+<tr class="a">
+            
 <td><b><a href="#enableXmlReports">enableXmlReports</a></b></td>
             
 <td><tt>boolean</tt></td>
@@ -341,7 +356,7 @@ directory, with a name of <tt>TEST-&lt;test
 filename&gt;.xml</tt>.<br /><b>Default value is</b>: <tt>false</tt>.<br /><b>User property is</b>: <tt>casperjs.enableXmlReports</tt>.</td>
           </tr>
           
-<tr class="a">
+<tr class="b">
             
 <td><b><a href="#engine">engine</a></b></td>
             
@@ -354,7 +369,7 @@ Set the for the CasperJS option <tt>--engine=[engine]</tt>:
 will change the rendering engine (phantomjs or slimerjs)<br /><b>User property is</b>: <tt>casperjs.engine</tt>.</td>
           </tr>
           
-<tr class="b">
+<tr class="a">
             
 <td><b><a href="#environmentVariables">environmentVariables</a></b></td>
             
@@ -366,7 +381,7 @@ will change the rendering engine (phantomjs or slimerjs)<br /><b>User property i
 default, inherited, ones.<br /></td>
           </tr>
           
-<tr class="a">
+<tr class="b">
             
 <td><b><a href="#failFast">failFast</a></b></td>
             
@@ -378,7 +393,7 @@ default, inherited, ones.<br /></td>
 test suite as soon as a first failure is encountered.<br /><b>Default value is</b>: <tt>false</tt>.<br /><b>User property is</b>: <tt>casperjs.failFast</tt>.</td>
           </tr>
           
-<tr class="b">
+<tr class="a">
             
 <td><b><a href="#ignoreTestFailures">ignoreTestFailures</a></b></td>
             
@@ -390,7 +405,7 @@ test suite as soon as a first failure is encountered.<br /><b>Default value is</
 at the end if there was tests failures.<br /><b>Default value is</b>: <tt>${maven.test.failure.ignore}</tt>.<br /><b>User property is</b>: <tt>casperjs.ignoreTestFailures</tt>.</td>
           </tr>
           
-<tr class="a">
+<tr class="b">
             
 <td><b><a href="#includeCS">includeCS</a></b></td>
             
@@ -402,7 +417,7 @@ at the end if there was tests failures.<br /><b>Default value is</b>: <tt>${mave
 <tt>tests.directory</tt> should be executed.<br /><b>Default value is</b>: <tt>true</tt>.<br /><b>User property is</b>: <tt>casperjs.include.coffeescript</tt>.</td>
           </tr>
           
-<tr class="b">
+<tr class="a">
             
 <td><b><a href="#includeJS">includeJS</a></b></td>
             
@@ -414,7 +429,7 @@ at the end if there was tests failures.<br /><b>Default value is</b>: <tt>${mave
 <tt>tests.directory</tt> should be executed.<br /><b>Default value is</b>: <tt>true</tt>.<br /><b>User property is</b>: <tt>casperjs.include.javascript</tt>.</td>
           </tr>
           
-<tr class="a">
+<tr class="b">
             
 <td><b><a href="#includes">includes</a></b></td>
             
@@ -427,7 +442,7 @@ at the end if there was tests failures.<br /><b>Default value is</b>: <tt>${mave
 and bar.js files before each test file execution.<br /><b>User property is</b>: <tt>casperjs.includes</tt>.</td>
           </tr>
           
-<tr class="b">
+<tr class="a">
             
 <td><b><a href="#includesPatterns">includesPatterns</a></b></td>
             
@@ -446,7 +461,7 @@ directory exists, this will be set to <br />
 &lt;/includesPatterns&gt;</tt><br /></td>
           </tr>
           
-<tr class="a">
+<tr class="b">
             
 <td><b><a href="#logLevel">logLevel</a></b></td>
             
@@ -459,7 +474,7 @@ directory exists, this will be set to <br />
 http://casperjs.org/logging.html).<br /><b>User property is</b>: <tt>casperjs.logLevel</tt>.</td>
           </tr>
           
-<tr class="b">
+<tr class="a">
             
 <td><b><a href="#post">post</a></b></td>
             
@@ -475,7 +490,7 @@ post-test.js after having executed the whole test suite. If a
 automatically<br /><b>User property is</b>: <tt>casperjs.post</tt>.</td>
           </tr>
           
-<tr class="a">
+<tr class="b">
             
 <td><b><a href="#pre">pre</a></b></td>
             
@@ -491,7 +506,7 @@ pre-test.js before executing the test suite. If a
 automatically<br /><b>User property is</b>: <tt>casperjs.pre</tt>.</td>
           </tr>
           
-<tr class="b">
+<tr class="a">
             
 <td><b><a href="#reportsDir">reportsDir</a></b></td>
             
@@ -502,7 +517,7 @@ automatically<br /><b>User property is</b>: <tt>casperjs.pre</tt>.</td>
 <td>Directory where the xUnit reports will be stored.<br /><b>Default value is</b>: <tt>${project.build.directory}/casperjs-reports</tt>.<br /><b>User property is</b>: <tt>casperjs.reports.directory</tt>.</td>
           </tr>
           
-<tr class="a">
+<tr class="b">
             
 <td><b><a href="#session">session</a></b></td>
             
@@ -513,7 +528,7 @@ automatically<br /><b>User property is</b>: <tt>casperjs.pre</tt>.</td>
 <td>The current maven session, used by the ToolChainManager<br /><b>Default value is</b>: <tt>${session}</tt>.<br /></td>
           </tr>
           
-<tr class="b">
+<tr class="a">
             
 <td><b><a href="#skip">skip</a></b></td>
             
@@ -524,7 +539,7 @@ automatically<br /><b>User property is</b>: <tt>casperjs.pre</tt>.</td>
 <td>Set this to <tt>true</tt> to bypass unit tests entirely.<br /><b>Default value is</b>: <tt>${maven.test.skip}</tt>.<br /><b>User property is</b>: <tt>casperjs.skip</tt>.</td>
           </tr>
           
-<tr class="a">
+<tr class="b">
             
 <td><b><a href="#targetDir">targetDir</a></b></td>
             
@@ -535,7 +550,7 @@ automatically<br /><b>User property is</b>: <tt>casperjs.pre</tt>.</td>
 <td>The directory where output files will be stored<br /><b>Default value is</b>: <tt>${project.build.directory}/casperjs</tt>.<br /></td>
           </tr>
           
-<tr class="b">
+<tr class="a">
             
 <td><b><a href="#test">test</a></b></td>
             
@@ -551,7 +566,7 @@ so you can just type &quot;-Dtest=MyTest&quot; to run a single test called
 <tt>foo/MyTest.js</tt> or <tt>foo/MyTest.coffee</tt>.<br /><b>User property is</b>: <tt>casperjs.test</tt>.</td>
           </tr>
           
-<tr class="a">
+<tr class="b">
             
 <td><b><a href="#testsDir">testsDir</a></b></td>
             
@@ -568,7 +583,7 @@ will automatically be added to the CasperJS <tt>--includes</tt>
 list.<br /><b>Default value is</b>: <tt>${basedir}/src/test/casperjs</tt>.<br /><b>User property is</b>: <tt>casperjs.tests.directory</tt>.</td>
           </tr>
           
-<tr class="b">
+<tr class="a">
             
 <td><b><a href="#testsExcludes">testsExcludes</a></b></td>
             
@@ -580,7 +595,7 @@ list.<br /><b>Default value is</b>: <tt>${basedir}/src/test/casperjs</tt>.<br />
 tests (by pattern) that should be excluded in testing.<br /></td>
           </tr>
           
-<tr class="a">
+<tr class="b">
             
 <td><b><a href="#testsIncludes">testsIncludes</a></b></td>
             
@@ -606,7 +621,7 @@ parameter is not specified, the default includes will be
 &lt;/testsIncludes&gt;</tt><br /></td>
           </tr>
           
-<tr class="b">
+<tr class="a">
             
 <td><b><a href="#verbose">verbose</a></b></td>
             
@@ -688,6 +703,26 @@ option</div>
 <li><b>User Property</b>: <tt>casperjs.direct</tt></li>
           
 <li><b>Default</b>: <tt>false</tt></li>
+        </ul><hr />
+<p><b><a name="enableLogReports">enableLogReports</a>:</b></p>
+        
+<div>Should CasperJS generates log reports. If <tt>true</tt> (which
+is the default), a log file will be generated for each test,
+containing the output of the CasperJS run. These reports will be
+generated in the <tt>reportsDirectory</tt> directory, with a
+name of <tt>test filename&gt;.txt</tt>.</div>
+        
+<ul>
+          
+<li><b>Type</b>: <tt>boolean</tt></li>
+          
+<li><b>Since</b>: <tt>1.0.5</tt></li>
+          
+<li><b>Required</b>: <tt>No</tt></li>
+          
+<li><b>User Property</b>: <tt>casperjs.enableLogReports</tt></li>
+          
+<li><b>Default</b>: <tt>true</tt></li>
         </ul><hr />
 <p><b><a name="enableXmlReports">enableXmlReports</a>:</b></p>
         
