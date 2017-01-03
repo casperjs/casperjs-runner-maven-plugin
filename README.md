@@ -15,7 +15,7 @@ Add in your pom.xml:
 <plugin>
     <groupId>com.github.casperjs</groupId>
     <artifactId>casperjs-runner-maven-plugin</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <configuration></configuration>
 </plugin>
 ```
