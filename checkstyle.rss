@@ -23,10 +23,10 @@ under the License.
     <link>https://casperjs.github.io/casperjs-runner-maven-plugin</link>
     <description>CasperJS runner Maven plugin - Checkstyle report</description>
     <language>en-us</language>
-    <copyright>&#169;2016</copyright>
+    <copyright>&#169;2017</copyright>
     <item>
-      <title>File: 17,
-             Errors: 231,
+      <title>File: 20,
+             Errors: 261,
              Warnings: 0,
              Infos: 0
       </title>
@@ -60,7 +60,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.CasperJSRunnerMojo.java">com/github/casperjs/casperjsrunner/CasperJSRunnerMojo.java</a>
+                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.AbstractCasperJSRunnerMojo.java">com/github/casperjs/casperjsrunner/AbstractCasperJSRunnerMojo.java</a>
                 </td>
                 <td>
                   0
@@ -69,7 +69,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  76
+                  75
                 </td>
               </tr>
                           <tr>
@@ -83,7 +83,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  4
+                  3
                 </td>
               </tr>
                           <tr>
@@ -139,7 +139,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  4
+                  5
                 </td>
               </tr>
                           <tr>
@@ -153,12 +153,26 @@ under the License.
                   0
                 </td>
                 <td>
-                  10
+                  11
                 </td>
               </tr>
                           <tr>
                 <td>
                   <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.CommandExecutor.java">com/github/casperjs/casperjsrunner/CommandExecutor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.CasperJSRunnerTestMojo.java">com/github/casperjs/casperjsrunner/CasperJSRunnerTestMojo.java</a>
                 </td>
                 <td>
                   0
@@ -228,6 +242,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.CasperJSVerifyMojo.java">com/github/casperjs/casperjsrunner/CasperJSVerifyMojo.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.CasperJsRuntimeFinder.java">com/github/casperjs/casperjsrunner/CasperJsRuntimeFinder.java</a>
                 </td>
                 <td>
@@ -242,20 +270,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.toolchain.DefaultCasperjsToolchainFactory.java">com/github/casperjs/casperjsrunner/toolchain/DefaultCasperjsToolchainFactory.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  27
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.LogUtils.java">com/github/casperjs/casperjsrunner/LogUtils.java</a>
                 </td>
                 <td>
@@ -266,6 +280,34 @@ under the License.
                 </td>
                 <td>
                   17
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.CasperJSRunnerIntegrationTestMojo.java">com/github/casperjs/casperjsrunner/CasperJSRunnerIntegrationTestMojo.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  17
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.toolchain.DefaultCasperjsToolchainFactory.java">com/github/casperjs/casperjsrunner/toolchain/DefaultCasperjsToolchainFactory.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  26
                 </td>
               </tr>
                           <tr>

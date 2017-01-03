@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Date-Revision-yyyymmdd" content="20170103" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>CasperJS-runner &#x2013; Usage</title>
+    <title>CasperJS-runner &#x2013; casperjs-runner:verify</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.5.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -177,10 +177,12 @@
         Goals</a>
             </li>
                 
-      <li class="active">
+      <li>
   
-            <a href="#"><span class="none"></span>Usage</a>
-          </li>
+                          <a href="usage.html" title="Usage">
+          <span class="none"></span>
+        Usage</a>
+            </li>
                 
       <li>
   
@@ -229,35 +231,83 @@
                 
         <div id="bodyColumn"  class="span10" >
                                   
-            <div class="section">
-<h2><a name="Usage"></a>Usage</h2>
-<p>Best practice is to define the version of this plugin that you want to use in either your <tt>pom.xml</tt> or a parent <tt>pom.xml</tt>:</p>
-<div class="source"><pre class="prettyprint">&lt;project&gt;
-  [...]
-  &lt;build&gt;
-    &lt;pluginManagement&gt;
-      &lt;plugins&gt;
-        &lt;plugin&gt;
-          &lt;groupId&gt;com.github.casperjs&lt;/groupId&gt;
-          &lt;artifactId&gt;casperjs-runner-maven-plugin&lt;/artifactId&gt;
-          &lt;version&gt;1.0.5-SNAPSHOT&lt;/version&gt;
-        &lt;/plugin&gt;
-      &lt;/plugins&gt;
-    &lt;/pluginManagement&gt;
-  &lt;/build&gt;
-  [...]
-&lt;/project&gt;</pre></div>
-<p>Then you can add the following in your build/plugins section of your <tt>pom.xml</tt></p>
-<div class="source"><pre class="prettyprint">  &lt;plugin&gt;
-    &lt;groupId&gt;com.github.casperjs&lt;/groupId&gt;
-    &lt;artifactId&gt;casperjs-runner-maven-plugin&lt;/artifactId&gt;
-    &lt;configuration&gt;
-      &lt;!-- see below --&gt;
-    &lt;/configuration&gt;
-  &lt;/plugin&gt;</pre></div>
-<p>For the configuration options, see the <a href="./test-mojo.html"> test MOJO description</a></p>
-<p>This plugin can be invoked with the following command line, whereas your <tt>pluginGroups</tt> configuration is correct</p>
-<div class="source"><pre class="prettyprint">mvn casperjs-runner:test</pre></div></div>
+            
+  
+    <div class="section">
+<h2><a name="casperjs-runner:verify"></a>casperjs-runner:verify</h2>
+      
+<p><b>Full name</b>:</p>
+      
+<p>com.github.casperjs:casperjs-runner-maven-plugin:1.0.5-SNAPSHOT:verify</p>
+      
+<p><b>Description</b>:</p>
+      
+<div>Verifies that there was no test failure during the integration-test
+Mojo.</div>
+      
+<p><b>Attributes</b>:</p>
+      
+<ul>
+        
+<li>Requires a Maven project to be executed.</li>
+        
+<li>Binds by default to the <a class="externalLink" href="http://maven.apache.org/ref/current/maven-core/lifecycles.html">lifecycle phase</a>: <tt>verify</tt>.</li>
+      </ul>
+      
+<div class="section">
+<h3><a name="Optional_Parameters"></a>Optional Parameters</h3>
+        
+<table class="table table-striped" border="0">
+          
+<tr class="a">
+            
+<th>Name</th>
+            
+<th>Type</th>
+            
+<th>Since</th>
+            
+<th>Description</th>
+          </tr>
+          
+<tr class="b">
+            
+<td><b><a href="#testFailureCountFile">testFailureCountFile</a></b></td>
+            
+<td><tt>File</tt></td>
+            
+<td><tt>-</tt></td>
+            
+<td>A file in which the count of failed tests will be written. We'll
+check this file in the verify phase to fail the build, if the
+testFailures ignored during the test mojo.<br /><b>Default value is</b>: <tt>${project.build.directory}/casperjsFailureCount</tt>.<br /><b>User property is</b>: <tt>casperjs.testFailure.countFile</tt>.</td>
+          </tr>
+        </table>
+      </div>
+      
+<div class="section">
+<h3><a name="Parameter_Details"></a>Parameter Details</h3>
+        
+<p><b><a name="testFailureCountFile">testFailureCountFile</a>:</b></p>
+        
+<div>A file in which the count of failed tests will be written. We'll
+check this file in the verify phase to fail the build, if the
+testFailures ignored during the test mojo.</div>
+        
+<ul>
+          
+<li><b>Type</b>: <tt>java.io.File</tt></li>
+          
+<li><b>Required</b>: <tt>No</tt></li>
+          
+<li><b>User Property</b>: <tt>casperjs.testFailure.countFile</tt></li>
+          
+<li><b>Default</b>: <tt>${project.build.directory}/casperjsFailureCount</tt></li>
+        </ul>
+      </div>
+    </div>
+  
+
                   </div>
             </div>
           </div>

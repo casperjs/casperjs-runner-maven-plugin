@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Date-Revision-yyyymmdd" content="20170103" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>CasperJS-runner &#x2013; casperjs-runner:test</title>
+    <title>CasperJS-runner &#x2013; casperjs-runner:integration-test</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.5.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -234,15 +234,17 @@
             
   
     <div class="section">
-<h2><a name="casperjs-runner:test"></a>casperjs-runner:test</h2>
+<h2><a name="casperjs-runner:integration-test"></a>casperjs-runner:integration-test</h2>
       
 <p><b>Full name</b>:</p>
       
-<p>com.github.casperjs:casperjs-runner-maven-plugin:1.0.5-SNAPSHOT:test</p>
+<p>com.github.casperjs:casperjs-runner-maven-plugin:1.0.5-SNAPSHOT:integration-test</p>
       
 <p><b>Description</b>:</p>
       
-<div>Runs JavaScript and/or CoffeScript test files on CasperJS instance</div>
+<div>Runs JavaScript and/or CoffeScript test files on CasperJS instance,
+but in &quot;integration-test&quot; mode. IE does not fails the build if
+there are test errors, letting the verify Mojo doing it.</div>
       
 <p><b>Attributes</b>:</p>
       
@@ -250,11 +252,9 @@
         
 <li>Requires a Maven project to be executed.</li>
         
-<li>The goal is thread-safe and supports parallel builds.</li>
-        
 <li>Since version: <tt>09/04/13</tt>.</li>
         
-<li>Binds by default to the <a class="externalLink" href="http://maven.apache.org/ref/current/maven-core/lifecycles.html">lifecycle phase</a>: <tt>test</tt>.</li>
+<li>Binds by default to the <a class="externalLink" href="http://maven.apache.org/ref/current/maven-core/lifecycles.html">lifecycle phase</a>: <tt>integration-test</tt>.</li>
       </ul>
       
 <div class="section">
@@ -380,18 +380,6 @@ test suite as soon as a first failure is encountered.<br /><b>Default value is</
           
 <tr class="b">
             
-<td><b><a href="#ignoreTestFailures">ignoreTestFailures</a></b></td>
-            
-<td><tt>boolean</tt></td>
-            
-<td><tt>1.0.0</tt></td>
-            
-<td>Do we ignore the tests failures. If yes, the plugin will not fail
-at the end if there was tests failures.<br /><b>Default value is</b>: <tt>${maven.test.failure.ignore}</tt>.<br /><b>User property is</b>: <tt>casperjs.ignoreTestFailures</tt>.</td>
-          </tr>
-          
-<tr class="a">
-            
 <td><b><a href="#includeCS">includeCS</a></b></td>
             
 <td><tt>boolean</tt></td>
@@ -402,7 +390,7 @@ at the end if there was tests failures.<br /><b>Default value is</b>: <tt>${mave
 <tt>tests.directory</tt> should be executed.<br /><b>Default value is</b>: <tt>true</tt>.<br /><b>User property is</b>: <tt>casperjs.include.coffeescript</tt>.</td>
           </tr>
           
-<tr class="b">
+<tr class="a">
             
 <td><b><a href="#includeJS">includeJS</a></b></td>
             
@@ -414,7 +402,7 @@ at the end if there was tests failures.<br /><b>Default value is</b>: <tt>${mave
 <tt>tests.directory</tt> should be executed.<br /><b>Default value is</b>: <tt>true</tt>.<br /><b>User property is</b>: <tt>casperjs.include.javascript</tt>.</td>
           </tr>
           
-<tr class="a">
+<tr class="b">
             
 <td><b><a href="#includes">includes</a></b></td>
             
@@ -427,7 +415,7 @@ at the end if there was tests failures.<br /><b>Default value is</b>: <tt>${mave
 and bar.js files before each test file execution.<br /><b>User property is</b>: <tt>casperjs.includes</tt>.</td>
           </tr>
           
-<tr class="b">
+<tr class="a">
             
 <td><b><a href="#includesPatterns">includesPatterns</a></b></td>
             
@@ -446,7 +434,7 @@ directory exists, this will be set to <br />
 &lt;/includesPatterns&gt;</tt><br /></td>
           </tr>
           
-<tr class="a">
+<tr class="b">
             
 <td><b><a href="#logLevel">logLevel</a></b></td>
             
@@ -459,7 +447,7 @@ directory exists, this will be set to <br />
 http://casperjs.org/logging.html).<br /><b>User property is</b>: <tt>casperjs.logLevel</tt>.</td>
           </tr>
           
-<tr class="b">
+<tr class="a">
             
 <td><b><a href="#post">post</a></b></td>
             
@@ -475,7 +463,7 @@ post-test.js after having executed the whole test suite. If a
 automatically<br /><b>User property is</b>: <tt>casperjs.post</tt>.</td>
           </tr>
           
-<tr class="a">
+<tr class="b">
             
 <td><b><a href="#pre">pre</a></b></td>
             
@@ -491,7 +479,7 @@ pre-test.js before executing the test suite. If a
 automatically<br /><b>User property is</b>: <tt>casperjs.pre</tt>.</td>
           </tr>
           
-<tr class="b">
+<tr class="a">
             
 <td><b><a href="#reportsDir">reportsDir</a></b></td>
             
@@ -502,7 +490,7 @@ automatically<br /><b>User property is</b>: <tt>casperjs.pre</tt>.</td>
 <td>Directory where the xUnit reports will be stored.<br /><b>Default value is</b>: <tt>${project.build.directory}/casperjs-reports</tt>.<br /><b>User property is</b>: <tt>casperjs.reports.directory</tt>.</td>
           </tr>
           
-<tr class="a">
+<tr class="b">
             
 <td><b><a href="#session">session</a></b></td>
             
@@ -513,7 +501,7 @@ automatically<br /><b>User property is</b>: <tt>casperjs.pre</tt>.</td>
 <td>The current maven session, used by the ToolChainManager<br /><b>Default value is</b>: <tt>${session}</tt>.<br /></td>
           </tr>
           
-<tr class="b">
+<tr class="a">
             
 <td><b><a href="#skip">skip</a></b></td>
             
@@ -524,7 +512,7 @@ automatically<br /><b>User property is</b>: <tt>casperjs.pre</tt>.</td>
 <td>Set this to <tt>true</tt> to bypass unit tests entirely.<br /><b>Default value is</b>: <tt>${maven.test.skip}</tt>.<br /><b>User property is</b>: <tt>casperjs.skip</tt>.</td>
           </tr>
           
-<tr class="a">
+<tr class="b">
             
 <td><b><a href="#targetDir">targetDir</a></b></td>
             
@@ -535,7 +523,7 @@ automatically<br /><b>User property is</b>: <tt>casperjs.pre</tt>.</td>
 <td>The directory where output files will be stored<br /><b>Default value is</b>: <tt>${project.build.directory}/casperjs</tt>.<br /></td>
           </tr>
           
-<tr class="b">
+<tr class="a">
             
 <td><b><a href="#test">test</a></b></td>
             
@@ -549,6 +537,19 @@ parameters. Each pattern you specify here will be used to create an
 include pattern formatted like <tt>**/${test}.{js,coffee}</tt>,
 so you can just type &quot;-Dtest=MyTest&quot; to run a single test called
 <tt>foo/MyTest.js</tt> or <tt>foo/MyTest.coffee</tt>.<br /><b>User property is</b>: <tt>casperjs.test</tt>.</td>
+          </tr>
+          
+<tr class="b">
+            
+<td><b><a href="#testFailureCountFile">testFailureCountFile</a></b></td>
+            
+<td><tt>File</tt></td>
+            
+<td><tt>09/04/13</tt></td>
+            
+<td>A file in which the count of failed tests will be written. We'll
+check this file in the verify phase to fail the build, if the
+testFailures ignored during the test mojo.<br /><b>Default value is</b>: <tt>${project.build.directory}/casperjsFailureCount</tt>.<br /><b>User property is</b>: <tt>casperjs.testFailure.countFile</tt>.</td>
           </tr>
           
 <tr class="a">
@@ -755,23 +756,6 @@ test suite as soon as a first failure is encountered.</div>
           
 <li><b>Default</b>: <tt>false</tt></li>
         </ul><hr />
-<p><b><a name="ignoreTestFailures">ignoreTestFailures</a>:</b></p>
-        
-<div>Do we ignore the tests failures. If yes, the plugin will not fail
-at the end if there was tests failures.</div>
-        
-<ul>
-          
-<li><b>Type</b>: <tt>boolean</tt></li>
-          
-<li><b>Since</b>: <tt>1.0.0</tt></li>
-          
-<li><b>Required</b>: <tt>No</tt></li>
-          
-<li><b>User Property</b>: <tt>casperjs.ignoreTestFailures</tt></li>
-          
-<li><b>Default</b>: <tt>${maven.test.failure.ignore}</tt></li>
-        </ul><hr />
 <p><b><a name="includeCS">includeCS</a>:</b></p>
         
 <div>A flag to indicate if the *.coffee found in
@@ -974,6 +958,24 @@ so you can just type &quot;-Dtest=MyTest&quot; to run a single test called
 <li><b>Required</b>: <tt>No</tt></li>
           
 <li><b>User Property</b>: <tt>casperjs.test</tt></li>
+        </ul><hr />
+<p><b><a name="testFailureCountFile">testFailureCountFile</a>:</b></p>
+        
+<div>A file in which the count of failed tests will be written. We'll
+check this file in the verify phase to fail the build, if the
+testFailures ignored during the test mojo.</div>
+        
+<ul>
+          
+<li><b>Type</b>: <tt>java.io.File</tt></li>
+          
+<li><b>Since</b>: <tt>09/04/13</tt></li>
+          
+<li><b>Required</b>: <tt>No</tt></li>
+          
+<li><b>User Property</b>: <tt>casperjs.testFailure.countFile</tt></li>
+          
+<li><b>Default</b>: <tt>${project.build.directory}/casperjsFailureCount</tt></li>
         </ul><hr />
 <p><b><a name="testsDir">testsDir</a>:</b></p>
         
