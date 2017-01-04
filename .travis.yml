@@ -4,9 +4,15 @@ branches:
 
 language: java
 
+addons:
+  sonarqube:
+    token:
+      secure: "f5jR3Ubo47krzeSjHPQP6wWMPmWrvSzAt1UM7UQTIwWj0EAGXwIu5TLRhRcG69xgdF173E3u6sUdhpqphjSgb4xEfqGwxbk6VlDXGo0R55tlgXlbHcfqdFx6N8+KGkRJHuoA2zMDcxKxY7CsQutCqRIDTQUsFI2u2dHT6YkFxDA="
+
 cache:
   directories:
     - $HOME/.m2/repository
+    - $HOME/.sonar/cache
   
 matrix:
   include:
@@ -92,5 +98,5 @@ script:
   - phantomjs --version
   - casperjs --version
   - mvn -Pit install -Dinvoker.streamLogs=true
-  - if [ "${TRAVIS_PULL_REQUEST}" = "false" -a "${BUILD_SITE}" = "true" ]; then mvn -Psite site-deploy ; fi
+  - if [ "${TRAVIS_PULL_REQUEST}" = "false" -a "${BUILD_SITE}" = "true" ]; then mvn -Psite site-deploy ; mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar ; fi
 
