@@ -7,7 +7,7 @@ language: java
 addons:
   sonarqube:
     token:
-      secure: "f5jR3Ubo47krzeSjHPQP6wWMPmWrvSzAt1UM7UQTIwWj0EAGXwIu5TLRhRcG69xgdF173E3u6sUdhpqphjSgb4xEfqGwxbk6VlDXGo0R55tlgXlbHcfqdFx6N8+KGkRJHuoA2zMDcxKxY7CsQutCqRIDTQUsFI2u2dHT6YkFxDA="
+      secure: "BOEDSMd6XyHxGQRBeM4XWpL3NDEur5gspkRubVkbFf+m2y4ON4Y9AM7cjlAn6W67IVdyCd6bwBuQwS/ExfglIsTFPVpuSMbTqu3nUtajllFRIIb/4xdeK6bGqJWxobOzoag86+nfrxlQb5XFOXFwi9ZFZgSYM7aANGyE/OXXL8A="
 
 cache:
   directories:
