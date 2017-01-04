@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractCasperJSRunnerMojo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CasperJS runner Maven plugin</a> &gt; <a href="index.source.html" class="el_package">com.github.casperjs.casperjsrunner</a> &gt; <span class="el_source">AbstractCasperJSRunnerMojo.java</span></div><h1>AbstractCasperJSRunnerMojo.java</h1><pre class="source lang-java linenums">package com.github.casperjs.casperjsrunner;
+
+import static com.github.casperjs.casperjsrunner.ArgQuoter.quote;
+import static com.github.casperjs.casperjsrunner.CasperJsRuntimeFinder.findCasperRuntime;
+import static com.github.casperjs.casperjsrunner.CasperJsVersionRetriever.retrieveVersion;
+import static com.github.casperjs.casperjsrunner.CommandExecutor.executeCommand;
+import static com.github.casperjs.casperjsrunner.LogUtils.getLogger;
+import static com.github.casperjs.casperjsrunner.PathToNameBuilder.buildName;
+import static com.github.casperjs.casperjsrunner.PatternsChecker.checkPatterns;
+
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
+import org.apache.maven.execution.MavenSession;
+import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.toolchain.ToolchainManager;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Runs JavaScript and/or CoffeScript test files on CasperJS instance
+ *
+ * @author Romain Linsolas
+ * @author Benoit Guerin
+ * @since 1.0.0
+ */
+<span class="fc" id="L35">public abstract class AbstractCasperJSRunnerMojo extends AbstractMojo {</span>
+
+    // Parameters for the plugin
+
+    /**
+     * Complete path of the executable for CasperJS. &lt;br/&gt;
+     * &lt;b&gt;Default value:&lt;/b&gt; Found from &lt;a href=&quot;http://maven.apache.org/guides/mini/guide-using-toolchains.html&quot;&gt;toolchain&lt;/a&gt; named
+     * &lt;b&gt;&lt;i&gt;casperjs&lt;/b&gt;&lt;/i&gt;, then from this parameter, then from PATH with default value of &lt;b&gt;casperjs&lt;/b&gt; on Linux/Mac or &lt;b&gt;casperjs.exe&lt;/b&gt;
+     * (&lt;b&gt;casperjs.bat&lt;/b&gt; for compatibility with old versions of CasperJS) on Windows
+     *
+     * @since 1.0.0
+     */
+    @Parameter(property = &quot;casperjs.executable&quot;)
+    private String casperExecPath;
+
+    /**
+     * Directory where the tests to execute are stored. &lt;br/&gt;
+     * If &lt;code&gt;${tests.directory}/includes&lt;/code&gt; and &lt;code&gt;${tests.directory}/scripts&lt;/code&gt; directories exist, this is changed to
+     * &lt;code&gt;${tests.directory}/scripts&lt;/code&gt; and all &lt;code&gt;*.js&lt;/code&gt; files in &lt;code&gt;${tests.directory}/includes&lt;/code&gt; will automatically be added
+     * to the CasperJS &lt;code&gt;--includes&lt;/code&gt; list.
+     *
+     * @since 1.0.0
+     */
+    @Parameter(property = &quot;casperjs.tests.directory&quot;, defaultValue = &quot;${basedir}/src/test/casperjs&quot;)
+    private File testsDir;
+
+    /**
+     * Specify this parameter to run individual tests by file name, overriding the &lt;code&gt;testIncludes&lt;/code&gt;/&lt;code&gt;testExcludes&lt;/code&gt; parameters.
+     * Each pattern you specify here will be used to create an include pattern formatted like &lt;code&gt;**&amp;#47;${test}.{js,coffee}&lt;/code&gt;, so you can just
+     * type &quot;-Dtest=MyTest&quot; to run a single test called &lt;code&gt;foo/MyTest.js&lt;/code&gt; or &lt;code&gt;foo/MyTest.coffee&lt;/code&gt;.
+     *
+     * @since 1.0.0
+     */
+    @Parameter(property = &quot;casperjs.test&quot;)
+    private String test;
+
+    /**
+     * A list of &lt;code&gt;&amp;lt;testsInclude&amp;gt;&lt;/code&gt; elements specifying the tests (by pattern) that should be included in testing. &lt;br/&gt;
+     * &lt;b&gt;Default value:&lt;/b&gt; When not specified and when the test parameter is not specified, the default includes will be (javascript patterns will
+     * only be set if &lt;code&gt;includeJS&lt;/code&gt; is &lt;code&gt;true&lt;/code&gt;, and coffee patterns will only be set if &lt;code&gt;includeCS&lt;/code&gt; is &lt;code&gt;true&lt;/code&gt;
+     * ) &lt;br/&gt;
+     * &lt;br/&gt;
+     * &lt;code&gt;&amp;lt;testsIncludes&amp;gt;&lt;br/&gt;
+    &amp;nbsp;&amp;nbsp;&amp;lt;testsInclude&amp;gt;**&amp;#47;Test*.js&amp;lt;/testsInclude&amp;gt;&lt;br/&gt;
+    &amp;nbsp;&amp;nbsp;&amp;lt;testsInclude&amp;gt;**&amp;#47;*Test.js&amp;lt;/testsInclude&amp;gt;&lt;br/&gt;
+    &amp;nbsp;&amp;nbsp;&amp;lt;testsInclude&amp;gt;**&amp;#47;*TestCase.js&amp;lt;/testsInclude&amp;gt;&lt;br/&gt;
+    &amp;nbsp;&amp;nbsp;&amp;lt;testsInclude&amp;gt;**&amp;#47;Test*.coffee&amp;lt;/testsInclude&amp;gt;&lt;br/&gt;
+    &amp;nbsp;&amp;nbsp;&amp;lt;testsInclude&amp;gt;**&amp;#47;*Test.coffee&amp;lt;/testsInclude&amp;gt;&lt;br/&gt;
+    &amp;nbsp;&amp;nbsp;&amp;lt;testsInclude&amp;gt;**&amp;#47;*TestCase.coffee&amp;lt;/testsInclude&amp;gt;&lt;br/&gt;
+    &amp;lt;/testsIncludes&amp;gt;&lt;/code&gt;
+     *
+     * @since 1.0.1
+     */
+    @Parameter
+    private List&lt;String&gt; testsIncludes;
+
+    /**
+     * A list of &lt;code&gt;&amp;lt;testsExclude&amp;gt;&lt;/code&gt; elements specifying the tests (by pattern) that should be excluded in testing.
+     *
+     * @since 1.0.1
+     */
+    @Parameter
+    private List&lt;String&gt; testsExcludes;
+
+    /**
+     * Set the plugin to be verbose during its execution.
+     *
+     * @since 1.0.0
+     */
+<span class="fc" id="L104">    @Parameter(property = &quot;casperjs.verbose&quot;, defaultValue = &quot;${maven.verbose}&quot;)</span>
+    private boolean verbose = false;
+
+    /**
+     * A flag to indicate if the *.js found in &lt;code&gt;tests.directory&lt;/code&gt; should be executed.
+     *
+     * @since 1.0.0
+     */
+    @Parameter(property = &quot;casperjs.include.javascript&quot;, defaultValue = &quot;true&quot;)
+    private boolean includeJS;
+
+    /**
+     * A flag to indicate if the *.coffee found in &lt;code&gt;tests.directory&lt;/code&gt; should be executed.
+     *
+     * @since 1.0.0
+     */
+    @Parameter(property = &quot;casperjs.include.coffeescript&quot;, defaultValue = &quot;true&quot;)
+    private boolean includeCS;
+
+    /**
+     * Environment variables to set on the command line, instead of the default, inherited, ones.
+     *
+     * @since 1.0.0
+     */
+    @Parameter
+    private Map&lt;String, String&gt; environmentVariables;
+
+    /**
+     * Set this to &lt;code&gt;true&lt;/code&gt; to bypass unit tests entirely.
+     *
+     * @since 1.0.1
+     */
+<span class="fc" id="L136">    @Parameter(property = &quot;casperjs.skip&quot;, defaultValue = &quot;${maven.test.skip}&quot;)</span>
+    private boolean skip = false;
+
+    // Parameters for the CasperJS options
+
+    /**
+     * Set the value for the CasperJS option &lt;code&gt;--pre=[pre-test.js]&lt;/code&gt;: will add the tests contained in pre-test.js before executing the test
+     * suite. If a &lt;code&gt;pre.js&lt;/code&gt; file is found on the &lt;code&gt;${tests.directory}&lt;/code&gt;, this option will be set automatically
+     *
+     * @since 1.0.0
+     */
+    @Parameter(property = &quot;casperjs.pre&quot;)
+    private String pre;
+
+    /**
+     * Set the value for the CasperJS option &lt;code&gt;--post=[post-test.js]&lt;/code&gt;: will add the tests contained in post-test.js after having executed
+     * the whole test suite. If a &lt;code&gt;post.js&lt;/code&gt; file is found on the &lt;code&gt;${tests.directory}&lt;/code&gt;, this option will be set automatically
+     *
+     * @since 1.0.0
+     */
+    @Parameter(property = &quot;casperjs.post&quot;)
+    private String post;
+
+    /**
+     * Set the value for the CasperJS option &lt;code&gt;--includes=[foo.js,bar.js]&lt;/code&gt;: will includes the foo.js and bar.js files before each test file
+     * execution.
+     *
+     * @since 1.0.0
+     */
+    @Parameter(property = &quot;casperjs.includes&quot;)
+    private String includes;
+
+    /**
+     * A list of &lt;code&gt;&amp;lt;includesPattern&amp;gt;&lt;/code&gt; elements specifying the files (by pattern) to set on the &lt;code&gt;--includes&lt;/code&gt; option.&lt;br/&gt;
+     * When not specified and the &lt;code&gt;${tests.directory}/includes&lt;/code&gt; directory exists, this will be set to &lt;br/&gt;
+     * &lt;br/&gt;
+     * &lt;code&gt;&amp;lt;includesPatterns&amp;gt;&lt;br/&gt;
+    &amp;nbsp;&amp;nbsp;&amp;lt;includesPattern&amp;gt;${tests.directory}/includes/**&amp;#47;*.js&amp;lt;/includesPattern&amp;gt;&lt;br/&gt;
+    &amp;lt;/includesPatterns&amp;gt;&lt;/code&gt;
+     *
+     * @since 1.0.1
+     */
+    @Parameter
+    private List&lt;String&gt; includesPatterns;
+
+    /**
+     * Should CasperJS generates log reports. If &lt;code&gt;true&lt;/code&gt; (which is the default), a log file will be generated for each test, containing the
+     * output of the CasperJS run. These reports will be generated in the
+     * &lt;code&gt;reportsDirectory&lt;code&gt; directory, with a name of &lt;code&gt;test filename&amp;gt;.txt&lt;/code&gt;.
+     *
+     * @since 1.0.5
+     */
+    @Parameter(property = &quot;casperjs.enableLogReports&quot;, defaultValue = &quot;true&quot;)
+    private boolean enableLogReports;
+
+    /**
+     * Should CasperJS generates XML reports, through the &lt;code&gt;--xunit=[filename]&lt;/code&gt; option. If &lt;code&gt;true&lt;/code&gt;, such reports will be generated
+     * in the &lt;code&gt;reportsDirectory&lt;code&gt; directory,
+     * with a name of &lt;code&gt;TEST-&amp;lt;test filename&amp;gt;.xml&lt;/code&gt;.
+     *
+     * @since 1.0.2
+     */
+    @Parameter(property = &quot;casperjs.enableXmlReports&quot;, defaultValue = &quot;false&quot;)
+    private boolean enableXmlReports;
+
+    /**
+     * Directory where the xUnit reports will be stored.
+     *
+     * @since 1.0.2
+     */
+    @Parameter(property = &quot;casperjs.reports.directory&quot;, defaultValue = &quot;${project.build.directory}/casperjs-reports&quot;)
+    private File reportsDir;
+
+    /**
+     * Set the value for the CasperJS option &lt;code&gt;--log-level=[logLevel]&lt;/code&gt;: sets the logging level (see http://casperjs.org/logging.html).
+     *
+     * @since 1.0.0
+     */
+    @Parameter(property = &quot;casperjs.logLevel&quot;)
+    private String logLevel;
+
+    /**
+     * Set the CasperJS --direct option: will output log messages directly to the console. Deprecated: use the &lt;code&gt;casperjsVerbose&lt;/code&gt; option
+     *
+     * @since 1.0.0
+     */
+    @Deprecated
+    @Parameter(property = &quot;casperjs.direct&quot;, defaultValue = &quot;false&quot;)
+    private boolean direct;
+
+    /**
+     * For CasperJS 1.1.x, set --verbose option, --direct for CasperJS 1.0.x: will output log messages directly to the console
+     *
+     * @since 1.0.2
+     */
+    @Parameter(property = &quot;casperjs.casperjsVerbose&quot;, defaultValue = &quot;false&quot;)
+    private boolean casperjsVerbose;
+
+    /**
+     * Set the CasperJS --fail-fast option: will terminate the current test suite as soon as a first failure is encountered.
+     *
+     * @since 1.0.0
+     */
+    @Parameter(property = &quot;casperjs.failFast&quot;, defaultValue = &quot;false&quot;)
+    private boolean failFast;
+
+    /**
+     * CasperJS 1.1 and above&lt;br/&gt;
+     * Set the for the CasperJS option &lt;code&gt;--engine=[engine]&lt;/code&gt;: will change the rendering engine (phantomjs or slimerjs)
+     *
+     * @since 1.0.0
+     */
+    @Parameter(property = &quot;casperjs.engine&quot;)
+    private String engine;
+
+    /**
+     * A list of &lt;code&gt;&amp;lt;argument&amp;gt;&lt;/code&gt; to add to the casperjs command line.
+     *
+     * @since 1.0.0
+     */
+    @Parameter
+    private List&lt;String&gt; arguments;
+
+    // Injected components
+
+    /**
+     * The directory where output files will be stored
+     *
+     * @since 1.0.0
+     */
+    @Parameter(defaultValue = &quot;${project.build.directory}/casperjs&quot;)
+    private File targetDir;
+
+    /**
+     * The current maven session, used by the ToolChainManager
+     *
+     * @since 1.0.0
+     */
+    @Parameter(defaultValue = &quot;${session}&quot;)
+    private MavenSession session;
+
+    /**
+     * ToolChainManager, used to retrieve the CasperJS runtime path from user's configured toolchains
+     */
+    @Component
+    private ToolchainManager toolchainManager;
+
+    /**
+     * The CasperJS runtime path that we will launch
+     */
+    private String casperRuntime;
+
+    /**
+     * The CasperJS runtime version
+     */
+    private DefaultArtifactVersion casperJsVersion;
+
+    /**
+     * The directory containing the scripts to include while launching tests
+     */
+    private File includesDir;
+
+    /**
+     * The directory containing the tests to launch
+     */
+    private File scriptsDir;
+
+    @Override
+    public void execute() throws MojoExecutionException, MojoFailureException {
+<span class="fc" id="L305">        LogUtils.setLog(getLog(), verbose);</span>
+<span class="fc bfc" id="L306" title="All 2 branches covered.">        if (skip) {</span>
+<span class="fc" id="L307">            getLogger().info(&quot;Skipping CasperJsRunner execution&quot;);</span>
+<span class="fc" id="L308">            return;</span>
+        }
+<span class="fc" id="L310">        init();</span>
+<span class="fc" id="L311">        final Collection&lt;String&gt; scripts = findScripts();</span>
+<span class="fc" id="L312">        final Result globalResult = executeScripts(scripts);</span>
+<span class="fc" id="L313">        getLogger().info(globalResult.print());</span>
+<span class="fc" id="L314">        afterTestExecution(globalResult);</span>
+<span class="fc" id="L315">    }</span>
+
+    private void init() throws MojoFailureException {
+<span class="fc" id="L318">        casperRuntime = findCasperRuntime(toolchainManager, session, casperExecPath);</span>
+<span class="pc bpc" id="L319" title="1 of 2 branches missed.">        if (StringUtils.isBlank(casperRuntime)) {</span>
+<span class="nc" id="L320">            throw new MojoFailureException(&quot;CasperJS executable not found&quot;);</span>
+        }
+
+<span class="fc" id="L323">        casperJsVersion = retrieveVersion(casperRuntime, verbose);</span>
+<span class="pc bpc" id="L324" title="1 of 2 branches missed.">        if (verbose) {</span>
+<span class="fc" id="L325">            getLogger().info(&quot;CasperJS version: &quot; + casperJsVersion);</span>
+        }
+
+<span class="pc bpc" id="L328" title="7 of 8 branches missed.">        if (direct &amp;&amp; (casperJsVersion.getMajorVersion() &gt; 1 || casperJsVersion.getMajorVersion() == 1 &amp;&amp; casperJsVersion.getMinorVersion() &gt; 0)) {</span>
+<span class="nc" id="L329">            getLogger().warn(&quot;direct option is deprecated, use casperjsVerbose instead&quot;);</span>
+<span class="nc" id="L330">            casperjsVerbose = true;</span>
+        }
+
+<span class="fc" id="L333">        testsIncludes = checkPatterns(testsIncludes, includeJS, includeCS);</span>
+
+<span class="fc bfc" id="L335" title="All 2 branches covered.">        if (testsExcludes == null) {</span>
+<span class="fc" id="L336">            testsExcludes = new ArrayList&lt;String&gt;();</span>
+        }
+
+<span class="fc bfc" id="L339" title="All 2 branches covered.">        if (includesPatterns == null) {</span>
+<span class="fc" id="L340">            includesPatterns = new ArrayList&lt;String&gt;();</span>
+        }
+
+<span class="fc" id="L343">        includesDir = testsDir;</span>
+<span class="fc" id="L344">        scriptsDir = testsDir;</span>
+<span class="fc" id="L345">        final File defaultIncludesDir = new File(testsDir, &quot;includes&quot;);</span>
+<span class="fc" id="L346">        final File defaultScriptsDir = new File(testsDir, &quot;scripts&quot;);</span>
+<span class="pc bpc" id="L347" title="1 of 4 branches missed.">        if (defaultScriptsDir.exists() &amp;&amp; defaultScriptsDir.isDirectory()) {</span>
+<span class="fc" id="L348">            getLogger().debug(&quot;'scripts' subdirectory found, altering 'scriptsDir'&quot;);</span>
+<span class="fc" id="L349">            scriptsDir = defaultScriptsDir;</span>
+<span class="pc bpc" id="L350" title="3 of 6 branches missed.">            if (defaultIncludesDir.exists() &amp;&amp; defaultIncludesDir.isDirectory() &amp;&amp; includesPatterns.isEmpty()) {</span>
+<span class="fc" id="L351">                getLogger().debug(&quot;'includes' subdirectory found and 'includesPatterns' is empty, altering 'includesDir' and 'includesPatterns'&quot;);</span>
+<span class="fc" id="L352">                includesDir = defaultIncludesDir;</span>
+<span class="fc" id="L353">                includesPatterns.add(&quot;**/*.js&quot;);</span>
+            }
+        }
+
+<span class="pc bpc" id="L357" title="1 of 4 branches missed.">        if (enableXmlReports || enableLogReports) {</span>
+<span class="fc" id="L358">            getLogger().debug(&quot;creating directories to hold log/xunit file(s)&quot;);</span>
+<span class="fc" id="L359">            reportsDir.mkdirs();</span>
+        }
+<span class="fc" id="L361">    }</span>
+
+    private Collection&lt;String&gt; findScripts() {
+<span class="fc" id="L364">        return new OrdererScriptsFinderDecorator(new DefaultScriptsFinder(scriptsDir, test, testsIncludes, testsExcludes)).findScripts();</span>
+    }
+
+    private Result executeScripts(final Collection&lt;String&gt; files) {
+<span class="fc" id="L368">        final Result result = new Result();</span>
+<span class="fc bfc" id="L369" title="All 2 branches covered.">        for (final String file : files) {</span>
+<span class="fc" id="L370">            final File f = new File(scriptsDir, file);</span>
+<span class="fc" id="L371">            getLogger().debug(&quot;Execution of test &quot; + f.getName());</span>
+<span class="fc" id="L372">            final int res = executeScript(f);</span>
+<span class="fc bfc" id="L373" title="All 2 branches covered.">            if (res == 0) {</span>
+<span class="fc" id="L374">                result.addSuccess();</span>
+            } else {
+<span class="fc" id="L376">                getLogger().warn(&quot;Test '&quot; + f.getName() + &quot;' has failure&quot;);</span>
+<span class="fc" id="L377">                result.addFailure();</span>
+            }
+<span class="fc" id="L379">        }</span>
+<span class="fc" id="L380">        return result;</span>
+    }
+
+    private int executeScript(final File f) {
+<span class="fc" id="L384">        final CommandLine cmdLine = new CommandLine(casperRuntime);</span>
+
+        // First, native options
+
+        // Option --verbose / --direct, to output log messages to the console
+<span class="fc bfc" id="L389" title="All 2 branches covered.">        if (casperjsVerbose) {</span>
+<span class="pc bpc" id="L390" title="2 of 6 branches missed.">            if (casperJsVersion.getMajorVersion() &lt; 1 || casperJsVersion.getMajorVersion() == 1 &amp;&amp; casperJsVersion.getMinorVersion() == 0) {</span>
+<span class="fc" id="L391">                cmdLine.addArgument(&quot;--direct&quot;);</span>
+            } else {
+<span class="fc" id="L393">                cmdLine.addArgument(&quot;--verbose&quot;);</span>
+            }
+        }
+        // Option --log-level, to set the log level
+<span class="fc bfc" id="L397" title="All 2 branches covered.">        if (StringUtils.isNotBlank(logLevel)) {</span>
+<span class="fc" id="L398">            cmdLine.addArgument(&quot;--log-level=&quot; + logLevel);</span>
+        }
+        // Option --engine, to select phantomJS or slimerJS engine
+<span class="pc bpc" id="L401" title="1 of 2 branches missed.">        if (StringUtils.isNotBlank(engine)) {</span>
+<span class="nc" id="L402">            cmdLine.addArgument(&quot;--engine=&quot; + engine);</span>
+        }
+
+        // Then, specific ones for unit testing
+
+<span class="fc" id="L407">        cmdLine.addArgument(&quot;test&quot;);</span>
+
+        // Option --includes, to includes files before each test execution
+<span class="fc bfc" id="L410" title="All 2 branches covered.">        if (StringUtils.isNotBlank(includes)) {</span>
+<span class="fc" id="L411">            cmdLine.addArgument(&quot;--includes=&quot; + includes);</span>
+<span class="fc bfc" id="L412" title="All 2 branches covered.">        } else if (!includesPatterns.isEmpty()) {</span>
+<span class="fc" id="L413">            final List&lt;String&gt; incs = new IncludesFinder(includesDir, includesPatterns).findIncludes();</span>
+<span class="pc bpc" id="L414" title="2 of 4 branches missed.">            if (incs != null &amp;&amp; !incs.isEmpty()) {</span>
+<span class="fc" id="L415">                final StringBuilder builder = new StringBuilder();</span>
+<span class="fc" id="L416">                builder.append(&quot;--includes=&quot;);</span>
+<span class="fc bfc" id="L417" title="All 2 branches covered.">                for (final String inc : incs) {</span>
+<span class="fc" id="L418">                    builder.append(new File(includesDir, inc).getAbsolutePath());</span>
+<span class="fc" id="L419">                    builder.append(&quot;,&quot;);</span>
+<span class="fc" id="L420">                }</span>
+<span class="fc" id="L421">                builder.deleteCharAt(builder.length() - 1);</span>
+<span class="fc" id="L422">                cmdLine.addArgument(builder.toString());</span>
+            }
+        }
+        // Option --pre, to execute the scripts before the test suite
+<span class="fc bfc" id="L426" title="All 2 branches covered.">        if (StringUtils.isNotBlank(pre)) {</span>
+<span class="fc" id="L427">            cmdLine.addArgument(&quot;--pre=&quot; + pre);</span>
+<span class="fc bfc" id="L428" title="All 2 branches covered.">        } else if (new File(testsDir, &quot;pre.js&quot;).exists()) {</span>
+<span class="fc" id="L429">            getLogger().debug(&quot;Using automatically found 'pre.js' file on &quot; + testsDir.getName() + &quot; directory as --pre&quot;);</span>
+<span class="fc" id="L430">            cmdLine.addArgument(&quot;--pre=&quot; + new File(testsDir, &quot;pre.js&quot;).getAbsolutePath());</span>
+        }
+        // Option --post, to execute the scripts after the test suite
+<span class="fc bfc" id="L433" title="All 2 branches covered.">        if (StringUtils.isNotBlank(post)) {</span>
+<span class="fc" id="L434">            cmdLine.addArgument(&quot;--post=&quot; + post);</span>
+<span class="fc bfc" id="L435" title="All 2 branches covered.">        } else if (new File(testsDir, &quot;post.js&quot;).exists()) {</span>
+<span class="fc" id="L436">            getLogger().debug(&quot;Using automatically found 'post.js' file on &quot; + testsDir.getName() + &quot; directory as --post&quot;);</span>
+<span class="fc" id="L437">            cmdLine.addArgument(&quot;--post=&quot; + new File(testsDir, &quot;post.js&quot;).getAbsolutePath());</span>
+        }
+        // Option --xunit, to export results in XML file
+<span class="fc bfc" id="L440" title="All 2 branches covered.">        if (enableXmlReports) {</span>
+<span class="fc" id="L441">            cmdLine.addArgument(&quot;--xunit=&quot; + new File(reportsDir, &quot;TEST-&quot; + buildName(scriptsDir, f) + &quot;.xml&quot;));</span>
+        }
+        // Option --fast-fast, to terminate the test suite once a failure is
+        // found
+<span class="pc bpc" id="L445" title="1 of 2 branches missed.">        if (failFast) {</span>
+<span class="nc" id="L446">            cmdLine.addArgument(&quot;--fail-fast&quot;);</span>
+        }
+<span class="fc" id="L448">        cmdLine.addArgument(f.getAbsolutePath());</span>
+<span class="pc bpc" id="L449" title="1 of 4 branches missed.">        if (arguments != null &amp;&amp; !arguments.isEmpty()) {</span>
+<span class="fc bfc" id="L450" title="All 2 branches covered.">            for (final String argument : arguments) {</span>
+<span class="fc" id="L451">                cmdLine.addArgument(quote(argument), false);</span>
+<span class="fc" id="L452">            }</span>
+        }
+<span class="fc" id="L454">        File logFile = null;</span>
+<span class="pc bpc" id="L455" title="1 of 2 branches missed.">        if (enableLogReports) {</span>
+<span class="fc" id="L456">            logFile = new File(reportsDir, buildName(scriptsDir, f) + &quot;.txt&quot;);</span>
+        }
+
+<span class="fc" id="L459">        return executeCommand(cmdLine, environmentVariables, verbose, logFile);</span>
+    }
+
+    protected void afterTestExecution(final Result globalResult) throws MojoFailureException, MojoExecutionException {
+<span class="nc" id="L463">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

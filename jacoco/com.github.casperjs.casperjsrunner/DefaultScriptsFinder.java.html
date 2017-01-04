@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DefaultScriptsFinder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CasperJS runner Maven plugin</a> &gt; <a href="index.source.html" class="el_package">com.github.casperjs.casperjsrunner</a> &gt; <span class="el_source">DefaultScriptsFinder.java</span></div><h1>DefaultScriptsFinder.java</h1><pre class="source lang-java linenums">package com.github.casperjs.casperjsrunner;
+
+import static com.github.casperjs.casperjsrunner.LogUtils.getLogger;
+import static java.util.Arrays.asList;
+
+import org.codehaus.plexus.util.DirectoryScanner;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+public class DefaultScriptsFinder implements ScriptsFinder {
+
+    private final File baseDir;
+
+    private final String specific;
+
+    private final List&lt;String&gt; includes;
+    private final List&lt;String&gt; excludes;
+
+<span class="fc" id="L22">    public DefaultScriptsFinder(final File baseDir, final String specific, final List&lt;String&gt; includes, final List&lt;String&gt; excludes) {</span>
+<span class="fc bfc" id="L23" title="All 4 branches covered.">        if (includes == null || includes.isEmpty()) {</span>
+<span class="fc" id="L24">            throw new IllegalArgumentException(&quot;Include patterns to search must be defined !&quot;);</span>
+        }
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (excludes == null) {</span>
+<span class="fc" id="L27">            throw new IllegalArgumentException(&quot;Excludes patterns must not be null !&quot;);</span>
+        }
+<span class="fc" id="L29">        this.baseDir = baseDir;</span>
+<span class="fc" id="L30">        this.specific = specific;</span>
+<span class="fc" id="L31">        this.includes = includes;</span>
+<span class="fc" id="L32">        this.excludes = excludes;</span>
+<span class="fc" id="L33">    }</span>
+
+    @Override
+    public Collection&lt;String&gt; findScripts() {
+<span class="fc" id="L37">        getLogger().info(&quot;Looking for scripts in &quot; + baseDir + &quot;...&quot;);</span>
+
+<span class="fc" id="L39">        final DirectoryScanner scanner = new DirectoryScanner();</span>
+<span class="fc" id="L40">        scanner.setCaseSensitive(false);</span>
+<span class="fc" id="L41">        scanner.setBasedir(baseDir);</span>
+<span class="pc bpc" id="L42" title="1 of 4 branches missed.">        if (specific != null &amp;&amp; !specific.isEmpty()) {</span>
+<span class="fc" id="L43">            final List&lt;String&gt; temp = new ArrayList&lt;String&gt;();</span>
+<span class="fc bfc" id="L44" title="All 4 branches covered.">            if (specific.endsWith(&quot;.js&quot;) || specific.endsWith(&quot;.coffee&quot;)) {</span>
+<span class="fc" id="L45">                getLogger().debug(&quot;matching \&quot;**/&quot; + specific + &quot;\&quot;&quot;);</span>
+<span class="fc" id="L46">                temp.add(&quot;**/&quot; + specific);</span>
+            } else {
+<span class="fc" id="L48">                getLogger().debug(&quot;matching \&quot;**/&quot; + specific + &quot;.js\&quot;&quot;);</span>
+<span class="fc" id="L49">                temp.add(&quot;**/&quot; + specific + &quot;.js&quot;);</span>
+<span class="fc" id="L50">                getLogger().debug(&quot;or matching \&quot;**/&quot; + specific + &quot;.coffee\&quot;&quot;);</span>
+<span class="fc" id="L51">                temp.add(&quot;**/&quot; + specific + &quot;.coffee&quot;);</span>
+            }
+<span class="fc" id="L53">            scanner.setIncludes(temp.toArray(new String[temp.size()]));</span>
+<span class="fc" id="L54">        } else {</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">            for (final String include : includes) {</span>
+<span class="fc" id="L56">                getLogger().debug(&quot;matching \&quot;**/&quot; + include + &quot;\&quot;&quot;);</span>
+<span class="fc" id="L57">            }</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">            for (final String exclude : excludes) {</span>
+<span class="fc" id="L59">                getLogger().debug(&quot;not matching \&quot;**/&quot; + exclude + &quot;\&quot;&quot;);</span>
+<span class="fc" id="L60">            }</span>
+
+<span class="fc" id="L62">            scanner.setIncludes(includes.toArray(new String[includes.size()]));</span>
+<span class="fc" id="L63">            scanner.setExcludes(excludes.toArray(new String[excludes.size()]));</span>
+        }
+<span class="fc" id="L65">        scanner.scan();</span>
+
+<span class="fc" id="L67">        final List&lt;String&gt; result = asList(scanner.getIncludedFiles());</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        if (result.isEmpty()) {</span>
+<span class="nc" id="L69">            getLogger().warn(&quot;No files found in directory &quot; + baseDir + &quot; matching criterias&quot;);</span>
+        } else {
+<span class="fc bfc" id="L71" title="All 2 branches covered.">            for (final String r : result) {</span>
+<span class="fc" id="L72">                getLogger().debug(&quot;found \&quot;&quot; + r + &quot;\&quot;&quot;);</span>
+<span class="fc" id="L73">            }</span>
+        }
+
+<span class="fc" id="L76">        return result;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

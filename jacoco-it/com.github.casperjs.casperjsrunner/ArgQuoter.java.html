@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ArgQuoter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CasperJS runner Maven plugin</a> &gt; <a href="index.source.html" class="el_package">com.github.casperjs.casperjsrunner</a> &gt; <span class="el_source">ArgQuoter.java</span></div><h1>ArgQuoter.java</h1><pre class="source lang-java linenums">package com.github.casperjs.casperjsrunner;
+
+import static com.github.casperjs.casperjsrunner.OSUtils.isWindows;
+
+<span class="nc" id="L5">public class ArgQuoter {</span>
+
+    public static String quote(String s) {
+<span class="pc bpc" id="L8" title="3 of 4 branches missed.">        if (!isWindows() || !needQuoting(s)) {</span>
+<span class="fc" id="L9">            return s;</span>
+        }
+
+<span class="nc" id="L12">        s = s.replaceAll(&quot;([\\\\]*)\&quot;&quot;, &quot;$1$1\\\\\&quot;&quot;);</span>
+<span class="nc" id="L13">        s = s.replaceAll(&quot;([\\\\]*)\\z&quot;, &quot;$1$1&quot;);</span>
+<span class="nc" id="L14">        return &quot;'&quot; + s + &quot;'&quot;;</span>
+    }
+
+    private static boolean needQuoting(final String s) {
+<span class="nc bnc" id="L18" title="All 2 branches missed.">        if (s == null) {</span>
+<span class="nc" id="L19">            return false;</span>
+        }
+
+<span class="nc" id="L22">        final int len = s.length();</span>
+
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        if (len == 0) {</span>
+            // empty string have to be quoted
+<span class="nc" id="L26">            return true;</span>
+        }
+
+<span class="nc bnc" id="L29" title="All 2 branches missed.">        for (int i = 0; i &lt; len; i++) {</span>
+<span class="nc bnc" id="L30" title="All 2 branches missed.">            switch (s.charAt(i)) {</span>
+            case ' ':
+            case '\t':
+            case '\\':
+            case '&quot;':
+<span class="nc" id="L35">                return true;</span>
+            }
+        }
+
+<span class="nc" id="L39">        return false;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>
