@@ -3,6 +3,7 @@ casperjs-runner-maven-plugin
 
 [![Build Status Images](https://travis-ci.org/casperjs/casperjs-runner-maven-plugin.svg)](https://travis-ci.org/casperjs/casperjs-runner-maven-plugin)
 [![Build status](https://ci.appveyor.com/api/projects/status/upk40tu5vs2q1abj?svg=true)](https://ci.appveyor.com/project/bguerin/casperjs-runner-maven-plugin)
+[![Quality Gate](https://sonarqube.com/api/badges/gate?key=com.github.casperjs:casperjs-runner-maven-plugin)](https://sonarqube.com/dashboard/index/com.github.casperjs:casperjs-runner-maven-plugin)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.casperjs/casperjs-runner-maven-plugin/badge.svg?style=flat)](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.casperjs%22%20AND%20a%3A%22casperjs-runner-maven-plugin%22)
 [![Apache License](http://img.shields.io/badge/license-APACHE2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
