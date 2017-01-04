@@ -23,6 +23,7 @@
         <plugin.gpg.version>1.6</plugin.gpg.version>
         <plugin.install.version>2.5.2</plugin.install.version>
         <plugin.invoker.version>2.0.0</plugin.invoker.version>
+        <plugin.jacoco.version>0.7.8</plugin.jacoco.version>
         <plugin.jar.version>2.6</plugin.jar.version>
         <plugin.javadoc.version>2.10.3</plugin.javadoc.version>
         <plugin.nexus-staging.version>1.6.7</plugin.nexus-staging.version>
@@ -205,6 +206,11 @@
                     <version>${plugin.release.version}</version>
                 </plugin>
                 <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${plugin.jacoco.version}</version>
+                </plugin>
+                <plugin>
                     <groupId>org.sonatype.plugins</groupId>
                     <artifactId>nexus-staging-maven-plugin</artifactId>
                     <version>${plugin.nexus-staging.version}</version>
@@ -369,6 +375,45 @@
             </build>
         </profile>
         <profile>
+            <id>sonar</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-invoker-plugin</artifactId>
+                        <configuration>
+                            <extraArtifacts>
+                                <extraArtifact>org.jacoco:org.jacoco.agent:${plugin.jacoco.version}:jar:runtime</extraArtifact>
+                            </extraArtifacts>
+                            <environmentVariables>
+                                <MAVEN_SKIP_RC>1</MAVEN_SKIP_RC>
+                            </environmentVariables>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>pre-unit-test</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>pre-integration-test</id>
+                                <goals>
+                                    <goal>prepare-agent-integration</goal>
+                                </goals>
+                                <configuration>
+                                    <propertyName>invoker.mavenOpts</propertyName>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
             <id>site</id>
             <build>
                 <plugins>
@@ -403,6 +448,11 @@
                                 <plugin>
                                     <artifactId>maven-checkstyle-plugin</artifactId>
                                     <version>${plugin.checkstyle.version}</version>
+                                </plugin>
+                                <plugin>
+                                    <groupId>org.jacoco</groupId>
+                                    <artifactId>jacoco-maven-plugin</artifactId>
+                                    <version>${plugin.jacoco.version}</version>
                                 </plugin>
                                 <plugin>
                                     <groupId>org.codehaus.mojo</groupId>

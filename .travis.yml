@@ -16,30 +16,30 @@ cache:
   
 matrix:
   include:
-    - jdk: "openjdk7"
-      env: BUILD_SITE=false MAVEN_URL="http://archive.apache.org/dist/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz"
-    - jdk: "openjdk7"
-      env: BUILD_SITE=false MAVEN_URL="http://archive.apache.org/dist/maven/maven-3/3.1.1/binaries/apache-maven-3.1.1-bin.tar.gz"
-    - jdk: "openjdk7"
-      env: BUILD_SITE=false MAVEN_URL="http://archive.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.tar.gz"
-    - jdk: "openjdk7"
-      env: BUILD_SITE=false MAVEN_URL="http://archive.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz"
-    - jdk: "oraclejdk7"
-      env: BUILD_SITE=false MAVEN_URL="http://archive.apache.org/dist/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz"
-    - jdk: "oraclejdk7"
-      env: BUILD_SITE=false MAVEN_URL="http://archive.apache.org/dist/maven/maven-3/3.1.1/binaries/apache-maven-3.1.1-bin.tar.gz"
-    - jdk: "oraclejdk7"
-      env: BUILD_SITE=false MAVEN_URL="http://archive.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.tar.gz"
-    - jdk: "oraclejdk7"
-      env: BUILD_SITE=false MAVEN_URL="http://archive.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz"
-    - jdk: "oraclejdk8"
-      env: BUILD_SITE=false MAVEN_URL="http://archive.apache.org/dist/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz"
-    - jdk: "oraclejdk8"
-      env: BUILD_SITE=false MAVEN_URL="http://archive.apache.org/dist/maven/maven-3/3.1.1/binaries/apache-maven-3.1.1-bin.tar.gz"
-    - jdk: "oraclejdk8"
-      env: BUILD_SITE=false MAVEN_URL="http://archive.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.tar.gz"
     - jdk: "oraclejdk8"
       env: BUILD_SITE=true MAVEN_URL="http://archive.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz"
+    - jdk: "openjdk7"
+      env: BUILD_SITE=false MAVEN_URL="http://archive.apache.org/dist/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz"
+    - jdk: "openjdk7"
+      env: BUILD_SITE=false MAVEN_URL="http://archive.apache.org/dist/maven/maven-3/3.1.1/binaries/apache-maven-3.1.1-bin.tar.gz"
+    - jdk: "openjdk7"
+      env: BUILD_SITE=false MAVEN_URL="http://archive.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.tar.gz"
+    - jdk: "openjdk7"
+      env: BUILD_SITE=false MAVEN_URL="http://archive.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz"
+    - jdk: "oraclejdk7"
+      env: BUILD_SITE=false MAVEN_URL="http://archive.apache.org/dist/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz"
+    - jdk: "oraclejdk7"
+      env: BUILD_SITE=false MAVEN_URL="http://archive.apache.org/dist/maven/maven-3/3.1.1/binaries/apache-maven-3.1.1-bin.tar.gz"
+    - jdk: "oraclejdk7"
+      env: BUILD_SITE=false MAVEN_URL="http://archive.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.tar.gz"
+    - jdk: "oraclejdk7"
+      env: BUILD_SITE=false MAVEN_URL="http://archive.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz"
+    - jdk: "oraclejdk8"
+      env: BUILD_SITE=false MAVEN_URL="http://archive.apache.org/dist/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz"
+    - jdk: "oraclejdk8"
+      env: BUILD_SITE=false MAVEN_URL="http://archive.apache.org/dist/maven/maven-3/3.1.1/binaries/apache-maven-3.1.1-bin.tar.gz"
+    - jdk: "oraclejdk8"
+      env: BUILD_SITE=false MAVEN_URL="http://archive.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.tar.gz"
 
 before_install:
   - wget $MAVEN_URL --output-document=maven.tar.gz
@@ -97,6 +97,6 @@ script:
   - mvn -version
   - phantomjs --version
   - casperjs --version
-  - mvn -Pit install -Dinvoker.streamLogs=true
-  - if [ "${TRAVIS_PULL_REQUEST}" = "false" -a "${BUILD_SITE}" = "true" ]; then mvn -Psite site-deploy ; mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar ; fi
+  - if [ "${TRAVIS_PULL_REQUEST}" = "false" -a "${BUILD_SITE}" = "true" ]; then mvn -Pit,sonar clean install sonar:sonar -Dinvoker.streamLogs=true ; else mvn -Pit install -Dinvoker.streamLogs=true ; fi
+  - if [ "${TRAVIS_PULL_REQUEST}" = "false" -a "${BUILD_SITE}" = "true" ]; then mvn -Psite site-deploy ; fi
 
