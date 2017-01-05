@@ -18,21 +18,26 @@ public class CasperJsVersionRetriever {
 <span class="nc" id="L18">    }</span>
 
     public static DefaultArtifactVersion retrieveVersion(final String casperRuntime, final boolean verbose) throws MojoFailureException {
-<span class="nc" id="L21">        getLogger().debug(&quot;Check CasperJS version&quot;);</span>
-<span class="nc" id="L22">        InputStream stream = null;</span>
+<span class="nc" id="L21">        return retrieveVersion(casperRuntime, verbose, Runtime.getRuntime());</span>
+    }
+
+    public static DefaultArtifactVersion retrieveVersion(final String casperRuntime, final boolean verbose, final Runtime runtime)
+            throws MojoFailureException {
+<span class="fc" id="L26">        getLogger().debug(&quot;Check CasperJS version&quot;);</span>
+<span class="fc" id="L27">        InputStream stream = null;</span>
         try {
-<span class="nc" id="L24">            final Process child = Runtime.getRuntime().exec(casperRuntime + &quot; --version&quot;);</span>
-<span class="nc" id="L25">            stream = child.getInputStream();</span>
-<span class="nc" id="L26">            final BufferedReader reader = new BufferedReader(new InputStreamReader(stream));</span>
-<span class="nc" id="L27">            final String version = reader.readLine();</span>
-<span class="nc" id="L28">            return new DefaultArtifactVersion(version);</span>
-<span class="nc" id="L29">        } catch (final IOException e) {</span>
-<span class="nc bnc" id="L30" title="All 2 branches missed.">            if (verbose) {</span>
-<span class="nc" id="L31">                getLogger().error(&quot;Could not run CasperJS command&quot;, e);</span>
+<span class="fc" id="L29">            final Process child = runtime.exec(casperRuntime + &quot; --version&quot;);</span>
+<span class="fc" id="L30">            stream = child.getInputStream();</span>
+<span class="fc" id="L31">            final BufferedReader reader = new BufferedReader(new InputStreamReader(stream));</span>
+<span class="fc" id="L32">            final String version = reader.readLine();</span>
+<span class="fc" id="L33">            return new DefaultArtifactVersion(version);</span>
+<span class="fc" id="L34">        } catch (final IOException e) {</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">            if (verbose) {</span>
+<span class="fc" id="L36">                getLogger().error(&quot;Could not run CasperJS command&quot;, e);</span>
             }
-<span class="nc" id="L33">            throw new MojoFailureException(&quot;Unable to determine casperJS version&quot;);</span>
+<span class="fc" id="L38">            throw new MojoFailureException(&quot;Unable to determine casperJS version&quot;);</span>
         } finally {
-<span class="nc" id="L35">            closeQuietly(stream);</span>
+<span class="fc" id="L40">            closeQuietly(stream);</span>
         }
     }
 

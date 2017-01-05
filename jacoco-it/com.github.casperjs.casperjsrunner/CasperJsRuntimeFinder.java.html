@@ -44,20 +44,26 @@ public class CasperJsRuntimeFinder {
 <span class="fc bfc" id="L44" title="All 2 branches covered.">        if (result == null) {</span>
 <span class="fc" id="L45">            String defaultCasperRuntime = &quot;casperjs&quot;;</span>
 <span class="pc bpc" id="L46" title="1 of 2 branches missed.">            if (isWindows()) {</span>
-<span class="nc" id="L47">                final String[] paths = getenv(&quot;PATH&quot;).split(getProperty(&quot;path.separator&quot;));</span>
-<span class="nc bnc" id="L48" title="All 2 branches missed.">                for (final String path : paths) {</span>
-<span class="nc bnc" id="L49" title="All 2 branches missed.">                    if (new File(path, &quot;casperjs.exe&quot;).exists()) {</span>
-<span class="nc" id="L50">                        defaultCasperRuntime = &quot;casperjs.exe&quot;;</span>
-<span class="nc bnc" id="L51" title="All 2 branches missed.">                    } else if (new File(path, &quot;casperjs.bat&quot;).exists()) {</span>
-<span class="nc" id="L52">                        defaultCasperRuntime = &quot;casperjs.bat&quot;;</span>
-                    }
-                }
+<span class="nc" id="L47">                defaultCasperRuntime = findCasperInPath();</span>
             }
-<span class="fc" id="L56">            getLogger().debug(&quot;No parameter specified, falling back to default '&quot; + defaultCasperRuntime + &quot;'&quot;);</span>
-<span class="fc" id="L57">            result = defaultCasperRuntime;</span>
+<span class="fc" id="L49">            getLogger().debug(&quot;No parameter specified, falling back to default '&quot; + defaultCasperRuntime + &quot;'&quot;);</span>
+<span class="fc" id="L50">            result = defaultCasperRuntime;</span>
         }
 
-<span class="fc" id="L60">        return result;</span>
+<span class="fc" id="L53">        return result;</span>
+    }
+
+    private static String findCasperInPath() {
+<span class="nc" id="L57">        String result = &quot;casperjs&quot;;</span>
+<span class="nc" id="L58">        final String[] paths = getenv(&quot;PATH&quot;).split(getProperty(&quot;path.separator&quot;));</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        for (final String path : paths) {</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">            if (new File(path, &quot;casperjs.exe&quot;).exists()) {</span>
+<span class="nc" id="L61">                result = &quot;casperjs.exe&quot;;</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">            } else if (new File(path, &quot;casperjs.bat&quot;).exists()) {</span>
+<span class="nc" id="L63">                result = &quot;casperjs.bat&quot;;</span>
+            }
+        }
+<span class="nc" id="L66">        return result;</span>
     }
 
 }

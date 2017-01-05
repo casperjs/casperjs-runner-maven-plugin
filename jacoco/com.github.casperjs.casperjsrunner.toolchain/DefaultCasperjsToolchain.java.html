@@ -13,8 +13,8 @@ import java.io.File;
 public class DefaultCasperjsToolchain extends DefaultToolchain implements CasperjsToolchain {
 
     protected DefaultCasperjsToolchain(final ToolchainModel model, final Logger logger) {
-<span class="nc" id="L16">        super(model, KEY_CASPERJS_TYPE, logger);</span>
-<span class="nc" id="L17">    }</span>
+<span class="fc" id="L16">        super(model, KEY_CASPERJS_TYPE, logger);</span>
+<span class="fc" id="L17">    }</span>
 
     private String casperjsExecutable;
 
@@ -31,17 +31,17 @@ public class DefaultCasperjsToolchain extends DefaultToolchain implements Casper
 
     @Override
     public String getCasperjsExecutable() {
-<span class="nc" id="L34">        return this.casperjsExecutable;</span>
+<span class="fc" id="L34">        return this.casperjsExecutable;</span>
     }
 
     @Override
     public void setCasperjsExecutable(final String casperjsExecutable) {
-<span class="nc" id="L39">        this.casperjsExecutable = casperjsExecutable;</span>
-<span class="nc" id="L40">    }</span>
+<span class="fc" id="L39">        this.casperjsExecutable = casperjsExecutable;</span>
+<span class="fc" id="L40">    }</span>
 
     @Override
     public String toString() {
-<span class="nc" id="L44">        return &quot;CASPERJS[&quot; + getCasperjsExecutable() + &quot;]&quot;;</span>
+<span class="fc" id="L44">        return &quot;CASPERJS[&quot; + getCasperjsExecutable() + &quot;]&quot;;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>
