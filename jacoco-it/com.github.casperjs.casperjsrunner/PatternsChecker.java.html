@@ -6,46 +6,50 @@ import static java.util.Arrays.asList;
 import java.util.ArrayList;
 import java.util.List;
 
-<span class="nc" id="L9">public class PatternsChecker {</span>
+public class PatternsChecker {
 
 <span class="fc" id="L11">    private static final String[] DEFAULT_JS_PATTERNS = { &quot;**/Test*.js&quot;, &quot;**/*Test.js&quot;, &quot;**/*TestCase.js&quot; };</span>
 
 <span class="fc" id="L13">    private static final String[] DEFAULT_CS_PATTERNS = { &quot;**/Test*.coffee&quot;, &quot;**/*Test.coffee&quot;, &quot;**/*TestCase.coffee&quot; };</span>
 
+<span class="nc" id="L15">    private PatternsChecker() {</span>
+        // only used as static
+<span class="nc" id="L17">    }</span>
+
     public static List&lt;String&gt; checkPatterns(final List&lt;String&gt; patterns, final boolean includeJS, final boolean includeCS) {
-<span class="fc" id="L16">        final List&lt;String&gt; result = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L20">        final List&lt;String&gt; result = new ArrayList&lt;String&gt;();</span>
 
-<span class="fc bfc" id="L18" title="All 2 branches covered.">        if (!includeJS) {</span>
-<span class="fc" id="L19">            getLogger().info(&quot;JavaScript files ignored&quot;);</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        if (!includeJS) {</span>
+<span class="fc" id="L23">            getLogger().info(&quot;JavaScript files ignored&quot;);</span>
         }
-<span class="fc bfc" id="L21" title="All 2 branches covered.">        if (!includeCS) {</span>
-<span class="fc" id="L22">            getLogger().info(&quot;CoffeeScript files ignored&quot;);</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (!includeCS) {</span>
+<span class="fc" id="L26">            getLogger().info(&quot;CoffeeScript files ignored&quot;);</span>
         }
 
-<span class="pc bpc" id="L25" title="1 of 4 branches missed.">        if (patterns == null || patterns.isEmpty()) {</span>
-<span class="fc bfc" id="L26" title="All 2 branches covered.">            if (includeCS) {</span>
-<span class="fc" id="L27">                result.addAll(asList(DEFAULT_CS_PATTERNS));</span>
+<span class="pc bpc" id="L29" title="1 of 4 branches missed.">        if (patterns == null || patterns.isEmpty()) {</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">            if (includeCS) {</span>
+<span class="fc" id="L31">                result.addAll(asList(DEFAULT_CS_PATTERNS));</span>
             }
-<span class="fc bfc" id="L29" title="All 2 branches covered.">            if (includeJS) {</span>
-<span class="fc" id="L30">                result.addAll(asList(DEFAULT_JS_PATTERNS));</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">            if (includeJS) {</span>
+<span class="fc" id="L34">                result.addAll(asList(DEFAULT_JS_PATTERNS));</span>
             }
         } else {
-<span class="fc bfc" id="L33" title="All 2 branches covered.">            for (final String pattern : patterns) {</span>
-<span class="pc bpc" id="L34" title="1 of 2 branches missed.">                if (pattern.endsWith(&quot;.coffee&quot;)) {</span>
-<span class="nc bnc" id="L35" title="All 2 branches missed.">                    if (includeCS) {</span>
-<span class="nc" id="L36">                        result.add(pattern);</span>
-                    }
-<span class="pc bpc" id="L38" title="1 of 2 branches missed.">                } else if (pattern.endsWith(&quot;.js&quot;)) {</span>
-<span class="nc bnc" id="L39" title="All 2 branches missed.">                    if (includeJS) {</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">            for (final String pattern : patterns) {</span>
+<span class="pc bpc" id="L38" title="1 of 2 branches missed.">                if (pattern.endsWith(&quot;.coffee&quot;)) {</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">                    if (includeCS) {</span>
 <span class="nc" id="L40">                        result.add(pattern);</span>
                     }
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">                } else if (pattern.endsWith(&quot;.js&quot;)) {</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">                    if (includeJS) {</span>
+<span class="nc" id="L44">                        result.add(pattern);</span>
+                    }
                 } else {
-<span class="fc" id="L43">                    result.add(pattern);</span>
+<span class="fc" id="L47">                    result.add(pattern);</span>
                 }
-<span class="fc" id="L45">            }</span>
+<span class="fc" id="L49">            }</span>
         }
 
-<span class="fc" id="L48">        return result;</span>
+<span class="fc" id="L52">        return result;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

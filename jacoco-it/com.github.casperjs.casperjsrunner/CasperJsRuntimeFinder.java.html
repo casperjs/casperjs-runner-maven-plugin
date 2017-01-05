@@ -12,48 +12,52 @@ import org.apache.maven.toolchain.ToolchainManager;
 
 import java.io.File;
 
-<span class="nc" id="L15">public class CasperJsRuntimeFinder {</span>
+public class CasperJsRuntimeFinder {
+
+<span class="nc" id="L17">    private CasperJsRuntimeFinder() {</span>
+        // only used as static
+<span class="nc" id="L19">    }</span>
 
     public static String findCasperRuntime(final ToolchainManager toolchainManager, final MavenSession session, final String casperExecPath) {
-<span class="fc" id="L18">        String result = null;</span>
+<span class="fc" id="L22">        String result = null;</span>
 
-<span class="fc" id="L20">        getLogger().debug(&quot;Finding casperjs runtime ...&quot;);</span>
+<span class="fc" id="L24">        getLogger().debug(&quot;Finding casperjs runtime ...&quot;);</span>
 
-<span class="fc" id="L22">        getLogger().debug(&quot;Trying from toolchain&quot;);</span>
-<span class="fc" id="L23">        final Toolchain tc = toolchainManager.getToolchainFromBuildContext(KEY_CASPERJS_TYPE, session);</span>
-<span class="fc bfc" id="L24" title="All 2 branches covered.">        if (tc != null) {</span>
-<span class="fc" id="L25">            getLogger().debug(&quot;Toolchain in casperjs-plugin: &quot; + tc);</span>
-<span class="fc bfc" id="L26" title="All 2 branches covered.">            if (casperExecPath != null) {</span>
-<span class="fc" id="L27">                getLogger().warn(&quot;Toolchains are ignored, 'casperRuntime' parameter is set to &quot; + casperExecPath);</span>
-<span class="fc" id="L28">                result = casperExecPath;</span>
+<span class="fc" id="L26">        getLogger().debug(&quot;Trying from toolchain&quot;);</span>
+<span class="fc" id="L27">        final Toolchain tc = toolchainManager.getToolchainFromBuildContext(KEY_CASPERJS_TYPE, session);</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if (tc != null) {</span>
+<span class="fc" id="L29">            getLogger().debug(&quot;Toolchain in casperjs-plugin: &quot; + tc);</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">            if (casperExecPath != null) {</span>
+<span class="fc" id="L31">                getLogger().warn(&quot;Toolchains are ignored, 'casperRuntime' parameter is set to &quot; + casperExecPath);</span>
+<span class="fc" id="L32">                result = casperExecPath;</span>
             } else {
-<span class="fc" id="L30">                getLogger().debug(&quot;Found from toolchain&quot;);</span>
-<span class="fc" id="L31">                result = tc.findTool(KEY_CASPERJS_TYPE);</span>
+<span class="fc" id="L34">                getLogger().debug(&quot;Found from toolchain&quot;);</span>
+<span class="fc" id="L35">                result = tc.findTool(KEY_CASPERJS_TYPE);</span>
             }
         }
 
-<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (result == null) {</span>
-<span class="fc" id="L36">            getLogger().debug(&quot;No toolchain found, falling back to parameter&quot;);</span>
-<span class="fc" id="L37">            result = casperExecPath;</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (result == null) {</span>
+<span class="fc" id="L40">            getLogger().debug(&quot;No toolchain found, falling back to parameter&quot;);</span>
+<span class="fc" id="L41">            result = casperExecPath;</span>
         }
 
-<span class="fc bfc" id="L40" title="All 2 branches covered.">        if (result == null) {</span>
-<span class="fc" id="L41">            String defaultCasperRuntime = &quot;casperjs&quot;;</span>
-<span class="pc bpc" id="L42" title="1 of 2 branches missed.">            if (isWindows()) {</span>
-<span class="nc" id="L43">                final String[] paths = getenv(&quot;PATH&quot;).split(getProperty(&quot;path.separator&quot;));</span>
-<span class="nc bnc" id="L44" title="All 2 branches missed.">                for (final String path : paths) {</span>
-<span class="nc bnc" id="L45" title="All 2 branches missed.">                    if (new File(path, &quot;casperjs.exe&quot;).exists()) {</span>
-<span class="nc" id="L46">                        defaultCasperRuntime = &quot;casperjs.exe&quot;;</span>
-<span class="nc bnc" id="L47" title="All 2 branches missed.">                    } else if (new File(path, &quot;casperjs.bat&quot;).exists()) {</span>
-<span class="nc" id="L48">                        defaultCasperRuntime = &quot;casperjs.bat&quot;;</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (result == null) {</span>
+<span class="fc" id="L45">            String defaultCasperRuntime = &quot;casperjs&quot;;</span>
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">            if (isWindows()) {</span>
+<span class="nc" id="L47">                final String[] paths = getenv(&quot;PATH&quot;).split(getProperty(&quot;path.separator&quot;));</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">                for (final String path : paths) {</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">                    if (new File(path, &quot;casperjs.exe&quot;).exists()) {</span>
+<span class="nc" id="L50">                        defaultCasperRuntime = &quot;casperjs.exe&quot;;</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">                    } else if (new File(path, &quot;casperjs.bat&quot;).exists()) {</span>
+<span class="nc" id="L52">                        defaultCasperRuntime = &quot;casperjs.bat&quot;;</span>
                     }
                 }
             }
-<span class="fc" id="L52">            getLogger().debug(&quot;No parameter specified, falling back to default '&quot; + defaultCasperRuntime + &quot;'&quot;);</span>
-<span class="fc" id="L53">            result = defaultCasperRuntime;</span>
+<span class="fc" id="L56">            getLogger().debug(&quot;No parameter specified, falling back to default '&quot; + defaultCasperRuntime + &quot;'&quot;);</span>
+<span class="fc" id="L57">            result = defaultCasperRuntime;</span>
         }
 
-<span class="fc" id="L56">        return result;</span>
+<span class="fc" id="L60">        return result;</span>
     }
 
 }

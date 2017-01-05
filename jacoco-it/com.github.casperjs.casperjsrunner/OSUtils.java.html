@@ -2,10 +2,14 @@
 
 import static java.lang.System.getProperty;
 
-<span class="nc" id="L5">public class OSUtils {</span>
+public class OSUtils {
+
+<span class="nc" id="L7">    private OSUtils() {</span>
+        // only used as static
+<span class="nc" id="L9">    }</span>
 
     public static boolean isWindows() {
-<span class="pc bpc" id="L8" title="1 of 2 branches missed.">        return getProperty(&quot;os.name&quot;).toLowerCase().indexOf(&quot;win&quot;) &gt;= 0;</span>
+<span class="pc bpc" id="L12" title="1 of 2 branches missed.">        return getProperty(&quot;os.name&quot;).toLowerCase().indexOf(&quot;win&quot;) &gt;= 0;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

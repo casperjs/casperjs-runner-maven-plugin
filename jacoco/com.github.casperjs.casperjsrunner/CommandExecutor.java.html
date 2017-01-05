@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CommandExecutor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CasperJS runner Maven plugin</a> &gt; <a href="index.source.html" class="el_package">com.github.casperjs.casperjsrunner</a> &gt; <span class="el_source">CommandExecutor.java</span></div><h1>CommandExecutor.java</h1><pre class="source lang-java linenums">package com.github.casperjs.casperjsrunner;
 
+import static com.github.casperjs.casperjsrunner.IOUtils.closeQuietly;
 import static com.github.casperjs.casperjsrunner.LogUtils.getLogger;
 
 import org.apache.commons.exec.CommandLine;
@@ -13,37 +14,31 @@ import java.util.Map;
 
 public class CommandExecutor {
 
-<span class="nc" id="L16">    private CommandExecutor() {</span>
+<span class="nc" id="L17">    private CommandExecutor() {</span>
         // only used as static
-<span class="nc" id="L18">    }</span>
+<span class="nc" id="L19">    }</span>
 
     public static int executeCommand(final CommandLine line, final Map&lt;String, String&gt; environmentVariables, final boolean verbose,
             final File logFile) {
-<span class="nc" id="L22">        getLogger().debug(&quot;Execute CasperJS command [&quot; + line + &quot;], with env: &quot; + environmentVariables);</span>
-<span class="nc" id="L23">        FileOutputStream fos = null;</span>
+<span class="nc" id="L23">        getLogger().debug(&quot;Execute CasperJS command [&quot; + line + &quot;], with env: &quot; + environmentVariables);</span>
+<span class="nc" id="L24">        FileOutputStream fos = null;</span>
         try {
-<span class="nc" id="L25">            final DefaultExecutor executor = new DefaultExecutor();</span>
-<span class="nc bnc" id="L26" title="All 2 branches missed.">            if (logFile != null) {</span>
-<span class="nc bnc" id="L27" title="All 2 branches missed.">                if (verbose) {</span>
-<span class="nc" id="L28">                    getLogger().info(&quot;Will duplicate output to: &quot; + logFile.getAbsolutePath());</span>
+<span class="nc" id="L26">            final DefaultExecutor executor = new DefaultExecutor();</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">            if (logFile != null) {</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">                if (verbose) {</span>
+<span class="nc" id="L29">                    getLogger().info(&quot;Will duplicate output to: &quot; + logFile.getAbsolutePath());</span>
                 }
-<span class="nc" id="L30">                fos = new FileOutputStream(logFile);</span>
-<span class="nc" id="L31">                executor.setStreamHandler(new PumpStreamHandler(new CloneOutputStream(System.out, fos)));</span>
+<span class="nc" id="L31">                fos = new FileOutputStream(logFile);</span>
+<span class="nc" id="L32">                executor.setStreamHandler(new PumpStreamHandler(new CloneOutputStream(System.out, fos)));</span>
             }
-<span class="nc" id="L33">            executor.setExitValues(new int[] { 0, 1 });</span>
-<span class="nc" id="L34">            return executor.execute(line, environmentVariables);</span>
-<span class="nc" id="L35">        } catch (final IOException e) {</span>
-<span class="nc bnc" id="L36" title="All 2 branches missed.">            if (fos != null) {</span>
-                try {
-<span class="nc" id="L38">                    fos.close();</span>
-<span class="nc" id="L39">                } catch (final IOException ioex) {</span>
-                    // ignore
-<span class="nc" id="L41">                }</span>
+<span class="nc" id="L34">            executor.setExitValues(new int[] { 0, 1 });</span>
+<span class="nc" id="L35">            return executor.execute(line, environmentVariables);</span>
+<span class="nc" id="L36">        } catch (final IOException e) {</span>
+<span class="nc" id="L37">            closeQuietly(fos);</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">            if (verbose) {</span>
+<span class="nc" id="L39">                getLogger().error(&quot;Could not run CasperJS command&quot;, e);</span>
             }
-<span class="nc bnc" id="L43" title="All 2 branches missed.">            if (verbose) {</span>
-<span class="nc" id="L44">                getLogger().error(&quot;Could not run CasperJS command&quot;, e);</span>
-            }
-<span class="nc" id="L46">            return -1;</span>
+<span class="nc" id="L41">            return -1;</span>
         }
     }
 

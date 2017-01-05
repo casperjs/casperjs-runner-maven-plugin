@@ -218,6 +218,7 @@ import java.util.Map;
      * Set the CasperJS --direct option: will output log messages directly to the console. Deprecated: use the &lt;code&gt;casperjsVerbose&lt;/code&gt; option
      *
      * @since 1.0.0
+     * @deprecated
      */
     @Deprecated
     @Parameter(property = &quot;casperjs.direct&quot;, defaultValue = &quot;false&quot;)
@@ -302,165 +303,165 @@ import java.util.Map;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-<span class="fc" id="L305">        LogUtils.setLog(getLog(), verbose);</span>
-<span class="fc bfc" id="L306" title="All 2 branches covered.">        if (skip) {</span>
-<span class="fc" id="L307">            getLogger().info(&quot;Skipping CasperJsRunner execution&quot;);</span>
-<span class="fc" id="L308">            return;</span>
+<span class="fc" id="L306">        LogUtils.setLog(getLog(), verbose);</span>
+<span class="fc bfc" id="L307" title="All 2 branches covered.">        if (skip) {</span>
+<span class="fc" id="L308">            getLogger().info(&quot;Skipping CasperJsRunner execution&quot;);</span>
+<span class="fc" id="L309">            return;</span>
         }
-<span class="fc" id="L310">        init();</span>
-<span class="fc" id="L311">        final Collection&lt;String&gt; scripts = findScripts();</span>
-<span class="fc" id="L312">        final Result globalResult = executeScripts(scripts);</span>
-<span class="fc" id="L313">        getLogger().info(globalResult.print());</span>
-<span class="fc" id="L314">        afterTestExecution(globalResult);</span>
-<span class="fc" id="L315">    }</span>
+<span class="fc" id="L311">        init();</span>
+<span class="fc" id="L312">        final Collection&lt;String&gt; scripts = findScripts();</span>
+<span class="fc" id="L313">        final Result globalResult = executeScripts(scripts);</span>
+<span class="fc" id="L314">        getLogger().info(globalResult.print());</span>
+<span class="fc" id="L315">        afterTestExecution(globalResult);</span>
+<span class="fc" id="L316">    }</span>
 
     private void init() throws MojoFailureException {
-<span class="fc" id="L318">        casperRuntime = findCasperRuntime(toolchainManager, session, casperExecPath);</span>
-<span class="pc bpc" id="L319" title="1 of 2 branches missed.">        if (StringUtils.isBlank(casperRuntime)) {</span>
-<span class="nc" id="L320">            throw new MojoFailureException(&quot;CasperJS executable not found&quot;);</span>
+<span class="fc" id="L319">        casperRuntime = findCasperRuntime(toolchainManager, session, casperExecPath);</span>
+<span class="pc bpc" id="L320" title="1 of 2 branches missed.">        if (StringUtils.isBlank(casperRuntime)) {</span>
+<span class="nc" id="L321">            throw new MojoFailureException(&quot;CasperJS executable not found&quot;);</span>
         }
 
-<span class="fc" id="L323">        casperJsVersion = retrieveVersion(casperRuntime, verbose);</span>
-<span class="pc bpc" id="L324" title="1 of 2 branches missed.">        if (verbose) {</span>
-<span class="fc" id="L325">            getLogger().info(&quot;CasperJS version: &quot; + casperJsVersion);</span>
+<span class="fc" id="L324">        casperJsVersion = retrieveVersion(casperRuntime, verbose);</span>
+<span class="pc bpc" id="L325" title="1 of 2 branches missed.">        if (verbose) {</span>
+<span class="fc" id="L326">            getLogger().info(&quot;CasperJS version: &quot; + casperJsVersion);</span>
         }
 
-<span class="pc bpc" id="L328" title="7 of 8 branches missed.">        if (direct &amp;&amp; (casperJsVersion.getMajorVersion() &gt; 1 || casperJsVersion.getMajorVersion() == 1 &amp;&amp; casperJsVersion.getMinorVersion() &gt; 0)) {</span>
-<span class="nc" id="L329">            getLogger().warn(&quot;direct option is deprecated, use casperjsVerbose instead&quot;);</span>
-<span class="nc" id="L330">            casperjsVerbose = true;</span>
+<span class="pc bpc" id="L329" title="7 of 8 branches missed.">        if (direct &amp;&amp; (casperJsVersion.getMajorVersion() &gt; 1 || casperJsVersion.getMajorVersion() == 1 &amp;&amp; casperJsVersion.getMinorVersion() &gt; 0)) {</span>
+<span class="nc" id="L330">            getLogger().warn(&quot;direct option is deprecated, use casperjsVerbose instead&quot;);</span>
+<span class="nc" id="L331">            casperjsVerbose = true;</span>
         }
 
-<span class="fc" id="L333">        testsIncludes = checkPatterns(testsIncludes, includeJS, includeCS);</span>
+<span class="fc" id="L334">        testsIncludes = checkPatterns(testsIncludes, includeJS, includeCS);</span>
 
-<span class="fc bfc" id="L335" title="All 2 branches covered.">        if (testsExcludes == null) {</span>
-<span class="fc" id="L336">            testsExcludes = new ArrayList&lt;String&gt;();</span>
+<span class="fc bfc" id="L336" title="All 2 branches covered.">        if (testsExcludes == null) {</span>
+<span class="fc" id="L337">            testsExcludes = new ArrayList&lt;String&gt;();</span>
         }
 
-<span class="fc bfc" id="L339" title="All 2 branches covered.">        if (includesPatterns == null) {</span>
-<span class="fc" id="L340">            includesPatterns = new ArrayList&lt;String&gt;();</span>
+<span class="fc bfc" id="L340" title="All 2 branches covered.">        if (includesPatterns == null) {</span>
+<span class="fc" id="L341">            includesPatterns = new ArrayList&lt;String&gt;();</span>
         }
 
-<span class="fc" id="L343">        includesDir = testsDir;</span>
-<span class="fc" id="L344">        scriptsDir = testsDir;</span>
-<span class="fc" id="L345">        final File defaultIncludesDir = new File(testsDir, &quot;includes&quot;);</span>
-<span class="fc" id="L346">        final File defaultScriptsDir = new File(testsDir, &quot;scripts&quot;);</span>
-<span class="pc bpc" id="L347" title="1 of 4 branches missed.">        if (defaultScriptsDir.exists() &amp;&amp; defaultScriptsDir.isDirectory()) {</span>
-<span class="fc" id="L348">            getLogger().debug(&quot;'scripts' subdirectory found, altering 'scriptsDir'&quot;);</span>
-<span class="fc" id="L349">            scriptsDir = defaultScriptsDir;</span>
-<span class="pc bpc" id="L350" title="3 of 6 branches missed.">            if (defaultIncludesDir.exists() &amp;&amp; defaultIncludesDir.isDirectory() &amp;&amp; includesPatterns.isEmpty()) {</span>
-<span class="fc" id="L351">                getLogger().debug(&quot;'includes' subdirectory found and 'includesPatterns' is empty, altering 'includesDir' and 'includesPatterns'&quot;);</span>
-<span class="fc" id="L352">                includesDir = defaultIncludesDir;</span>
-<span class="fc" id="L353">                includesPatterns.add(&quot;**/*.js&quot;);</span>
+<span class="fc" id="L344">        includesDir = testsDir;</span>
+<span class="fc" id="L345">        scriptsDir = testsDir;</span>
+<span class="fc" id="L346">        final File defaultIncludesDir = new File(testsDir, &quot;includes&quot;);</span>
+<span class="fc" id="L347">        final File defaultScriptsDir = new File(testsDir, &quot;scripts&quot;);</span>
+<span class="pc bpc" id="L348" title="1 of 4 branches missed.">        if (defaultScriptsDir.exists() &amp;&amp; defaultScriptsDir.isDirectory()) {</span>
+<span class="fc" id="L349">            getLogger().debug(&quot;'scripts' subdirectory found, altering 'scriptsDir'&quot;);</span>
+<span class="fc" id="L350">            scriptsDir = defaultScriptsDir;</span>
+<span class="pc bpc" id="L351" title="3 of 6 branches missed.">            if (defaultIncludesDir.exists() &amp;&amp; defaultIncludesDir.isDirectory() &amp;&amp; includesPatterns.isEmpty()) {</span>
+<span class="fc" id="L352">                getLogger().debug(&quot;'includes' subdirectory found and 'includesPatterns' is empty, altering 'includesDir' and 'includesPatterns'&quot;);</span>
+<span class="fc" id="L353">                includesDir = defaultIncludesDir;</span>
+<span class="fc" id="L354">                includesPatterns.add(&quot;**/*.js&quot;);</span>
             }
         }
 
-<span class="pc bpc" id="L357" title="1 of 4 branches missed.">        if (enableXmlReports || enableLogReports) {</span>
-<span class="fc" id="L358">            getLogger().debug(&quot;creating directories to hold log/xunit file(s)&quot;);</span>
-<span class="fc" id="L359">            reportsDir.mkdirs();</span>
+<span class="pc bpc" id="L358" title="1 of 4 branches missed.">        if (enableXmlReports || enableLogReports) {</span>
+<span class="fc" id="L359">            getLogger().debug(&quot;creating directories to hold log/xunit file(s)&quot;);</span>
+<span class="fc" id="L360">            reportsDir.mkdirs();</span>
         }
-<span class="fc" id="L361">    }</span>
+<span class="fc" id="L362">    }</span>
 
     private Collection&lt;String&gt; findScripts() {
-<span class="fc" id="L364">        return new OrdererScriptsFinderDecorator(new DefaultScriptsFinder(scriptsDir, test, testsIncludes, testsExcludes)).findScripts();</span>
+<span class="fc" id="L365">        return new OrdererScriptsFinderDecorator(new DefaultScriptsFinder(scriptsDir, test, testsIncludes, testsExcludes)).findScripts();</span>
     }
 
     private Result executeScripts(final Collection&lt;String&gt; files) {
-<span class="fc" id="L368">        final Result result = new Result();</span>
-<span class="fc bfc" id="L369" title="All 2 branches covered.">        for (final String file : files) {</span>
-<span class="fc" id="L370">            final File f = new File(scriptsDir, file);</span>
-<span class="fc" id="L371">            getLogger().debug(&quot;Execution of test &quot; + f.getName());</span>
-<span class="fc" id="L372">            final int res = executeScript(f);</span>
-<span class="fc bfc" id="L373" title="All 2 branches covered.">            if (res == 0) {</span>
-<span class="fc" id="L374">                result.addSuccess();</span>
+<span class="fc" id="L369">        final Result result = new Result();</span>
+<span class="fc bfc" id="L370" title="All 2 branches covered.">        for (final String file : files) {</span>
+<span class="fc" id="L371">            final File f = new File(scriptsDir, file);</span>
+<span class="fc" id="L372">            getLogger().debug(&quot;Execution of test &quot; + f.getName());</span>
+<span class="fc" id="L373">            final int res = executeScript(f);</span>
+<span class="fc bfc" id="L374" title="All 2 branches covered.">            if (res == 0) {</span>
+<span class="fc" id="L375">                result.addSuccess();</span>
             } else {
-<span class="fc" id="L376">                getLogger().warn(&quot;Test '&quot; + f.getName() + &quot;' has failure&quot;);</span>
-<span class="fc" id="L377">                result.addFailure();</span>
+<span class="fc" id="L377">                getLogger().warn(&quot;Test '&quot; + f.getName() + &quot;' has failure&quot;);</span>
+<span class="fc" id="L378">                result.addFailure();</span>
             }
-<span class="fc" id="L379">        }</span>
-<span class="fc" id="L380">        return result;</span>
+<span class="fc" id="L380">        }</span>
+<span class="fc" id="L381">        return result;</span>
     }
 
     private int executeScript(final File f) {
-<span class="fc" id="L384">        final CommandLine cmdLine = new CommandLine(casperRuntime);</span>
+<span class="fc" id="L385">        final CommandLine cmdLine = new CommandLine(casperRuntime);</span>
 
         // First, native options
 
         // Option --verbose / --direct, to output log messages to the console
-<span class="fc bfc" id="L389" title="All 2 branches covered.">        if (casperjsVerbose) {</span>
-<span class="pc bpc" id="L390" title="2 of 6 branches missed.">            if (casperJsVersion.getMajorVersion() &lt; 1 || casperJsVersion.getMajorVersion() == 1 &amp;&amp; casperJsVersion.getMinorVersion() == 0) {</span>
-<span class="fc" id="L391">                cmdLine.addArgument(&quot;--direct&quot;);</span>
+<span class="fc bfc" id="L390" title="All 2 branches covered.">        if (casperjsVerbose) {</span>
+<span class="pc bpc" id="L391" title="2 of 6 branches missed.">            if (casperJsVersion.getMajorVersion() &lt; 1 || casperJsVersion.getMajorVersion() == 1 &amp;&amp; casperJsVersion.getMinorVersion() == 0) {</span>
+<span class="fc" id="L392">                cmdLine.addArgument(&quot;--direct&quot;);</span>
             } else {
-<span class="fc" id="L393">                cmdLine.addArgument(&quot;--verbose&quot;);</span>
+<span class="fc" id="L394">                cmdLine.addArgument(&quot;--verbose&quot;);</span>
             }
         }
         // Option --log-level, to set the log level
-<span class="fc bfc" id="L397" title="All 2 branches covered.">        if (StringUtils.isNotBlank(logLevel)) {</span>
-<span class="fc" id="L398">            cmdLine.addArgument(&quot;--log-level=&quot; + logLevel);</span>
+<span class="fc bfc" id="L398" title="All 2 branches covered.">        if (StringUtils.isNotBlank(logLevel)) {</span>
+<span class="fc" id="L399">            cmdLine.addArgument(&quot;--log-level=&quot; + logLevel);</span>
         }
         // Option --engine, to select phantomJS or slimerJS engine
-<span class="pc bpc" id="L401" title="1 of 2 branches missed.">        if (StringUtils.isNotBlank(engine)) {</span>
-<span class="nc" id="L402">            cmdLine.addArgument(&quot;--engine=&quot; + engine);</span>
+<span class="pc bpc" id="L402" title="1 of 2 branches missed.">        if (StringUtils.isNotBlank(engine)) {</span>
+<span class="nc" id="L403">            cmdLine.addArgument(&quot;--engine=&quot; + engine);</span>
         }
 
         // Then, specific ones for unit testing
 
-<span class="fc" id="L407">        cmdLine.addArgument(&quot;test&quot;);</span>
+<span class="fc" id="L408">        cmdLine.addArgument(&quot;test&quot;);</span>
 
         // Option --includes, to includes files before each test execution
-<span class="fc bfc" id="L410" title="All 2 branches covered.">        if (StringUtils.isNotBlank(includes)) {</span>
-<span class="fc" id="L411">            cmdLine.addArgument(&quot;--includes=&quot; + includes);</span>
-<span class="fc bfc" id="L412" title="All 2 branches covered.">        } else if (!includesPatterns.isEmpty()) {</span>
-<span class="fc" id="L413">            final List&lt;String&gt; incs = new IncludesFinder(includesDir, includesPatterns).findIncludes();</span>
-<span class="pc bpc" id="L414" title="2 of 4 branches missed.">            if (incs != null &amp;&amp; !incs.isEmpty()) {</span>
-<span class="fc" id="L415">                final StringBuilder builder = new StringBuilder();</span>
-<span class="fc" id="L416">                builder.append(&quot;--includes=&quot;);</span>
-<span class="fc bfc" id="L417" title="All 2 branches covered.">                for (final String inc : incs) {</span>
-<span class="fc" id="L418">                    builder.append(new File(includesDir, inc).getAbsolutePath());</span>
-<span class="fc" id="L419">                    builder.append(&quot;,&quot;);</span>
-<span class="fc" id="L420">                }</span>
-<span class="fc" id="L421">                builder.deleteCharAt(builder.length() - 1);</span>
-<span class="fc" id="L422">                cmdLine.addArgument(builder.toString());</span>
+<span class="fc bfc" id="L411" title="All 2 branches covered.">        if (StringUtils.isNotBlank(includes)) {</span>
+<span class="fc" id="L412">            cmdLine.addArgument(&quot;--includes=&quot; + includes);</span>
+<span class="fc bfc" id="L413" title="All 2 branches covered.">        } else if (!includesPatterns.isEmpty()) {</span>
+<span class="fc" id="L414">            final List&lt;String&gt; incs = new IncludesFinder(includesDir, includesPatterns).findIncludes();</span>
+<span class="pc bpc" id="L415" title="2 of 4 branches missed.">            if (incs != null &amp;&amp; !incs.isEmpty()) {</span>
+<span class="fc" id="L416">                final StringBuilder builder = new StringBuilder();</span>
+<span class="fc" id="L417">                builder.append(&quot;--includes=&quot;);</span>
+<span class="fc bfc" id="L418" title="All 2 branches covered.">                for (final String inc : incs) {</span>
+<span class="fc" id="L419">                    builder.append(new File(includesDir, inc).getAbsolutePath());</span>
+<span class="fc" id="L420">                    builder.append(&quot;,&quot;);</span>
+<span class="fc" id="L421">                }</span>
+<span class="fc" id="L422">                builder.deleteCharAt(builder.length() - 1);</span>
+<span class="fc" id="L423">                cmdLine.addArgument(builder.toString());</span>
             }
         }
         // Option --pre, to execute the scripts before the test suite
-<span class="fc bfc" id="L426" title="All 2 branches covered.">        if (StringUtils.isNotBlank(pre)) {</span>
-<span class="fc" id="L427">            cmdLine.addArgument(&quot;--pre=&quot; + pre);</span>
-<span class="fc bfc" id="L428" title="All 2 branches covered.">        } else if (new File(testsDir, &quot;pre.js&quot;).exists()) {</span>
-<span class="fc" id="L429">            getLogger().debug(&quot;Using automatically found 'pre.js' file on &quot; + testsDir.getName() + &quot; directory as --pre&quot;);</span>
-<span class="fc" id="L430">            cmdLine.addArgument(&quot;--pre=&quot; + new File(testsDir, &quot;pre.js&quot;).getAbsolutePath());</span>
+<span class="fc bfc" id="L427" title="All 2 branches covered.">        if (StringUtils.isNotBlank(pre)) {</span>
+<span class="fc" id="L428">            cmdLine.addArgument(&quot;--pre=&quot; + pre);</span>
+<span class="fc bfc" id="L429" title="All 2 branches covered.">        } else if (new File(testsDir, &quot;pre.js&quot;).exists()) {</span>
+<span class="fc" id="L430">            getLogger().debug(&quot;Using automatically found 'pre.js' file on &quot; + testsDir.getName() + &quot; directory as --pre&quot;);</span>
+<span class="fc" id="L431">            cmdLine.addArgument(&quot;--pre=&quot; + new File(testsDir, &quot;pre.js&quot;).getAbsolutePath());</span>
         }
         // Option --post, to execute the scripts after the test suite
-<span class="fc bfc" id="L433" title="All 2 branches covered.">        if (StringUtils.isNotBlank(post)) {</span>
-<span class="fc" id="L434">            cmdLine.addArgument(&quot;--post=&quot; + post);</span>
-<span class="fc bfc" id="L435" title="All 2 branches covered.">        } else if (new File(testsDir, &quot;post.js&quot;).exists()) {</span>
-<span class="fc" id="L436">            getLogger().debug(&quot;Using automatically found 'post.js' file on &quot; + testsDir.getName() + &quot; directory as --post&quot;);</span>
-<span class="fc" id="L437">            cmdLine.addArgument(&quot;--post=&quot; + new File(testsDir, &quot;post.js&quot;).getAbsolutePath());</span>
+<span class="fc bfc" id="L434" title="All 2 branches covered.">        if (StringUtils.isNotBlank(post)) {</span>
+<span class="fc" id="L435">            cmdLine.addArgument(&quot;--post=&quot; + post);</span>
+<span class="fc bfc" id="L436" title="All 2 branches covered.">        } else if (new File(testsDir, &quot;post.js&quot;).exists()) {</span>
+<span class="fc" id="L437">            getLogger().debug(&quot;Using automatically found 'post.js' file on &quot; + testsDir.getName() + &quot; directory as --post&quot;);</span>
+<span class="fc" id="L438">            cmdLine.addArgument(&quot;--post=&quot; + new File(testsDir, &quot;post.js&quot;).getAbsolutePath());</span>
         }
         // Option --xunit, to export results in XML file
-<span class="fc bfc" id="L440" title="All 2 branches covered.">        if (enableXmlReports) {</span>
-<span class="fc" id="L441">            cmdLine.addArgument(&quot;--xunit=&quot; + new File(reportsDir, &quot;TEST-&quot; + buildName(scriptsDir, f) + &quot;.xml&quot;));</span>
+<span class="fc bfc" id="L441" title="All 2 branches covered.">        if (enableXmlReports) {</span>
+<span class="fc" id="L442">            cmdLine.addArgument(&quot;--xunit=&quot; + new File(reportsDir, &quot;TEST-&quot; + buildName(scriptsDir, f) + &quot;.xml&quot;));</span>
         }
         // Option --fast-fast, to terminate the test suite once a failure is
         // found
-<span class="pc bpc" id="L445" title="1 of 2 branches missed.">        if (failFast) {</span>
-<span class="nc" id="L446">            cmdLine.addArgument(&quot;--fail-fast&quot;);</span>
+<span class="pc bpc" id="L446" title="1 of 2 branches missed.">        if (failFast) {</span>
+<span class="nc" id="L447">            cmdLine.addArgument(&quot;--fail-fast&quot;);</span>
         }
-<span class="fc" id="L448">        cmdLine.addArgument(f.getAbsolutePath());</span>
-<span class="pc bpc" id="L449" title="1 of 4 branches missed.">        if (arguments != null &amp;&amp; !arguments.isEmpty()) {</span>
-<span class="fc bfc" id="L450" title="All 2 branches covered.">            for (final String argument : arguments) {</span>
-<span class="fc" id="L451">                cmdLine.addArgument(quote(argument), false);</span>
-<span class="fc" id="L452">            }</span>
+<span class="fc" id="L449">        cmdLine.addArgument(f.getAbsolutePath());</span>
+<span class="pc bpc" id="L450" title="1 of 4 branches missed.">        if (arguments != null &amp;&amp; !arguments.isEmpty()) {</span>
+<span class="fc bfc" id="L451" title="All 2 branches covered.">            for (final String argument : arguments) {</span>
+<span class="fc" id="L452">                cmdLine.addArgument(quote(argument), false);</span>
+<span class="fc" id="L453">            }</span>
         }
-<span class="fc" id="L454">        File logFile = null;</span>
-<span class="pc bpc" id="L455" title="1 of 2 branches missed.">        if (enableLogReports) {</span>
-<span class="fc" id="L456">            logFile = new File(reportsDir, buildName(scriptsDir, f) + &quot;.txt&quot;);</span>
+<span class="fc" id="L455">        File logFile = null;</span>
+<span class="pc bpc" id="L456" title="1 of 2 branches missed.">        if (enableLogReports) {</span>
+<span class="fc" id="L457">            logFile = new File(reportsDir, buildName(scriptsDir, f) + &quot;.txt&quot;);</span>
         }
 
-<span class="fc" id="L459">        return executeCommand(cmdLine, environmentVariables, verbose, logFile);</span>
+<span class="fc" id="L460">        return executeCommand(cmdLine, environmentVariables, verbose, logFile);</span>
     }
 
     protected void afterTestExecution(final Result globalResult) throws MojoFailureException, MojoExecutionException {
-<span class="nc" id="L463">    }</span>
+<span class="nc" id="L464">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

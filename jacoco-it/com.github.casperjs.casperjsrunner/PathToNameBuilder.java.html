@@ -4,29 +4,33 @@ import static java.io.File.separator;
 
 import java.io.File;
 
-<span class="nc" id="L7">public class PathToNameBuilder {</span>
+public class PathToNameBuilder {
 
     private static final String REPLACEMENT_CHAR = &quot;_&quot;;
 
+<span class="nc" id="L11">    private PathToNameBuilder() {</span>
+        // only used as static
+<span class="nc" id="L13">    }</span>
+
     public static String buildName(final File rootDir, final File path) {
-<span class="fc" id="L12">        String result = path.getAbsolutePath();</span>
-<span class="fc" id="L13">        String rootPath = rootDir.getAbsolutePath();</span>
-<span class="pc bpc" id="L14" title="1 of 2 branches missed.">        if (!rootPath.endsWith(separator)) {</span>
-<span class="fc" id="L15">            rootPath += separator;</span>
+<span class="fc" id="L16">        String result = path.getAbsolutePath();</span>
+<span class="fc" id="L17">        String rootPath = rootDir.getAbsolutePath();</span>
+<span class="pc bpc" id="L18" title="1 of 2 branches missed.">        if (!rootPath.endsWith(separator)) {</span>
+<span class="fc" id="L19">            rootPath += separator;</span>
         }
 
-<span class="pc bpc" id="L18" title="1 of 2 branches missed.">        if (!result.contains(rootPath)) {</span>
-<span class="nc" id="L19">            throw new IllegalArgumentException(path + &quot; should be a child of &quot; + rootDir);</span>
+<span class="pc bpc" id="L22" title="1 of 2 branches missed.">        if (!result.contains(rootPath)) {</span>
+<span class="nc" id="L23">            throw new IllegalArgumentException(path + &quot; should be a child of &quot; + rootDir);</span>
         }
 
-<span class="fc" id="L22">        result = result.replace(rootPath, &quot;&quot;);</span>
+<span class="fc" id="L26">        result = result.replace(rootPath, &quot;&quot;);</span>
         // for Linux paths
-<span class="fc" id="L24">        result = result.replaceAll(&quot;/&quot;, REPLACEMENT_CHAR);</span>
+<span class="fc" id="L28">        result = result.replaceAll(&quot;/&quot;, REPLACEMENT_CHAR);</span>
         // for Windows paths
-<span class="fc" id="L26">        result = result.replaceAll(&quot;\\\\&quot;, REPLACEMENT_CHAR);</span>
-<span class="fc" id="L27">        result = result.replaceAll(&quot;\\.&quot;, REPLACEMENT_CHAR);</span>
+<span class="fc" id="L30">        result = result.replaceAll(&quot;\\\\&quot;, REPLACEMENT_CHAR);</span>
+<span class="fc" id="L31">        result = result.replaceAll(&quot;\\.&quot;, REPLACEMENT_CHAR);</span>
 
-<span class="fc" id="L29">        return result;</span>
+<span class="fc" id="L33">        return result;</span>
     }
 
 }
