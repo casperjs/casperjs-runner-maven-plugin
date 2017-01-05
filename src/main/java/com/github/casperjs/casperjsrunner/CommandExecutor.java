@@ -34,11 +34,12 @@ public class CommandExecutor {
             executor.setExitValues(new int[] { 0, 1 });
             return executor.execute(line, environmentVariables);
         } catch (final IOException e) {
-            closeQuietly(fos);
             if (verbose) {
                 getLogger().error("Could not run CasperJS command", e);
             }
             return -1;
+        } finally {
+            closeQuietly(fos);
         }
     }
 
