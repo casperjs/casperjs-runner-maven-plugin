@@ -4,6 +4,10 @@ import static com.github.casperjs.casperjsrunner.OSUtils.isWindows;
 
 public class ArgQuoter {
 
+    private ArgQuoter() {
+        // only used as static
+    }
+
     public static String quote(String s) {
         if (!isWindows() || !needQuoting(s)) {
             return s;

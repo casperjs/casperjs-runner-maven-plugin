@@ -13,6 +13,10 @@ import java.util.Map;
 
 public class CommandExecutor {
 
+    private CommandExecutor() {
+        // only used as static
+    }
+
     public static int executeCommand(final CommandLine line, final Map<String, String> environmentVariables, final boolean verbose,
             final File logFile) {
         getLogger().debug("Execute CasperJS command [" + line + "], with env: " + environmentVariables);

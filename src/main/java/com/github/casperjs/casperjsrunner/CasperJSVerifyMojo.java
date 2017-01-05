@@ -50,15 +50,25 @@ public class CasperJSVerifyMojo extends AbstractMojo {
     }
 
     private String tryToReadFirstLineOfFile() throws IOException {
+        FileReader fileReader = null;
         BufferedReader bufferedReader = null;
         try {
-            bufferedReader = new BufferedReader(new FileReader(testFailureCountFile));
+            fileReader = new FileReader(testFailureCountFile);
+            bufferedReader = new BufferedReader(fileReader);
             return bufferedReader.readLine();
         } finally {
             if (bufferedReader != null) {
                 try {
                     bufferedReader.close();
                 } catch (final Exception ignored) {
+                    // ignore
+                }
+            }
+            if (fileReader != null) {
+                try {
+                    fileReader.close();
+                } catch (final Exception ignored) {
+                    // ignore
                 }
             }
         }

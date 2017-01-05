@@ -46,15 +46,25 @@ public class CasperJSRunnerIntegrationTestMojo extends AbstractCasperJSRunnerMoj
     }
 
     private void writeFailedTestCountToExistingDir(final Result globalResult) throws IOException {
+        FileWriter fileWriter = null;
         BufferedWriter bufferedWriter = null;
         try {
-            bufferedWriter = new BufferedWriter(new FileWriter(testFailureCountFile, false));
+            fileWriter = new FileWriter(testFailureCountFile, false);
+            bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(globalResult.getFailures() + "\n");
         } finally {
             if (bufferedWriter != null) {
                 try {
                     bufferedWriter.close();
                 } catch (final Exception ignored) {
+                    // ignore
+                }
+            }
+            if (fileWriter != null) {
+                try {
+                    fileWriter.close();
+                } catch (final Exception ignored) {
+                    // ignore
                 }
             }
         }
