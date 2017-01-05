@@ -11,35 +11,39 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
 
-<span class="nc" id="L14">public class CommandExecutor {</span>
+public class CommandExecutor {
+
+<span class="nc" id="L16">    private CommandExecutor() {</span>
+        // only used as static
+<span class="nc" id="L18">    }</span>
 
     public static int executeCommand(final CommandLine line, final Map&lt;String, String&gt; environmentVariables, final boolean verbose,
             final File logFile) {
-<span class="fc" id="L18">        getLogger().debug(&quot;Execute CasperJS command [&quot; + line + &quot;], with env: &quot; + environmentVariables);</span>
-<span class="fc" id="L19">        FileOutputStream fos = null;</span>
+<span class="fc" id="L22">        getLogger().debug(&quot;Execute CasperJS command [&quot; + line + &quot;], with env: &quot; + environmentVariables);</span>
+<span class="fc" id="L23">        FileOutputStream fos = null;</span>
         try {
-<span class="fc" id="L21">            final DefaultExecutor executor = new DefaultExecutor();</span>
-<span class="pc bpc" id="L22" title="1 of 2 branches missed.">            if (logFile != null) {</span>
-<span class="pc bpc" id="L23" title="1 of 2 branches missed.">                if (verbose) {</span>
-<span class="fc" id="L24">                    getLogger().info(&quot;Will duplicate output to: &quot; + logFile.getAbsolutePath());</span>
+<span class="fc" id="L25">            final DefaultExecutor executor = new DefaultExecutor();</span>
+<span class="pc bpc" id="L26" title="1 of 2 branches missed.">            if (logFile != null) {</span>
+<span class="pc bpc" id="L27" title="1 of 2 branches missed.">                if (verbose) {</span>
+<span class="fc" id="L28">                    getLogger().info(&quot;Will duplicate output to: &quot; + logFile.getAbsolutePath());</span>
                 }
-<span class="fc" id="L26">                fos = new FileOutputStream(logFile);</span>
-<span class="fc" id="L27">                executor.setStreamHandler(new PumpStreamHandler(new CloneOutputStream(System.out, fos)));</span>
+<span class="fc" id="L30">                fos = new FileOutputStream(logFile);</span>
+<span class="fc" id="L31">                executor.setStreamHandler(new PumpStreamHandler(new CloneOutputStream(System.out, fos)));</span>
             }
-<span class="fc" id="L29">            executor.setExitValues(new int[] { 0, 1 });</span>
-<span class="fc" id="L30">            return executor.execute(line, environmentVariables);</span>
-<span class="nc" id="L31">        } catch (final IOException e) {</span>
-<span class="nc bnc" id="L32" title="All 2 branches missed.">            if (fos != null) {</span>
+<span class="fc" id="L33">            executor.setExitValues(new int[] { 0, 1 });</span>
+<span class="fc" id="L34">            return executor.execute(line, environmentVariables);</span>
+<span class="nc" id="L35">        } catch (final IOException e) {</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">            if (fos != null) {</span>
                 try {
-<span class="nc" id="L34">                    fos.close();</span>
-<span class="nc" id="L35">                } catch (final IOException ioex) {</span>
+<span class="nc" id="L38">                    fos.close();</span>
+<span class="nc" id="L39">                } catch (final IOException ioex) {</span>
                     // ignore
-<span class="nc" id="L37">                }</span>
+<span class="nc" id="L41">                }</span>
             }
-<span class="nc bnc" id="L39" title="All 2 branches missed.">            if (verbose) {</span>
-<span class="nc" id="L40">                getLogger().error(&quot;Could not run CasperJS command&quot;, e);</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">            if (verbose) {</span>
+<span class="nc" id="L44">                getLogger().error(&quot;Could not run CasperJS command&quot;, e);</span>
             }
-<span class="nc" id="L42">            return -1;</span>
+<span class="nc" id="L46">            return -1;</span>
         }
     }
 

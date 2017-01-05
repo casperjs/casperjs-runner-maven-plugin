@@ -46,28 +46,38 @@ import java.io.IOException;
 <span class="fc" id="L46">    }</span>
 
     private void writeFailedTestCountToExistingDir(final Result globalResult) throws IOException {
-<span class="fc" id="L49">        BufferedWriter bufferedWriter = null;</span>
+<span class="fc" id="L49">        FileWriter fileWriter = null;</span>
+<span class="fc" id="L50">        BufferedWriter bufferedWriter = null;</span>
         try {
-<span class="fc" id="L51">            bufferedWriter = new BufferedWriter(new FileWriter(testFailureCountFile, false));</span>
-<span class="fc" id="L52">            bufferedWriter.write(globalResult.getFailures() + &quot;\n&quot;);</span>
+<span class="fc" id="L52">            fileWriter = new FileWriter(testFailureCountFile, false);</span>
+<span class="fc" id="L53">            bufferedWriter = new BufferedWriter(fileWriter);</span>
+<span class="fc" id="L54">            bufferedWriter.write(globalResult.getFailures() + &quot;\n&quot;);</span>
         } finally {
-<span class="pc bpc" id="L54" title="3 of 4 branches missed.">            if (bufferedWriter != null) {</span>
+<span class="pc bpc" id="L56" title="3 of 4 branches missed.">            if (bufferedWriter != null) {</span>
                 try {
-<span class="pc" id="L56">                    bufferedWriter.close();</span>
-<span class="nc" id="L57">                } catch (final Exception ignored) {</span>
-<span class="pc" id="L58">                }</span>
+<span class="pc" id="L58">                    bufferedWriter.close();</span>
+<span class="nc" id="L59">                } catch (final Exception ignored) {</span>
+                    // ignore
+<span class="pc" id="L61">                }</span>
             }
-        }
-<span class="fc" id="L61">    }</span>
-
-    private void createParentDirectoryIfNecessary(final File destinationFile) throws IOException {
-<span class="fc" id="L64">        final File parentDir = destinationFile.getParentFile();</span>
-<span class="pc bpc" id="L65" title="1 of 2 branches missed.">        if (!parentDir.exists()) {</span>
-<span class="nc" id="L66">            final boolean success = parentDir.mkdirs();</span>
-<span class="nc bnc" id="L67" title="All 2 branches missed.">            if (!success) {</span>
-<span class="nc" id="L68">                throw new IOException(&quot;Cannot create directory for output file: &quot; + destinationFile.toString());</span>
+<span class="pc bpc" id="L63" title="3 of 4 branches missed.">            if (fileWriter != null) {</span>
+                try {
+<span class="pc" id="L65">                    fileWriter.close();</span>
+<span class="nc" id="L66">                } catch (final Exception ignored) {</span>
+                    // ignore
+<span class="pc" id="L68">                }</span>
             }
         }
 <span class="fc" id="L71">    }</span>
+
+    private void createParentDirectoryIfNecessary(final File destinationFile) throws IOException {
+<span class="fc" id="L74">        final File parentDir = destinationFile.getParentFile();</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">        if (!parentDir.exists()) {</span>
+<span class="nc" id="L76">            final boolean success = parentDir.mkdirs();</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">            if (!success) {</span>
+<span class="nc" id="L78">                throw new IOException(&quot;Cannot create directory for output file: &quot; + destinationFile.toString());</span>
+            }
+        }
+<span class="fc" id="L81">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

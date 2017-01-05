@@ -50,16 +50,26 @@ import java.io.IOException;
     }
 
     private String tryToReadFirstLineOfFile() throws IOException {
-<span class="fc" id="L53">        BufferedReader bufferedReader = null;</span>
+<span class="fc" id="L53">        FileReader fileReader = null;</span>
+<span class="fc" id="L54">        BufferedReader bufferedReader = null;</span>
         try {
-<span class="fc" id="L55">            bufferedReader = new BufferedReader(new FileReader(testFailureCountFile));</span>
-<span class="fc" id="L56">            return bufferedReader.readLine();</span>
+<span class="fc" id="L56">            fileReader = new FileReader(testFailureCountFile);</span>
+<span class="fc" id="L57">            bufferedReader = new BufferedReader(fileReader);</span>
+<span class="fc" id="L58">            return bufferedReader.readLine();</span>
         } finally {
-<span class="pc bpc" id="L58" title="3 of 4 branches missed.">            if (bufferedReader != null) {</span>
+<span class="pc bpc" id="L60" title="3 of 4 branches missed.">            if (bufferedReader != null) {</span>
                 try {
-<span class="pc" id="L60">                    bufferedReader.close();</span>
-<span class="nc" id="L61">                } catch (final Exception ignored) {</span>
-<span class="pc" id="L62">                }</span>
+<span class="pc" id="L62">                    bufferedReader.close();</span>
+<span class="nc" id="L63">                } catch (final Exception ignored) {</span>
+                    // ignore
+<span class="pc" id="L65">                }</span>
+            }
+<span class="pc bpc" id="L67" title="3 of 4 branches missed.">            if (fileReader != null) {</span>
+                try {
+<span class="pc" id="L69">                    fileReader.close();</span>
+<span class="nc" id="L70">                } catch (final Exception ignored) {</span>
+                    // ignore
+<span class="pc" id="L72">                }</span>
             }
         }
     }

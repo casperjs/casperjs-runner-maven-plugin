@@ -2,41 +2,45 @@
 
 import static com.github.casperjs.casperjsrunner.OSUtils.isWindows;
 
-<span class="nc" id="L5">public class ArgQuoter {</span>
+public class ArgQuoter {
+
+<span class="nc" id="L7">    private ArgQuoter() {</span>
+        // only used as static
+<span class="nc" id="L9">    }</span>
 
     public static String quote(String s) {
-<span class="pc bpc" id="L8" title="3 of 4 branches missed.">        if (!isWindows() || !needQuoting(s)) {</span>
-<span class="fc" id="L9">            return s;</span>
+<span class="pc bpc" id="L12" title="3 of 4 branches missed.">        if (!isWindows() || !needQuoting(s)) {</span>
+<span class="fc" id="L13">            return s;</span>
         }
 
-<span class="nc" id="L12">        s = s.replaceAll(&quot;([\\\\]*)\&quot;&quot;, &quot;$1$1\\\\\&quot;&quot;);</span>
-<span class="nc" id="L13">        s = s.replaceAll(&quot;([\\\\]*)\\z&quot;, &quot;$1$1&quot;);</span>
-<span class="nc" id="L14">        return &quot;'&quot; + s + &quot;'&quot;;</span>
+<span class="nc" id="L16">        s = s.replaceAll(&quot;([\\\\]*)\&quot;&quot;, &quot;$1$1\\\\\&quot;&quot;);</span>
+<span class="nc" id="L17">        s = s.replaceAll(&quot;([\\\\]*)\\z&quot;, &quot;$1$1&quot;);</span>
+<span class="nc" id="L18">        return &quot;'&quot; + s + &quot;'&quot;;</span>
     }
 
     private static boolean needQuoting(final String s) {
-<span class="nc bnc" id="L18" title="All 2 branches missed.">        if (s == null) {</span>
-<span class="nc" id="L19">            return false;</span>
+<span class="nc bnc" id="L22" title="All 2 branches missed.">        if (s == null) {</span>
+<span class="nc" id="L23">            return false;</span>
         }
 
-<span class="nc" id="L22">        final int len = s.length();</span>
+<span class="nc" id="L26">        final int len = s.length();</span>
 
-<span class="nc bnc" id="L24" title="All 2 branches missed.">        if (len == 0) {</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        if (len == 0) {</span>
             // empty string have to be quoted
-<span class="nc" id="L26">            return true;</span>
+<span class="nc" id="L30">            return true;</span>
         }
 
-<span class="nc bnc" id="L29" title="All 2 branches missed.">        for (int i = 0; i &lt; len; i++) {</span>
-<span class="nc bnc" id="L30" title="All 2 branches missed.">            switch (s.charAt(i)) {</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        for (int i = 0; i &lt; len; i++) {</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">            switch (s.charAt(i)) {</span>
             case ' ':
             case '\t':
             case '\\':
             case '&quot;':
-<span class="nc" id="L35">                return true;</span>
+<span class="nc" id="L39">                return true;</span>
             }
         }
 
-<span class="nc" id="L39">        return false;</span>
+<span class="nc" id="L43">        return false;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>
