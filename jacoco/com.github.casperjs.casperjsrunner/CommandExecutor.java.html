@@ -5,6 +5,7 @@ import static com.github.casperjs.casperjsrunner.LogUtils.getLogger;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.PumpStreamHandler;
 
 import java.io.File;
@@ -14,32 +15,36 @@ import java.util.Map;
 
 public class CommandExecutor {
 
-<span class="nc" id="L17">    private CommandExecutor() {</span>
+<span class="nc" id="L18">    private CommandExecutor() {</span>
         // only used as static
-<span class="nc" id="L19">    }</span>
+<span class="nc" id="L20">    }</span>
 
     public static int executeCommand(final CommandLine line, final Map&lt;String, String&gt; environmentVariables, final boolean verbose,
             final File logFile) {
-<span class="nc" id="L23">        getLogger().debug(&quot;Execute CasperJS command [&quot; + line + &quot;], with env: &quot; + environmentVariables);</span>
-<span class="nc" id="L24">        FileOutputStream fos = null;</span>
+<span class="nc" id="L24">        return executeCommand(line, environmentVariables, verbose, logFile, new DefaultExecutor());</span>
+    }
+
+    public static int executeCommand(final CommandLine line, final Map&lt;String, String&gt; environmentVariables, final boolean verbose,
+            final File logFile, final Executor executor) {
+<span class="fc" id="L29">        getLogger().debug(&quot;Execute CasperJS command [&quot; + line + &quot;], with env: &quot; + environmentVariables);</span>
+<span class="fc" id="L30">        FileOutputStream fos = null;</span>
         try {
-<span class="nc" id="L26">            final DefaultExecutor executor = new DefaultExecutor();</span>
-<span class="nc bnc" id="L27" title="All 2 branches missed.">            if (logFile != null) {</span>
-<span class="nc bnc" id="L28" title="All 2 branches missed.">                if (verbose) {</span>
-<span class="nc" id="L29">                    getLogger().info(&quot;Will duplicate output to: &quot; + logFile.getAbsolutePath());</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">            if (logFile != null) {</span>
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">                if (verbose) {</span>
+<span class="nc" id="L34">                    getLogger().info(&quot;Will duplicate output to: &quot; + logFile.getAbsolutePath());</span>
                 }
-<span class="nc" id="L31">                fos = new FileOutputStream(logFile);</span>
-<span class="nc" id="L32">                executor.setStreamHandler(new PumpStreamHandler(new CloneOutputStream(System.out, fos)));</span>
+<span class="fc" id="L36">                fos = new FileOutputStream(logFile);</span>
+<span class="fc" id="L37">                executor.setStreamHandler(new PumpStreamHandler(new CloneOutputStream(System.out, fos)));</span>
             }
-<span class="nc" id="L34">            executor.setExitValues(new int[] { 0, 1 });</span>
-<span class="nc" id="L35">            return executor.execute(line, environmentVariables);</span>
-<span class="nc" id="L36">        } catch (final IOException e) {</span>
-<span class="nc bnc" id="L37" title="All 2 branches missed.">            if (verbose) {</span>
-<span class="nc" id="L38">                getLogger().error(&quot;Could not run CasperJS command&quot;, e);</span>
+<span class="fc" id="L39">            executor.setExitValues(new int[] { 0, 1 });</span>
+<span class="fc" id="L40">            return executor.execute(line, environmentVariables);</span>
+<span class="fc" id="L41">        } catch (final IOException e) {</span>
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">            if (verbose) {</span>
+<span class="nc" id="L43">                getLogger().error(&quot;Could not run CasperJS command&quot;, e);</span>
             }
-<span class="nc" id="L40">            return -1;</span>
+<span class="fc" id="L45">            return -1;</span>
         } finally {
-<span class="nc" id="L42">            closeQuietly(fos);</span>
+<span class="pc" id="L47">            closeQuietly(fos);</span>
         }
     }
 
