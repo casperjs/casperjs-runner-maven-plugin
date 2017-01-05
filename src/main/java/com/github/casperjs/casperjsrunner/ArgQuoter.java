@@ -8,14 +8,14 @@ public class ArgQuoter {
         // only used as static
     }
 
-    public static String quote(String s) {
+    public static String quote(final String s) {
         if (!isWindows() || !needQuoting(s)) {
             return s;
         }
 
-        s = s.replaceAll("([\\\\]*)\"", "$1$1\\\\\"");
-        s = s.replaceAll("([\\\\]*)\\z", "$1$1");
-        return "'" + s + "'";
+        final String quotesReplaced = s.replaceAll("([\\\\]*)\"", "$1$1\\\\\"");
+        final String spacessReplaced = quotesReplaced.replaceAll("([\\\\]*)\\z", "$1$1");
+        return "'" + spacessReplaced + "'";
     }
 
     private static boolean needQuoting(final String s) {
@@ -31,11 +31,8 @@ public class ArgQuoter {
         }
 
         for (int i = 0; i < len; i++) {
-            switch (s.charAt(i)) {
-            case ' ':
-            case '\t':
-            case '\\':
-            case '"':
+            final char c = s.charAt(i);
+            if (c == ' ' || c == '\t' || c == '\\' || c == '"') {
                 return true;
             }
         }

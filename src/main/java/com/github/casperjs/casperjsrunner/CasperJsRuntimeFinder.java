@@ -14,6 +14,10 @@ import java.io.File;
 
 public class CasperJsRuntimeFinder {
 
+    private CasperJsRuntimeFinder() {
+        // only used as static
+    }
+
     public static String findCasperRuntime(final ToolchainManager toolchainManager, final MavenSession session, final String casperExecPath) {
         String result = null;
 

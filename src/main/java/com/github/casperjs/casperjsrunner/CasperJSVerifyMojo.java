@@ -1,5 +1,7 @@
 package com.github.casperjs.casperjsrunner;
 
+import static com.github.casperjs.casperjsrunner.IOUtils.closeQuietly;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -57,20 +59,8 @@ public class CasperJSVerifyMojo extends AbstractMojo {
             bufferedReader = new BufferedReader(fileReader);
             return bufferedReader.readLine();
         } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (final Exception ignored) {
-                    // ignore
-                }
-            }
-            if (fileReader != null) {
-                try {
-                    fileReader.close();
-                } catch (final Exception ignored) {
-                    // ignore
-                }
-            }
+            closeQuietly(bufferedReader);
+            closeQuietly(fileReader);
         }
     }
 

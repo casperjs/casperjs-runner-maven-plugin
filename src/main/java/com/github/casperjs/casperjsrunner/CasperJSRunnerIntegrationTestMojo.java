@@ -1,5 +1,7 @@
 package com.github.casperjs.casperjsrunner;
 
+import static com.github.casperjs.casperjsrunner.IOUtils.closeQuietly;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -53,20 +55,8 @@ public class CasperJSRunnerIntegrationTestMojo extends AbstractCasperJSRunnerMoj
             bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(globalResult.getFailures() + "\n");
         } finally {
-            if (bufferedWriter != null) {
-                try {
-                    bufferedWriter.close();
-                } catch (final Exception ignored) {
-                    // ignore
-                }
-            }
-            if (fileWriter != null) {
-                try {
-                    fileWriter.close();
-                } catch (final Exception ignored) {
-                    // ignore
-                }
-            }
+            closeQuietly(bufferedWriter);
+            closeQuietly(fileWriter);
         }
     }
 

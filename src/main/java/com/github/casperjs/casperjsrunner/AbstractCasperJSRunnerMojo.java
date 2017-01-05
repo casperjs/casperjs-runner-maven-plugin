@@ -218,6 +218,7 @@ public abstract class AbstractCasperJSRunnerMojo extends AbstractMojo {
      * Set the CasperJS --direct option: will output log messages directly to the console. Deprecated: use the <code>casperjsVerbose</code> option
      *
      * @since 1.0.0
+     * @deprecated
      */
     @Deprecated
     @Parameter(property = "casperjs.direct", defaultValue = "false")

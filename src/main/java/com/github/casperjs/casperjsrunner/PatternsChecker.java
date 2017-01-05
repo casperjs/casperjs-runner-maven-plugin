@@ -12,6 +12,10 @@ public class PatternsChecker {
 
     private static final String[] DEFAULT_CS_PATTERNS = { "**/Test*.coffee", "**/*Test.coffee", "**/*TestCase.coffee" };
 
+    private PatternsChecker() {
+        // only used as static
+    }
+
     public static List<String> checkPatterns(final List<String> patterns, final boolean includeJS, final boolean includeCS) {
         final List<String> result = new ArrayList<String>();
 

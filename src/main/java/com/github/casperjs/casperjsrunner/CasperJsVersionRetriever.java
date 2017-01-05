@@ -12,6 +12,10 @@ import java.io.InputStreamReader;
 
 public class CasperJsVersionRetriever {
 
+    private CasperJsVersionRetriever() {
+        // only used as static
+    }
+
     public static DefaultArtifactVersion retrieveVersion(final String casperRuntime, final boolean verbose) throws MojoFailureException {
         getLogger().debug("Check CasperJS version");
         InputStream stream = null;

@@ -8,6 +8,10 @@ public class PathToNameBuilder {
 
     private static final String REPLACEMENT_CHAR = "_";
 
+    private PathToNameBuilder() {
+        // only used as static
+    }
+
     public static String buildName(final File rootDir, final File path) {
         String result = path.getAbsolutePath();
         String rootPath = rootDir.getAbsolutePath();

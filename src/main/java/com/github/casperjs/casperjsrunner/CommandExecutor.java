@@ -1,5 +1,6 @@
 package com.github.casperjs.casperjsrunner;
 
+import static com.github.casperjs.casperjsrunner.IOUtils.closeQuietly;
 import static com.github.casperjs.casperjsrunner.LogUtils.getLogger;
 
 import org.apache.commons.exec.CommandLine;
@@ -33,13 +34,7 @@ public class CommandExecutor {
             executor.setExitValues(new int[] { 0, 1 });
             return executor.execute(line, environmentVariables);
         } catch (final IOException e) {
-            if (fos != null) {
-                try {
-                    fos.close();
-                } catch (final IOException ioex) {
-                    // ignore
-                }
-            }
+            closeQuietly(fos);
             if (verbose) {
                 getLogger().error("Could not run CasperJS command", e);
             }
