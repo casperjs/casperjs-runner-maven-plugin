@@ -6,29 +6,23 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.verifyNoMoreInteractions;
 
 import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-@PrepareForTest({ Runtime.class, CasperJsVersionRetriever.class })
-@RunWith(PowerMockRunner.class)
 public class CasperJsVersionRetrieverTest {
 
     @Mock
@@ -43,11 +37,8 @@ public class CasperJsVersionRetrieverTest {
     @Before
     public void initializeMocks() {
         initMocks(this);
-        mockStatic(Runtime.class);
 
         LogUtils.setLog(mock(Log.class), false);
-
-        when(Runtime.getRuntime()).thenReturn(runtime);
     }
 
     @Test
@@ -65,7 +56,7 @@ public class CasperJsVersionRetrieverTest {
             }
         });
 
-        assertEquals(new DefaultArtifactVersion("1.2.3-qualifier"), retrieveVersion("casperjsRuntime", false));
+        assertEquals(new DefaultArtifactVersion("1.2.3-qualifier"), retrieveVersion("casperjsRuntime", false, runtime));
 
         verify(stream).close();
     }
@@ -75,7 +66,7 @@ public class CasperJsVersionRetrieverTest {
         when(runtime.exec("casperjsRuntime --version")).thenThrow(new IOException());
 
         try {
-            retrieveVersion("casperjsRuntime", false);
+            retrieveVersion("casperjsRuntime", true, runtime);
         } finally {
             verifyNoMoreInteractions(stream);
         }
@@ -88,7 +79,7 @@ public class CasperJsVersionRetrieverTest {
         when(stream.read(any(byte[].class), anyInt(), anyInt())).thenThrow(new IOException());
 
         try {
-            retrieveVersion("casperjsRuntime", false);
+            retrieveVersion("casperjsRuntime", false, runtime);
         } finally {
             verify(stream).close();
         }

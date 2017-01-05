@@ -18,10 +18,15 @@ public class CasperJsVersionRetriever {
     }
 
     public static DefaultArtifactVersion retrieveVersion(final String casperRuntime, final boolean verbose) throws MojoFailureException {
+        return retrieveVersion(casperRuntime, verbose, Runtime.getRuntime());
+    }
+
+    public static DefaultArtifactVersion retrieveVersion(final String casperRuntime, final boolean verbose, final Runtime runtime)
+            throws MojoFailureException {
         getLogger().debug("Check CasperJS version");
         InputStream stream = null;
         try {
-            final Process child = Runtime.getRuntime().exec(casperRuntime + " --version");
+            final Process child = runtime.exec(casperRuntime + " --version");
             stream = child.getInputStream();
             final BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
             final String version = reader.readLine();

@@ -72,6 +72,10 @@ public class DefaultCasperjsToolchainFactory implements ToolchainFactory {
         return null;
     }
 
+    public void setLogger(final Logger logger) {
+        this.logger = logger;
+    }
+
     /**
      * Get {@code provides} properties in in a way compatible with toolchains descriptor version 1.0 (Maven 2.0.9 to 3.2.3, where it is represented as
      * Object/DOM) and descriptor version 1.1 (Maven 3.2.4 and later, where it is represented as Properties).

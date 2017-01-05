@@ -44,19 +44,25 @@ public class CasperJsRuntimeFinder {
         if (result == null) {
             String defaultCasperRuntime = "casperjs";
             if (isWindows()) {
-                final String[] paths = getenv("PATH").split(getProperty("path.separator"));
-                for (final String path : paths) {
-                    if (new File(path, "casperjs.exe").exists()) {
-                        defaultCasperRuntime = "casperjs.exe";
-                    } else if (new File(path, "casperjs.bat").exists()) {
-                        defaultCasperRuntime = "casperjs.bat";
-                    }
-                }
+                defaultCasperRuntime = findCasperInPath();
             }
             getLogger().debug("No parameter specified, falling back to default '" + defaultCasperRuntime + "'");
             result = defaultCasperRuntime;
         }
 
+        return result;
+    }
+
+    private static String findCasperInPath() {
+        String result = "casperjs";
+        final String[] paths = getenv("PATH").split(getProperty("path.separator"));
+        for (final String path : paths) {
+            if (new File(path, "casperjs.exe").exists()) {
+                result = "casperjs.exe";
+            } else if (new File(path, "casperjs.bat").exists()) {
+                result = "casperjs.bat";
+            }
+        }
         return result;
     }
 
