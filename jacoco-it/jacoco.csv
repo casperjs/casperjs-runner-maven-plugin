@@ -1,6 +1,7 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner.toolchain,DefaultCasperjsToolchainFactory,72,134,8,10,14,29,7,8,0,6
+CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner.toolchain,DefaultCasperjsToolchainFactory,69,134,8,10,14,29,7,8,0,6
 CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner.toolchain,DefaultCasperjsToolchain,2,42,2,2,1,10,2,5,0,5
+CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner.toolchain,IncompatibleToolchainAPIException,5,0,0,0,2,0,1,0,1,0
 CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner,Result,18,63,0,0,4,11,2,5,2,5
 CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner,CasperJsRuntimeFinder,44,76,7,9,8,20,5,5,1,1
 CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner,CasperJSVerifyMojo,31,57,2,2,5,14,2,4,0,4
@@ -19,6 +20,6 @@ CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner,CommandExecutor,
 CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner,HelpMojo,909,0,112,0,159,0,72,0,16,0
 CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner,PatternsChecker,17,90,7,15,6,18,6,8,1,2
 CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner,OrdererScriptsFinderDecorator,0,22,0,0,0,6,0,2,0,2
-CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner,CasperJsVersionRetriever,25,42,5,1,7,10,4,1,1,1
+CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner,CasperJsVersionRetriever,20,39,2,0,6,8,2,1,1,1
 CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner,CloneOutputStream,47,40,6,4,12,11,6,5,3,3
 CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner,ArgQuoter,65,4,17,1,15,2,11,1,2,1

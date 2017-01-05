@@ -100,15 +100,15 @@ import java.util.Properties;
 <span class="fc" id="L100">            final Method method = new PropertyDescriptor(property, obj.getClass()).getReadMethod();</span>
 <span class="fc" id="L101">            return method.invoke(obj);</span>
 <span class="nc" id="L102">        } catch (final IntrospectionException e) {</span>
-<span class="nc" id="L103">            throw new RuntimeException(&quot;Incompatible toolchain API&quot;, e);</span>
+<span class="nc" id="L103">            throw new IncompatibleToolchainAPIException(e);</span>
 <span class="nc" id="L104">        } catch (final IllegalAccessException e) {</span>
-<span class="nc" id="L105">            throw new RuntimeException(&quot;Incompatible toolchain API&quot;, e);</span>
+<span class="nc" id="L105">            throw new IncompatibleToolchainAPIException(e);</span>
 <span class="nc" id="L106">        } catch (final InvocationTargetException e) {</span>
 <span class="nc" id="L107">            final Throwable cause = e.getCause();</span>
 <span class="nc bnc" id="L108" title="All 2 branches missed.">            if (cause instanceof RuntimeException) {</span>
 <span class="nc" id="L109">                throw (RuntimeException) cause;</span>
             }
-<span class="nc" id="L111">            throw new RuntimeException(&quot;Incompatible toolchain API&quot;, e);</span>
+<span class="nc" id="L111">            throw new IncompatibleToolchainAPIException(e);</span>
         }
     }
 }
