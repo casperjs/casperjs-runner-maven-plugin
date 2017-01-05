@@ -15,7 +15,7 @@ CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner,CasperJSRunnerIn
 CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner,AbstractCasperJSRunnerMojo,42,586,22,56,6,95,20,26,1,6
 CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner,IncludesFinder,5,54,2,2,1,12,2,2,0,2
 CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner,OSUtils,5,8,1,1,2,1,2,1,1,1
-CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner,CommandExecutor,14,75,4,2,7,10,4,1,1,1
+CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner,CommandExecutor,21,79,4,2,6,11,4,1,1,1
 CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner,HelpMojo,909,0,112,0,159,0,72,0,16,0
 CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner,PatternsChecker,17,90,7,15,6,18,6,8,1,2
 CasperJS runner Maven plugin,com.github.casperjs.casperjsrunner,OrdererScriptsFinderDecorator,0,22,0,0,0,6,0,2,0,2
