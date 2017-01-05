@@ -1,5 +1,6 @@
 package com.github.casperjs.casperjsrunner;
 
+import static com.github.casperjs.casperjsrunner.IOUtils.closeQuietly;
 import static com.github.casperjs.casperjsrunner.LogUtils.getLogger;
 
 import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
@@ -31,12 +32,7 @@ public class CasperJsVersionRetriever {
             }
             throw new MojoFailureException("Unable to determine casperJS version");
         } finally {
-            if (stream != null) {
-                try {
-                    stream.close();
-                } catch (final IOException e) {
-                }
-            }
+            closeQuietly(stream);
         }
     }
 

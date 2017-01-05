@@ -100,15 +100,15 @@ public class DefaultCasperjsToolchainFactory implements ToolchainFactory {
             final Method method = new PropertyDescriptor(property, obj.getClass()).getReadMethod();
             return method.invoke(obj);
         } catch (final IntrospectionException e) {
-            throw new RuntimeException("Incompatible toolchain API", e);
+            throw new IncompatibleToolchainAPIException(e);
         } catch (final IllegalAccessException e) {
-            throw new RuntimeException("Incompatible toolchain API", e);
+            throw new IncompatibleToolchainAPIException(e);
         } catch (final InvocationTargetException e) {
             final Throwable cause = e.getCause();
             if (cause instanceof RuntimeException) {
                 throw (RuntimeException) cause;
             }
-            throw new RuntimeException("Incompatible toolchain API", e);
+            throw new IncompatibleToolchainAPIException(e);
         }
     }
 }
