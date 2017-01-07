@@ -21,13 +21,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-public class DefaultCasperjsToolchainFactoryTest {
+public class CasperjsToolchainFactoryTest {
 
-    private DefaultCasperjsToolchainFactory factory;
+    private CasperjsToolchainFactory factory;
 
     @Before
     public void initializeFactory() {
-        factory = new DefaultCasperjsToolchainFactory();
+        factory = new CasperjsToolchainFactory();
         factory.setLogger(mock(Logger.class));
     }
 

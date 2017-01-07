@@ -26,7 +26,7 @@ import java.util.Properties;
  * Based on {@code org.apache.maven.toolchain.java.DefaultJavaToolchainFactory}.
  */
 @Component(role = ToolchainFactory.class, hint = KEY_CASPERJS_TYPE, description = "A default factory for '" + KEY_CASPERJS_TYPE + "' toolchains")
-public class DefaultCasperjsToolchainFactory implements ToolchainFactory {
+public class CasperjsToolchainFactory implements ToolchainFactory {
 
     @Requirement
     private Logger logger;
@@ -36,7 +36,7 @@ public class DefaultCasperjsToolchainFactory implements ToolchainFactory {
         if (model == null) {
             return null;
         }
-        final DefaultCasperjsToolchain toolchain = new DefaultCasperjsToolchain(model, logger);
+
         final Properties configuration = toProperties((Xpp3Dom) model.getConfiguration());
         final String casperjsExecutable = configuration.getProperty(KEY_CASPERJS_EXECUTABLE);
         if (casperjsExecutable == null) {
@@ -44,11 +44,11 @@ public class DefaultCasperjsToolchainFactory implements ToolchainFactory {
         }
         final String normalizedCasperjsExecutablePath = FileUtils.normalize(casperjsExecutable);
         final File casperjsExecutableFile = new File(normalizedCasperjsExecutablePath);
-        if (casperjsExecutableFile.exists()) {
-            toolchain.setCasperjsExecutable(normalizedCasperjsExecutablePath);
-        } else {
+        if (!casperjsExecutableFile.exists()) {
             throw new MisconfiguredToolchainException("Non-existing casperjs executable at " + casperjsExecutableFile.getAbsolutePath());
         }
+
+        final CasperjsToolchain toolchain = new CasperjsToolchain(model, logger, normalizedCasperjsExecutablePath);
 
         // now populate the provides section.
         final Properties provides = getProvidesProperties(model);
