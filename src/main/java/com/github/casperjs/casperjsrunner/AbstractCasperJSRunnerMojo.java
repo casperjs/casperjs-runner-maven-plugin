@@ -315,6 +315,9 @@ public abstract class AbstractCasperJSRunnerMojo extends AbstractMojo {
         afterTestExecution(globalResult);
     }
 
+    protected void afterTestExecution(final Result globalResult) throws MojoFailureException, MojoExecutionException {
+    }
+
     private void init() throws MojoFailureException {
         casperRuntime = findCasperRuntime(toolchainManager, session, casperExecPath);
         if (StringUtils.isBlank(casperRuntime)) {
@@ -331,6 +334,14 @@ public abstract class AbstractCasperJSRunnerMojo extends AbstractMojo {
             casperjsVerbose = true;
         }
 
+        initIncludesAndExcludes();
+
+        initDefaultDirectories();
+
+        initReportsDirectory();
+    }
+
+    private void initIncludesAndExcludes() {
         testsIncludes = checkPatterns(testsIncludes, includeJS, includeCS);
 
         if (testsExcludes == null) {
@@ -340,7 +351,9 @@ public abstract class AbstractCasperJSRunnerMojo extends AbstractMojo {
         if (includesPatterns == null) {
             includesPatterns = new ArrayList<String>();
         }
+    }
 
+    private void initDefaultDirectories() {
         includesDir = testsDir;
         scriptsDir = testsDir;
         final File defaultIncludesDir = new File(testsDir, "includes");
@@ -354,7 +367,9 @@ public abstract class AbstractCasperJSRunnerMojo extends AbstractMojo {
                 includesPatterns.add("**/*.js");
             }
         }
+    }
 
+    private void initReportsDirectory() {
         if (enableXmlReports || enableLogReports) {
             getLogger().debug("creating directories to hold log/xunit file(s)");
             reportsDir.mkdirs();
@@ -383,10 +398,27 @@ public abstract class AbstractCasperJSRunnerMojo extends AbstractMojo {
 
     private int executeScript(final File f) {
         final CommandLine cmdLine = new CommandLine(casperRuntime);
+        final String scriptName = buildName(scriptsDir, f);
 
         // First, native options
+        handleVerbose(cmdLine);
+        handleLogLevel(cmdLine);
+        handleEngine(cmdLine);
 
-        // Option --verbose / --direct, to output log messages to the console
+        // Then, specific ones for unit testing
+        cmdLine.addArgument("test");
+        handleIncludes(cmdLine);
+        handlePre(cmdLine);
+        handlePost(cmdLine);
+        handleXunit(cmdLine, scriptName);
+        handleFailFast(cmdLine);
+        cmdLine.addArgument(f.getAbsolutePath());
+        handleArguments(cmdLine);
+
+        return executeCommand(cmdLine, environmentVariables, verbose, computeLogFile(scriptName));
+    }
+
+    private void handleVerbose(final CommandLine cmdLine) {
         if (casperjsVerbose) {
             if (casperJsVersion.getMajorVersion() < 1 || casperJsVersion.getMajorVersion() == 1 && casperJsVersion.getMinorVersion() == 0) {
                 cmdLine.addArgument("--direct");
@@ -394,20 +426,21 @@ public abstract class AbstractCasperJSRunnerMojo extends AbstractMojo {
                 cmdLine.addArgument("--verbose");
             }
         }
-        // Option --log-level, to set the log level
+    }
+
+    private void handleLogLevel(final CommandLine cmdLine) {
         if (StringUtils.isNotBlank(logLevel)) {
             cmdLine.addArgument("--log-level=" + logLevel);
         }
-        // Option --engine, to select phantomJS or slimerJS engine
+    }
+
+    private void handleEngine(final CommandLine cmdLine) {
         if (StringUtils.isNotBlank(engine)) {
             cmdLine.addArgument("--engine=" + engine);
         }
+    }
 
-        // Then, specific ones for unit testing
-
-        cmdLine.addArgument("test");
-
-        // Option --includes, to includes files before each test execution
+    private void handleIncludes(final CommandLine cmdLine) {
         if (StringUtils.isNotBlank(includes)) {
             cmdLine.addArgument("--includes=" + includes);
         } else if (!includesPatterns.isEmpty()) {
@@ -423,44 +456,48 @@ public abstract class AbstractCasperJSRunnerMojo extends AbstractMojo {
                 cmdLine.addArgument(builder.toString());
             }
         }
-        // Option --pre, to execute the scripts before the test suite
+    }
+
+    private void handlePre(final CommandLine cmdLine) {
         if (StringUtils.isNotBlank(pre)) {
             cmdLine.addArgument("--pre=" + pre);
         } else if (new File(testsDir, "pre.js").exists()) {
             getLogger().debug("Using automatically found 'pre.js' file on " + testsDir.getName() + " directory as --pre");
             cmdLine.addArgument("--pre=" + new File(testsDir, "pre.js").getAbsolutePath());
         }
-        // Option --post, to execute the scripts after the test suite
+    }
+
+    private void handlePost(final CommandLine cmdLine) {
         if (StringUtils.isNotBlank(post)) {
             cmdLine.addArgument("--post=" + post);
         } else if (new File(testsDir, "post.js").exists()) {
             getLogger().debug("Using automatically found 'post.js' file on " + testsDir.getName() + " directory as --post");
             cmdLine.addArgument("--post=" + new File(testsDir, "post.js").getAbsolutePath());
         }
-        // Option --xunit, to export results in XML file
+    }
+
+    private void handleXunit(final CommandLine cmdLine, final String scriptName) {
         if (enableXmlReports) {
-            cmdLine.addArgument("--xunit=" + new File(reportsDir, "TEST-" + buildName(scriptsDir, f) + ".xml"));
+            cmdLine.addArgument("--xunit=" + new File(reportsDir, "TEST-" + scriptName + ".xml"));
         }
-        // Option --fast-fast, to terminate the test suite once a failure is
-        // found
+    }
+
+    private void handleFailFast(final CommandLine cmdLine) {
         if (failFast) {
             cmdLine.addArgument("--fail-fast");
         }
-        cmdLine.addArgument(f.getAbsolutePath());
+    }
+
+    private void handleArguments(final CommandLine cmdLine) {
         if (arguments != null && !arguments.isEmpty()) {
             for (final String argument : arguments) {
                 cmdLine.addArgument(quote(argument), false);
             }
         }
-        File logFile = null;
-        if (enableLogReports) {
-            logFile = new File(reportsDir, buildName(scriptsDir, f) + ".txt");
-        }
-
-        return executeCommand(cmdLine, environmentVariables, verbose, logFile);
     }
 
-    protected void afterTestExecution(final Result globalResult) throws MojoFailureException, MojoExecutionException {
+    private File computeLogFile(final String scriptName) {
+        return enableLogReports ? new File(reportsDir, scriptName + ".txt") : null;
     }
 
 }
