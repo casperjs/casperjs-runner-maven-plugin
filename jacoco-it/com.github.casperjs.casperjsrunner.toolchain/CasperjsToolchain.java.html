@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CasperjsToolchain.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CasperJS runner Maven plugin</a> &gt; <a href="index.source.html" class="el_package">com.github.casperjs.casperjsrunner.toolchain</a> &gt; <span class="el_source">CasperjsToolchain.java</span></div><h1>CasperjsToolchain.java</h1><pre class="source lang-java linenums">package com.github.casperjs.casperjsrunner.toolchain;
+
+import org.apache.maven.toolchain.DefaultToolchain;
+import org.apache.maven.toolchain.model.ToolchainModel;
+import org.codehaus.plexus.logging.Logger;
+import org.codehaus.plexus.util.FileUtils;
+
+import java.io.File;
+
+/**
+ * A tool chain for CasperJS runtime.
+ *
+ * Based on {@code org.apache.maven.toolchain.java.DefaultJavaToolChain}.
+ */
+public class CasperjsToolchain extends DefaultToolchain {
+
+    public static final String KEY_CASPERJS_TYPE = &quot;casperjs&quot;;
+
+    public static final String KEY_CASPERJS_EXECUTABLE = &quot;casperjsExecutable&quot;;
+
+    private String casperjsExecutable;
+
+    protected CasperjsToolchain(final ToolchainModel model, final Logger logger, final String casperjsExecutable) {
+<span class="fc" id="L24">        super(model, KEY_CASPERJS_TYPE, logger);</span>
+<span class="fc" id="L25">        this.casperjsExecutable = casperjsExecutable;</span>
+<span class="fc" id="L26">    }</span>
+
+    @Override
+    public String findTool(final String toolName) {
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">        if (KEY_CASPERJS_TYPE.equals(toolName)) {</span>
+<span class="fc" id="L31">            final File casperjs = new File(FileUtils.normalize(casperjsExecutable));</span>
+<span class="pc bpc" id="L32" title="1 of 2 branches missed.">            if (casperjs.exists()) {</span>
+<span class="fc" id="L33">                return casperjs.getAbsolutePath();</span>
+            }
+        }
+<span class="nc" id="L36">        return null;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="fc" id="L41">        return &quot;CASPERJS[&quot; + casperjsExecutable + &quot;]&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

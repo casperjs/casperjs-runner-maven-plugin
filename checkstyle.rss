@@ -25,8 +25,8 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2017</copyright>
     <item>
-      <title>File: 23,
-             Errors: 297,
+      <title>File: 22,
+             Errors: 313,
              Warnings: 0,
              Infos: 0
       </title>
@@ -69,7 +69,21 @@ under the License.
                   0
                 </td>
                 <td>
-                  78
+                  95
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.toolchain.CasperjsToolchainFactory.java">com/github/casperjs/casperjsrunner/toolchain/CasperjsToolchainFactory.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  29
                 </td>
               </tr>
                           <tr>
@@ -153,7 +167,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  4
+                  9
                 </td>
               </tr>
                           <tr>
@@ -167,7 +181,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  12
+                  16
                 </td>
               </tr>
                           <tr>
@@ -238,20 +252,6 @@ under the License.
                 </td>
                 <td>
                   9
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.toolchain.DefaultCasperjsToolchain.java">com/github/casperjs/casperjsrunner/toolchain/DefaultCasperjsToolchain.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  10
                 </td>
               </tr>
                           <tr>
@@ -336,20 +336,6 @@ under the License.
                 </td>
                 <td>
                   16
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.toolchain.DefaultCasperjsToolchainFactory.java">com/github/casperjs/casperjsrunner/toolchain/DefaultCasperjsToolchainFactory.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  29
                 </td>
               </tr>
                           <tr>
