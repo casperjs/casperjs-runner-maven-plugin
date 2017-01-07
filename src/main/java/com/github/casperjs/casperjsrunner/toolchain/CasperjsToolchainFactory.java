@@ -23,6 +23,8 @@ import java.util.Map.Entry;
 import java.util.Properties;
 
 /**
+ * Factory for CasperJS runtime tool chain.
+ *
  * Based on {@code org.apache.maven.toolchain.java.DefaultJavaToolchainFactory}.
  */
 @Component(role = ToolchainFactory.class, hint = KEY_CASPERJS_TYPE, description = "A default factory for '" + KEY_CASPERJS_TYPE + "' toolchains")

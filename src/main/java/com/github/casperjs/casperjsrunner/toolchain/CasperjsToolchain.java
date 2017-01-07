@@ -8,6 +8,8 @@ import org.codehaus.plexus.util.FileUtils;
 import java.io.File;
 
 /**
+ * A tool chain for CasperJS runtime.
+ *
  * Based on {@code org.apache.maven.toolchain.java.DefaultJavaToolChain}.
  */
 public class CasperjsToolchain extends DefaultToolchain {
