@@ -6,6 +6,7 @@ import static java.util.Arrays.asList;
 import org.codehaus.plexus.util.DirectoryScanner;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
 public class IncludesFinder {
@@ -31,7 +32,9 @@ public class IncludesFinder {
         scanner.setIncludes(patterns.toArray(new String[patterns.size()]));
         scanner.scan();
 
-        return asList(scanner.getIncludedFiles());
+        final List<String> result = asList(scanner.getIncludedFiles());
+        Collections.sort(result);
+        return result;
     }
 
 }

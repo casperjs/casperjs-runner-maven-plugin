@@ -1,4 +1,4 @@
-package com.github.casperjs.casperjsrunner;
+package com.github.casperjs.casperjsrunner.cmd;
 
 import static com.github.casperjs.casperjsrunner.OSUtils.isWindows;
 

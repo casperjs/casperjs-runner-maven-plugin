@@ -3,6 +3,7 @@ package com.github.casperjs.casperjsrunner;
 import static com.github.casperjs.casperjsrunner.IOUtils.closeQuietly;
 import static com.github.casperjs.casperjsrunner.LogUtils.getLogger;
 
+import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 import org.apache.maven.plugin.MojoFailureException;
 
@@ -17,11 +18,11 @@ public class CasperJsVersionRetriever {
         // only used as static
     }
 
-    public static DefaultArtifactVersion retrieveVersion(final String casperRuntime, final boolean verbose) throws MojoFailureException {
+    public static ArtifactVersion retrieveVersion(final String casperRuntime, final boolean verbose) throws MojoFailureException {
         return retrieveVersion(casperRuntime, verbose, Runtime.getRuntime());
     }
 
-    public static DefaultArtifactVersion retrieveVersion(final String casperRuntime, final boolean verbose, final Runtime runtime)
+    public static ArtifactVersion retrieveVersion(final String casperRuntime, final boolean verbose, final Runtime runtime)
             throws MojoFailureException {
         getLogger().debug("Check CasperJS version");
         InputStream stream = null;

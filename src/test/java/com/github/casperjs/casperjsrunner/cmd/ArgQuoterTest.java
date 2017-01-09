@@ -1,6 +1,6 @@
-package com.github.casperjs.casperjsrunner;
+package com.github.casperjs.casperjsrunner.cmd;
 
-import static com.github.casperjs.casperjsrunner.ArgQuoter.quote;
+import static com.github.casperjs.casperjsrunner.cmd.ArgQuoter.quote;
 import static java.lang.System.setProperty;
 import static org.junit.Assert.assertEquals;
 

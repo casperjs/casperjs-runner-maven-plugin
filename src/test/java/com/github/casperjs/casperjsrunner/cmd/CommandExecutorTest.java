@@ -1,6 +1,6 @@
-package com.github.casperjs.casperjsrunner;
+package com.github.casperjs.casperjsrunner.cmd;
 
-import static com.github.casperjs.casperjsrunner.CommandExecutor.executeCommand;
+import static com.github.casperjs.casperjsrunner.cmd.CommandExecutor.executeCommand;
 import static java.lang.System.getProperty;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
@@ -16,6 +16,8 @@ import org.apache.commons.exec.Executor;
 import org.apache.maven.plugin.logging.Log;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import com.github.casperjs.casperjsrunner.LogUtils;
 
 import java.io.File;
 import java.io.IOException;

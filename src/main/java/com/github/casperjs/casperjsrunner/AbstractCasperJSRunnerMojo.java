@@ -1,16 +1,16 @@
 package com.github.casperjs.casperjsrunner;
 
-import static com.github.casperjs.casperjsrunner.ArgQuoter.quote;
 import static com.github.casperjs.casperjsrunner.CasperJsRuntimeFinder.findCasperRuntime;
 import static com.github.casperjs.casperjsrunner.CasperJsVersionRetriever.retrieveVersion;
-import static com.github.casperjs.casperjsrunner.CommandExecutor.executeCommand;
 import static com.github.casperjs.casperjsrunner.LogUtils.getLogger;
 import static com.github.casperjs.casperjsrunner.PathToNameBuilder.buildName;
 import static com.github.casperjs.casperjsrunner.PatternsChecker.checkPatterns;
+import static com.github.casperjs.casperjsrunner.cmd.CommandExecutor.executeCommand;
+import static com.github.casperjs.casperjsrunner.cmd.CommandLineComputer.computeCmdLine;
+import static com.github.casperjs.casperjsrunner.cmd.ParametersFactory.buildParameters;
 
-import org.apache.commons.exec.CommandLine;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
+import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -289,7 +289,7 @@ public abstract class AbstractCasperJSRunnerMojo extends AbstractMojo {
     /**
      * The CasperJS runtime version
      */
-    private DefaultArtifactVersion casperJsVersion;
+    private ArtifactVersion casperJsVersion;
 
     /**
      * The directory containing the scripts to include while launching tests
@@ -397,103 +397,11 @@ public abstract class AbstractCasperJSRunnerMojo extends AbstractMojo {
     }
 
     private int executeScript(final File f) {
-        final CommandLine cmdLine = new CommandLine(casperRuntime);
         final String scriptName = buildName(scriptsDir, f);
-
-        // First, native options
-        handleVerbose(cmdLine);
-        handleLogLevel(cmdLine);
-        handleEngine(cmdLine);
-
-        // Then, specific ones for unit testing
-        cmdLine.addArgument("test");
-        handleIncludes(cmdLine);
-        handlePre(cmdLine);
-        handlePost(cmdLine);
-        handleXunit(cmdLine, scriptName);
-        handleFailFast(cmdLine);
-        cmdLine.addArgument(f.getAbsolutePath());
-        handleArguments(cmdLine);
-
-        return executeCommand(cmdLine, environmentVariables, verbose, computeLogFile(scriptName));
-    }
-
-    private void handleVerbose(final CommandLine cmdLine) {
-        if (casperjsVerbose) {
-            if (casperJsVersion.getMajorVersion() < 1 || casperJsVersion.getMajorVersion() == 1 && casperJsVersion.getMinorVersion() == 0) {
-                cmdLine.addArgument("--direct");
-            } else {
-                cmdLine.addArgument("--verbose");
-            }
-        }
-    }
-
-    private void handleLogLevel(final CommandLine cmdLine) {
-        if (StringUtils.isNotBlank(logLevel)) {
-            cmdLine.addArgument("--log-level=" + logLevel);
-        }
-    }
-
-    private void handleEngine(final CommandLine cmdLine) {
-        if (StringUtils.isNotBlank(engine)) {
-            cmdLine.addArgument("--engine=" + engine);
-        }
-    }
-
-    private void handleIncludes(final CommandLine cmdLine) {
-        if (StringUtils.isNotBlank(includes)) {
-            cmdLine.addArgument("--includes=" + includes);
-        } else if (!includesPatterns.isEmpty()) {
-            final List<String> incs = new IncludesFinder(includesDir, includesPatterns).findIncludes();
-            if (incs != null && !incs.isEmpty()) {
-                final StringBuilder builder = new StringBuilder();
-                builder.append("--includes=");
-                for (final String inc : incs) {
-                    builder.append(new File(includesDir, inc).getAbsolutePath());
-                    builder.append(",");
-                }
-                builder.deleteCharAt(builder.length() - 1);
-                cmdLine.addArgument(builder.toString());
-            }
-        }
-    }
-
-    private void handlePre(final CommandLine cmdLine) {
-        if (StringUtils.isNotBlank(pre)) {
-            cmdLine.addArgument("--pre=" + pre);
-        } else if (new File(testsDir, "pre.js").exists()) {
-            getLogger().debug("Using automatically found 'pre.js' file on " + testsDir.getName() + " directory as --pre");
-            cmdLine.addArgument("--pre=" + new File(testsDir, "pre.js").getAbsolutePath());
-        }
-    }
-
-    private void handlePost(final CommandLine cmdLine) {
-        if (StringUtils.isNotBlank(post)) {
-            cmdLine.addArgument("--post=" + post);
-        } else if (new File(testsDir, "post.js").exists()) {
-            getLogger().debug("Using automatically found 'post.js' file on " + testsDir.getName() + " directory as --post");
-            cmdLine.addArgument("--post=" + new File(testsDir, "post.js").getAbsolutePath());
-        }
-    }
-
-    private void handleXunit(final CommandLine cmdLine, final String scriptName) {
-        if (enableXmlReports) {
-            cmdLine.addArgument("--xunit=" + new File(reportsDir, "TEST-" + scriptName + ".xml"));
-        }
-    }
-
-    private void handleFailFast(final CommandLine cmdLine) {
-        if (failFast) {
-            cmdLine.addArgument("--fail-fast");
-        }
-    }
-
-    private void handleArguments(final CommandLine cmdLine) {
-        if (arguments != null && !arguments.isEmpty()) {
-            for (final String argument : arguments) {
-                cmdLine.addArgument(quote(argument), false);
-            }
-        }
+        return executeCommand(
+                computeCmdLine(buildParameters(casperRuntime, casperJsVersion, failFast, casperjsVerbose, logLevel, engine, includes,
+                        includesPatterns, includesDir, pre, post, testsDir, enableXmlReports, reportsDir, scriptName, f, arguments)),
+                environmentVariables, verbose, computeLogFile(scriptName));
     }
 
     private File computeLogFile(final String scriptName) {
