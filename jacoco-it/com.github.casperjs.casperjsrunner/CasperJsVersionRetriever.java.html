@@ -3,6 +3,7 @@
 import static com.github.casperjs.casperjsrunner.IOUtils.closeQuietly;
 import static com.github.casperjs.casperjsrunner.LogUtils.getLogger;
 
+import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 import org.apache.maven.plugin.MojoFailureException;
 
@@ -13,31 +14,31 @@ import java.io.InputStreamReader;
 
 public class CasperJsVersionRetriever {
 
-<span class="nc" id="L16">    private CasperJsVersionRetriever() {</span>
+<span class="nc" id="L17">    private CasperJsVersionRetriever() {</span>
         // only used as static
-<span class="nc" id="L18">    }</span>
+<span class="nc" id="L19">    }</span>
 
-    public static DefaultArtifactVersion retrieveVersion(final String casperRuntime, final boolean verbose) throws MojoFailureException {
-<span class="fc" id="L21">        return retrieveVersion(casperRuntime, verbose, Runtime.getRuntime());</span>
+    public static ArtifactVersion retrieveVersion(final String casperRuntime, final boolean verbose) throws MojoFailureException {
+<span class="fc" id="L22">        return retrieveVersion(casperRuntime, verbose, Runtime.getRuntime());</span>
     }
 
-    public static DefaultArtifactVersion retrieveVersion(final String casperRuntime, final boolean verbose, final Runtime runtime)
+    public static ArtifactVersion retrieveVersion(final String casperRuntime, final boolean verbose, final Runtime runtime)
             throws MojoFailureException {
-<span class="fc" id="L26">        getLogger().debug(&quot;Check CasperJS version&quot;);</span>
-<span class="fc" id="L27">        InputStream stream = null;</span>
+<span class="fc" id="L27">        getLogger().debug(&quot;Check CasperJS version&quot;);</span>
+<span class="fc" id="L28">        InputStream stream = null;</span>
         try {
-<span class="fc" id="L29">            final Process child = runtime.exec(casperRuntime + &quot; --version&quot;);</span>
-<span class="fc" id="L30">            stream = child.getInputStream();</span>
-<span class="fc" id="L31">            final BufferedReader reader = new BufferedReader(new InputStreamReader(stream));</span>
-<span class="fc" id="L32">            final String version = reader.readLine();</span>
-<span class="fc" id="L33">            return new DefaultArtifactVersion(version);</span>
-<span class="nc" id="L34">        } catch (final IOException e) {</span>
-<span class="nc bnc" id="L35" title="All 2 branches missed.">            if (verbose) {</span>
-<span class="nc" id="L36">                getLogger().error(&quot;Could not run CasperJS command&quot;, e);</span>
+<span class="fc" id="L30">            final Process child = runtime.exec(casperRuntime + &quot; --version&quot;);</span>
+<span class="fc" id="L31">            stream = child.getInputStream();</span>
+<span class="fc" id="L32">            final BufferedReader reader = new BufferedReader(new InputStreamReader(stream));</span>
+<span class="fc" id="L33">            final String version = reader.readLine();</span>
+<span class="fc" id="L34">            return new DefaultArtifactVersion(version);</span>
+<span class="nc" id="L35">        } catch (final IOException e) {</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">            if (verbose) {</span>
+<span class="nc" id="L37">                getLogger().error(&quot;Could not run CasperJS command&quot;, e);</span>
             }
-<span class="nc" id="L38">            throw new MojoFailureException(&quot;Unable to determine casperJS version&quot;);</span>
+<span class="nc" id="L39">            throw new MojoFailureException(&quot;Unable to determine casperJS version&quot;);</span>
         } finally {
-<span class="pc" id="L40">            closeQuietly(stream);</span>
+<span class="pc" id="L41">            closeQuietly(stream);</span>
         }
     }
 
