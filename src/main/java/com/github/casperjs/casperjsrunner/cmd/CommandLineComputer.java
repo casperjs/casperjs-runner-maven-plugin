@@ -8,10 +8,6 @@ import java.util.List;
 
 public class CommandLineComputer {
 
-    public static CommandLine computeCmdLine(final Parameters parameters) {
-        return INSTANCE.compute(parameters);
-    }
-
     private static final CommandLineComputer INSTANCE = new CommandLineComputer();
 
     private final List<CommandLineAppender> appenders;
@@ -35,6 +31,10 @@ public class CommandLineComputer {
         }
 
         return cmdLine;
+    }
+
+    public static CommandLine computeCmdLine(final Parameters parameters) {
+        return INSTANCE.compute(parameters);
     }
 
 }
