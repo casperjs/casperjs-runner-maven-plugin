@@ -19,6 +19,12 @@ import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.toolchain.ToolchainManager;
 
+import com.github.casperjs.casperjsrunner.cmd.CasperJsRuntime;
+import com.github.casperjs.casperjsrunner.cmd.NativeOptions;
+import com.github.casperjs.casperjsrunner.cmd.Reports;
+import com.github.casperjs.casperjsrunner.cmd.ScriptOptions;
+import com.github.casperjs.casperjsrunner.cmd.TestOptions;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -398,10 +404,18 @@ public abstract class AbstractCasperJSRunnerMojo extends AbstractMojo {
 
     private int executeScript(final File f) {
         final String scriptName = buildName(scriptsDir, f);
+
+        //@formatter:off
         return executeCommand(
-                computeCmdLine(buildParameters(casperRuntime, casperJsVersion, failFast, casperjsVerbose, logLevel, engine, includes,
-                        includesPatterns, includesDir, pre, post, testsDir, enableXmlReports, reportsDir, scriptName, f, arguments)),
+                computeCmdLine(
+                        buildParameters(
+                                new CasperJsRuntime(casperRuntime, casperJsVersion),
+                                new NativeOptions(failFast, casperjsVerbose, logLevel),
+                                new TestOptions(engine, includes, includesPatterns, includesDir, pre, post, testsDir),
+                                new Reports(enableXmlReports, reportsDir),
+                                new ScriptOptions(scriptName, f, arguments))),
                 environmentVariables, verbose, computeLogFile(scriptName));
+        //@formatter:on
     }
 
     private File computeLogFile(final String scriptName) {

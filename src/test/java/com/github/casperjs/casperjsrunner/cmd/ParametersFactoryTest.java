@@ -21,8 +21,10 @@ public class ParametersFactoryTest {
         final File reportsDir = new File("reportsDir");
         final File f = new File("f");
 
-        final Parameters params = ParametersFactory.buildParameters("runtime", casperJsVersion, true, false, "logLevel", "engine", "includes",
-                newArrayList("includesPatterns"), includesDir, "pre", "post", testsDir, true, reportsDir, "scriptName", f, newArrayList("arguments"));
+        final Parameters params = ParametersFactory.buildParameters(new CasperJsRuntime("runtime", casperJsVersion),
+                new NativeOptions(true, false, "logLevel"),
+                new TestOptions("engine", "includes", newArrayList("includesPatterns"), includesDir, "pre", "post", testsDir),
+                new Reports(true, reportsDir), new ScriptOptions("scriptName", f, newArrayList("arguments")));
 
         assertEquals("runtime", params.getCasperRuntime());
         assertEquals(casperJsVersion, params.getCasperJsVersion());

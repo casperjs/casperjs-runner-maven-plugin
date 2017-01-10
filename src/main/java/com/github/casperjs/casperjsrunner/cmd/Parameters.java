@@ -5,40 +5,89 @@ import org.apache.maven.artifact.versioning.ArtifactVersion;
 import java.io.File;
 import java.util.List;
 
-public interface Parameters {
+public class Parameters {
 
-    String getCasperRuntime();
+    private CasperJsRuntime runtime;
+    private NativeOptions nativeOptions;
+    private TestOptions testOptions;
+    private Reports reports;
+    private ScriptOptions scriptOptions;
 
-    ArtifactVersion getCasperJsVersion();
+    public Parameters(final CasperJsRuntime runtime, final NativeOptions nativeOptions, final TestOptions testOptions, final Reports reports,
+            final ScriptOptions scriptOptions) {
+        this.runtime = runtime;
+        this.nativeOptions = nativeOptions;
+        this.testOptions = testOptions;
+        this.reports = reports;
+        this.scriptOptions = scriptOptions;
+    }
 
-    boolean isFailFast();
+    public String getCasperRuntime() {
+        return runtime.getExe();
+    }
 
-    boolean isCasperjsVerbose();
+    public ArtifactVersion getCasperJsVersion() {
+        return runtime.getVersion();
+    }
 
-    String getLogLevel();
+    public boolean isFailFast() {
+        return nativeOptions.isFailFast();
+    }
 
-    String getEngine();
+    public boolean isCasperjsVerbose() {
+        return nativeOptions.isVerbose();
+    }
 
-    String getIncludes();
+    public String getLogLevel() {
+        return nativeOptions.getLevel();
+    }
 
-    List<String> getIncludesPatterns();
+    public String getEngine() {
+        return testOptions.getEngine();
+    }
 
-    File getIncludesDir();
+    public String getIncludes() {
+        return testOptions.getIncludes();
+    }
 
-    String getPre();
+    public List<String> getIncludesPatterns() {
+        return testOptions.getIncludesPatterns();
+    }
 
-    String getPost();
+    public File getIncludesDir() {
+        return testOptions.getIncludesDir();
+    }
 
-    File getTestsDir();
+    public String getPre() {
+        return testOptions.getPre();
+    }
 
-    boolean isEnableXmlReports();
+    public String getPost() {
+        return testOptions.getPost();
+    }
 
-    File getReportsDir();
+    public File getTestsDir() {
+        return testOptions.getTestsDir();
+    }
 
-    String getScriptName();
+    public boolean isEnableXmlReports() {
+        return reports.isEnable();
+    }
 
-    File getScriptFile();
+    public File getReportsDir() {
+        return reports.getDirectory();
+    }
 
-    List<String> getArguments();
+    public String getScriptName() {
+        return scriptOptions.getScriptName();
+    }
+
+    public File getScriptFile() {
+        return scriptOptions.getFile();
+    }
+
+    public List<String> getArguments() {
+        return scriptOptions.getArguments();
+    }
 
 }
