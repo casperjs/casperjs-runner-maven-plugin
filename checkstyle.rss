@@ -23,7 +23,7 @@ under the License.
     <link>https://casperjs.github.io/casperjs-runner-maven-plugin</link>
     <description>CasperJS runner Maven plugin - Checkstyle report</description>
     <language>en-us</language>
-    <copyright>&#169;2017</copyright>
+    <copyright>&#169;2018</copyright>
     <item>
       <title>File: 44,
              Errors: 489,
@@ -88,20 +88,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.ScriptsFinder.java">com/github/casperjs/casperjsrunner/ScriptsFinder.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.cmd.PreCommandLineAppender.java">com/github/casperjs/casperjsrunner/cmd/PreCommandLineAppender.java</a>
                 </td>
                 <td>
@@ -116,7 +102,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.OrdererScriptsFinderDecorator.java">com/github/casperjs/casperjsrunner/OrdererScriptsFinderDecorator.java</a>
+                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.ScriptsFinder.java">com/github/casperjs/casperjsrunner/ScriptsFinder.java</a>
                 </td>
                 <td>
                   0
@@ -125,21 +111,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  6
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.IOUtils.java">com/github/casperjs/casperjsrunner/IOUtils.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  5
+                  2
                 </td>
               </tr>
                           <tr>
@@ -168,6 +140,34 @@ under the License.
                 </td>
                 <td>
                   10
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.IOUtils.java">com/github/casperjs/casperjsrunner/IOUtils.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.OrdererScriptsFinderDecorator.java">com/github/casperjs/casperjsrunner/OrdererScriptsFinderDecorator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
                 </td>
               </tr>
                           <tr>
@@ -279,7 +279,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  4
+                  5
                 </td>
               </tr>
                           <tr>
@@ -340,7 +340,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.cmd.ArgumentsCommandLineAppender.java">com/github/casperjs/casperjsrunner/cmd/ArgumentsCommandLineAppender.java</a>
+                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.cmd.MissingScriptFileException.java">com/github/casperjs/casperjsrunner/cmd/MissingScriptFileException.java</a>
                 </td>
                 <td>
                   0
@@ -354,7 +354,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.cmd.MissingScriptFileException.java">com/github/casperjs/casperjsrunner/cmd/MissingScriptFileException.java</a>
+                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.cmd.ArgumentsCommandLineAppender.java">com/github/casperjs/casperjsrunner/cmd/ArgumentsCommandLineAppender.java</a>
                 </td>
                 <td>
                   0
@@ -433,7 +433,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  9
+                  10
                 </td>
               </tr>
                           <tr>
@@ -452,20 +452,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.PatternsChecker.java">com/github/casperjs/casperjsrunner/PatternsChecker.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  16
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.cmd.CommandLineComputer.java">com/github/casperjs/casperjsrunner/cmd/CommandLineComputer.java</a>
                 </td>
                 <td>
@@ -480,6 +466,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.PatternsChecker.java">com/github/casperjs/casperjsrunner/PatternsChecker.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  15
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.toolchain.IncompatibleToolchainAPIException.java">com/github/casperjs/casperjsrunner/toolchain/IncompatibleToolchainAPIException.java</a>
                 </td>
                 <td>
@@ -489,21 +489,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  4
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.cmd.CasperJsRuntime.java">com/github/casperjs/casperjsrunner/cmd/CasperJsRuntime.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  10
+                  3
                 </td>
               </tr>
                           <tr>
@@ -536,6 +522,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.cmd.CasperJsRuntime.java">com/github/casperjs/casperjsrunner/cmd/CasperJsRuntime.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  10
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.cmd.ScriptOptions.java">com/github/casperjs/casperjsrunner/cmd/ScriptOptions.java</a>
                 </td>
                 <td>
@@ -550,20 +550,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.cmd.IncludesCommandLineAppender.java">com/github/casperjs/casperjsrunner/cmd/IncludesCommandLineAppender.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.cmd.EngineCommandLineApender.java">com/github/casperjs/casperjsrunner/cmd/EngineCommandLineApender.java</a>
                 </td>
                 <td>
@@ -574,6 +560,20 @@ under the License.
                 </td>
                 <td>
                   2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://casperjs.github.io/casperjs-runner-maven-plugin/checkstyle.html#com.github.casperjs.casperjsrunner.cmd.IncludesCommandLineAppender.java">com/github/casperjs/casperjsrunner/cmd/IncludesCommandLineAppender.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
                 </td>
               </tr>
                           <tr>
@@ -629,7 +629,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  7
+                  8
                 </td>
               </tr>
                           <tr>
