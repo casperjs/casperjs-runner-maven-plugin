@@ -5,7 +5,7 @@ branches:
   - master
 
 environment:
-  mvn_version: 3.3.9
+  mvn_version: 3.5.2
 
 install:
 - ps: >-
